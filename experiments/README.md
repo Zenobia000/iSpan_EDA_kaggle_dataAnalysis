@@ -12,11 +12,11 @@
 | `name` | ✓ | 實驗設定名稱（特徵組合 / 模型） |
 | `features` | ✓ | 完整特徵欄位清單（可重現） |
 | `model`、`params`、`seed` | ✓ | 模型與參數 |
-| `metric` | ✓ | 主指標名稱，與 Validation Protocol 一致 |
+| `metric` | ✓ | 主指標名稱，與 `knowledge/brief.md` §4 一致 |
 | `fold_scores` | ✓ | 每個 fold 的主指標（配對比較要用） |
 | `mean`、`std` | ✓ | 主指標彙總 |
 | `train_mean` | 建議 | 訓練分數，用來看過擬合 |
-| `note` | 建議 | 對應的假設或特徵卡（H-xxx / F-xxx） |
+| `note` | 建議 | 對應的 `knowledge/log.md` 段落（例：R2-03） |
 
 ## 規則
 

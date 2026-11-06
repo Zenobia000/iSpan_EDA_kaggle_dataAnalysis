@@ -17,6 +17,6 @@
 
 ## 規則
 
-- notebook 開頭第一個 cell 寫：這個 notebook 要回答哪個假設（`H-xxx`）
+- notebook 開頭第一個 cell 寫：這個 notebook 要回答什麼問題（對應 `knowledge/log.md` 的段落）
 - 讀資料用 `data/processed/` 或 `src/` 的函式，不要在 notebook 內重寫一份清理邏輯
 - 跑實驗要寫一行紀錄到 `experiments/log.jsonl`（格式見 `experiments/README.md`）

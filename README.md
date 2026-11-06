@@ -3,7 +3,7 @@
 這是一個**空模板**。裡面沒有分析程式碼，只有三樣東西：
 
 - **資料夾分層**：每個資料夾的 `README.md` 規定這裡放什麼
-- **定義文件**：`knowledge/10_Brief/`，由人類填寫
+- **專案知識**：`knowledge/` 的 4 份文件（定義、資料、研究日誌、發現）
 - **AI 的工作規範**：`AGENTS.md`、`.claude/`（Claude Code）、`.agents/`（Codex）
 
 程式碼由 AI 在對話中產生；被證明有價值的，才放進 `src/`。
@@ -27,18 +27,21 @@ rm -rf .git && git init
 > 用 define-boundaries 幫我定義這個專案
 
 AI 會問你：預測給誰用、做什麼決定、預測當下知道哪些資訊、怎麼驗證、何時停止。
-問完後，它會寫好 `knowledge/10_Brief/` 的文件。
-**你檢查 `Validation Protocol.md`，同意後把 `status` 改成 `approved`**，AI 才會開始建模。
+問完後，它會寫好 `knowledge/brief.md`。
+**你檢查 `brief.md`，同意後把 `status` 改成 `approved`**，AI 才會開始建模。
 
 ### 4. 跑一輪
 > 用 data-card 整理資料，然後開始第一輪 EDA
 
-AI 會探索資料、提出假設、做特徵、跑實驗，並把結果記錄在 `knowledge/` 和 `experiments/`。
+AI 會探索資料、提出假設、做特徵、跑實驗。**每次回報結果，它都會自動記到 `knowledge/log.md`**，你不用提醒。
 
 ### 5. 每輪結束時審查
 > round-review
 
-AI 會整理這一輪的結果，並對照停止條件。**由你決定：下一輪 / 停止 / 提交。**
+AI 會整理這一輪的結果、對照停止條件，並列出「值得留下的發現」。
+**由你決定：留哪幾條（寫進 `knowledge/findings.md`），以及下一輪 / 停止 / 提交。**
+
+> 整個流程中，你只需要記得在每輪結束時說「round-review」。
 
 重複第 4、5 步，直到你決定停止。
 
@@ -48,7 +51,7 @@ AI 會整理這一輪的結果，並對照停止條件。**由你決定：下一
 
 | 資料夾 | 放什麼 |
 |---|---|
-| `knowledge/` | 定義文件、假設、特徵、實驗、發現（用 Obsidian 開啟） |
+| `knowledge/` | 4 份文件：專案定義、資料說明、研究日誌、發現 |
 | `data/` | `raw/` 原始資料（唯讀）、`processed/` 建模資料、`holdout/` 最終答案（只有人類能碰） |
 | `notebooks/` | 探索用的程式，用完即丟 |
 | `src/` | 被證明有價值的程式碼，必須附測試 |

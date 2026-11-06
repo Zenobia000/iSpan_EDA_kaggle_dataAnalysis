@@ -1,6 +1,6 @@
 ---
 name: define-boundaries
-description: 專案開始時訪談人類，定義邊界：目標與決策、預測當下可用的資訊、驗證方法、停止條件，產出 knowledge/10_Brief 的四份文件並請人類核准。當專案剛開始、學員說「定義問題」「這題要預測什麼」「怎麼驗證」，或 Validation Protocol 還不是 approved 時使用。
+description: 專案開始時訪談人類，定義邊界：目標與決策、預測當下可用的資訊、驗證方法、停止條件，產出 knowledge/brief.md 並請人類核准。當專案剛開始、學員說「定義問題」「這題要預測什麼」「怎麼驗證」，或 brief.md 還不是 approved 時使用。
 ---
 
 # Define Boundaries（人類閘門 ①）
@@ -13,7 +13,7 @@ description: 專案開始時訪談人類，定義邊界：目標與決策、預�
 2. **預測單位與目標**：一列代表什麼？目標的精確定義（門檻、時間窗）？
 3. **預測時點 T0**：決策發生的那一刻是哪個事件？→ T0 由決策時點決定，不是由資料決定
 4. **資訊可得性**：逐表、逐欄問「在 T0 那一刻，這個值已經**被觀察到**了嗎？」
-   先畫出資料產生時間線（Data Brief §2），再填 Validation Protocol §2
+   先畫出資料產生時間線（寫進 `knowledge/data.md`），再填 `knowledge/brief.md` §3
 5. **驗證方法**（依上線情境選，給人類建議與理由）：
    | 上線時要預測的是… | 切分 |
    |---|---|
@@ -26,11 +26,12 @@ description: 專案開始時訪談人類，定義邊界：目標與決策、預�
 
 ## 產出
 
-- `knowledge/10_Brief/Project Brief.md`、`Data Brief.md`、`Validation Protocol.md`、`Decision Card.md`
-- 把 Validation Protocol 的 `status` 留在 `draft`，最後說：
-  「請檢查 Validation Protocol，同意的話把 status 改成 approved（或告訴我由我代改並記下你的名字）。」
+- `knowledge/brief.md`（§1 目標與決策、§2 預測任務、§3 資訊可得性、§4 驗證與指標、§5 停止條件）
+- 在 `knowledge/log.md` 追加一段「R0 定義邊界」
+- 把 `status` 留在 `draft`，最後說：
+  「請檢查 brief.md，同意的話把 status 改成 approved（或告訴我由我代改並記下你的名字）。」
 
 ## 驗收
 - 每一欄要嘛有內容，要嘛寫「不適用」並說明理由
 - 資訊可得性表涵蓋所有原始表
-- Decision Card 中「（業務填）」的欄位沒有被 AI 代填
+- 成本、容量、誰負責這類業務問題，沒有被 AI 代填（不知道就寫「待業務確認」）

@@ -4,21 +4,22 @@
 
 ## 開始任何工作之前
 
-1. 讀 `knowledge/10_Brief/Validation Protocol.md`。如果 `status` 不是 `approved` → 只能做 define-boundaries 或 data-card，**不得開始建模**
-2. 讀 `knowledge/00_Home.md` 的 Now / Next；用 `grep -ril` 搜尋 `knowledge/`，**不重做已有結論的實驗**
+1. 讀 `knowledge/brief.md`。如果 `status` 不是 `approved` → 只能做 define-boundaries 或 data-card，**不得開始建模**
+2. 讀 `knowledge/findings.md` 與 `knowledge/log.md` 最近幾段，**不重做已有結論的實驗**
 3. 讀你要寫入的資料夾的 `README.md`，它決定程式碼和檔案放哪裡
 
 ## 鐵律
 
-1. **邊界歸人類**：不得修改 `knowledge/10_Brief/`（除非人類在 define-boundaries 中明確同意）；要改請在 `knowledge/00_Inbox/` 寫提案
-2. **只用預測當下可得的資訊**：依 Validation Protocol 的「資訊可得性」表；疑似洩漏就停下來回報
+1. **邊界歸人類**：不得修改 `knowledge/brief.md`（除非人類在 define-boundaries 中明確同意）；要改請在 `knowledge/log.md` 寫一段「修改提案」
+2. **只用預測當下可得的資訊**：依 `knowledge/brief.md` §3「資訊可得性」；疑似洩漏就停下來回報
 3. **不讀 holdout**：`data/holdout/` 只有人類能存取
 4. **不改原始資料**：`data/raw/` 唯讀
 5. **一次只改一項**：比較實驗時，切分、CV、指標、seed 固定
 6. **每個比較都留紀錄**：寫入 `experiments/log.jsonl`（欄位合約見 `experiments/README.md`）
-7. **進步要穩健**：同 fold 配對比較，每個 fold 都進步才算；單次大幅增益先做 leakage-audit
-8. **程式碼分兩級**：探索程式放 `notebooks/`（用完即丟）；符合升級條件才進 `src/`，並附測試（見 `notebooks/README.md`、`src/README.md`）
-9. **不自行宣布完成**：每輪以 round-review 結束，由人類決定下一輪 / 停止 / 提交
+7. **每次回報結果，就在 `knowledge/log.md` 追加一段**（不用等人類要求）：做了什麼、結果、結論、坑或困難、下一步。失敗與卡關也要寫
+8. **進步要穩健**：同 fold 配對比較，每個 fold 都進步才算；單次大幅增益先做 leakage-audit
+9. **程式碼分兩級**：探索程式放 `notebooks/`（用完即丟）；符合升級條件才進 `src/`，並附測試（見 `notebooks/README.md`、`src/README.md`）
+10. **不自行宣布完成**：每輪以 round-review 結束，由人類決定下一輪 / 停止 / 提交
 
 ## 角色
 

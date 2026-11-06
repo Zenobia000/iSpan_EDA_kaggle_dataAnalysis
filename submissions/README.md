@@ -20,18 +20,18 @@
    |---|---|---|
    | 不學習的基準 | 分類：永遠猜整體正例比例；迴歸：永遠猜平均；時間序列：上週同一天的值 | 模型值不值得用？ |
    | 簡單模型基準 | 同一個模型，只用原始欄位 | 特徵工程值不值得做？ |
-   用哪一種基準，由人類在 `knowledge/10_Brief/Validation Protocol.md` §4 決定
+   用哪一種基準，由人類在 `knowledge/brief.md` §4 決定
 
 ## 檔名與格式
 
 - 檔名：`<輪次>-<設定名稱>.csv`，例如 `R5-final.csv`
-- 欄位：`<唯一鍵>, <預測值>`，唯一鍵依 `knowledge/10_Brief/Validation Protocol.md`
+- 欄位：`<唯一鍵>, <預測值>`，唯一鍵依 `knowledge/brief.md` §2
 - 每一列對應 holdout 的一列，不多也不少；預測值不能有空值
 
 ## 提交後要記錄
 
 在 `experiments/log.jsonl` 寫一行 `kind: holdout`，內容包括檔名、分數、對應的 CV `run_id`。
-然後更新 `knowledge/10_Brief/Decision Card.md` 的「模型能做什麼」。
+然後更新 `knowledge/findings.md` 的「給決策者」。
 
 ## Kaggle 競賽
 

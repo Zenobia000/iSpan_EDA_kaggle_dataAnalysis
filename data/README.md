@@ -12,7 +12,7 @@
 
 - `raw/` 與 `holdout/` 受 hook 保護：AI 無法寫入 `raw/`，也無法讀取 `holdout/`
 - `interim/` 與 `processed/` 的檔案都必須能用 `src/` 裡的程式重建。只存在 notebook 裡的中間檔不算數
-- 每個新資料來源都要在下表登記一列，並在 `knowledge/20_Data/` 建一頁 data card
+- 每個新資料來源都要在下表登記一列，並更新 `knowledge/data.md`
 
 ## 資料來源登記
 
