@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="darkreader-lock">
+<title>人類定邊界，AI 跑實驗：資料科學協作模板使用手冊</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --papyrus:#f1e6c8;
+  --papyrus-deep:#e7d6aa;
+  --papyrus-zebra:#ebdcb4;
+  --ink:#140f08;
+  --ink-soft:#3a2f1e;
+  --rule:#8a7448;
+  --lapis:#1f4e8c;
+  --lapis-wash:#d9e2ee;
+  --carnelian:#a3361f;
+  --carnelian-wash:#f2d8cc;
+  --malachite:#2f6b4f;
+  --malachite-wash:#d5e6d6;
+  --ochre:#b8862b;
+  --faience:#4f9a93;
+  --serif:"EB Garamond","Noto Serif TC","Songti TC","PMingLiU",serif;
+  --sans:"IBM Plex Sans","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --mono:"IBM Plex Mono","Noto Sans TC",ui-monospace,"Menlo",monospace;
+}
+*{box-sizing:border-box}
+button,input,select,textarea{color:#140f08}
+.gsearch input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
+html{color-scheme:light dark;background-color:#f1e6c8;color:#140f08}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{
+  margin:0;color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.75;
+  line-break:strict;
+  background-color:var(--papyrus);
+  background-image:
+    repeating-linear-gradient(0deg,rgba(122,92,40,.028) 0 1px,transparent 1px 4px,rgba(122,92,40,.02) 4px 6px,transparent 6px 13px),
+    repeating-linear-gradient(90deg,rgba(122,92,40,.022) 0 3px,transparent 3px 17px,rgba(122,92,40,.016) 17px 19px,transparent 19px 41px),
+    radial-gradient(ellipse at 50% 0%,rgba(255,250,232,.6),transparent 70%);
+}
+a{color:var(--lapis);text-underline-offset:3px}
+a:hover{color:var(--carnelian)}
+code,kbd{font-family:var(--mono);font-size:max(14px,.9em);color:#5a1d0c;background:#ead8a9;border:1px solid #c8ad74;padding:.02em .35em;border-radius:3px}
+h1,h2,h3,h4{font-family:var(--serif);line-height:1.35;letter-spacing:.02em;margin:0}
+p{margin:.5em 0}
+.prose{max-width:36em}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* ---------- frieze: block border, as on tomb-wall registers ---------- */
+.frieze{
+  height:14px;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  background:
+    repeating-linear-gradient(90deg,
+      var(--lapis) 0 14px,var(--ink) 14px 16px,
+      var(--papyrus) 16px 30px,var(--ink) 30px 32px,
+      var(--carnelian) 32px 46px,var(--ink) 46px 48px,
+      var(--papyrus) 48px 62px,var(--ink) 62px 64px,
+      var(--malachite) 64px 78px,var(--ink) 78px 80px,
+      var(--papyrus) 80px 94px,var(--ink) 94px 96px);
+}
+.frieze.thin{height:8px;border-width:1px}
+
+/* ---------- nav ---------- */
+.topnav{position:sticky;top:0;z-index:20;background:rgba(241,230,200,.96);backdrop-filter:blur(4px);border-bottom:1px solid var(--rule)}
+.topnav .wrap{display:flex;align-items:center;gap:20px;min-height:60px;flex-wrap:wrap}
+.brand{font-family:var(--serif);font-weight:700;font-size:18px;color:var(--ink);text-decoration:none;white-space:nowrap}
+.topnav nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.topnav nav a{color:var(--ink);text-decoration:none;padding:10px 12px;font-size:15px;min-height:44px;display:inline-flex;align-items:center;border-bottom:2px solid transparent}
+.topnav nav a:hover,.topnav nav a.on{border-bottom-color:var(--carnelian);color:var(--ink)}
+
+/* ---------- cartouche (skill names) ---------- */
+.cart{
+  display:inline-block;font-family:var(--sans);font-size:15px;font-weight:600;letter-spacing:.01em;white-space:nowrap;
+  border:1.5px solid var(--ink);border-radius:.7em;padding:.05em .8em .05em .7em;position:relative;
+  background:rgba(255,250,235,.6);margin:.1em 0;
+}
+.cart::after{content:"";position:absolute;right:-1.5px;top:-1.5px;bottom:-1.5px;width:5px;background:var(--ink);border-radius:0 .7em .7em 0}
+.cart{margin-right:8px}
+
+/* role markers */
+.role{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;white-space:nowrap}
+.role::before{content:"";width:11px;height:11px;display:inline-block}
+.role.h{color:var(--carnelian)} .role.h::before{background:var(--carnelian);transform:rotate(45deg)}
+.role.a{color:var(--lapis)} .role.a::before{background:var(--lapis);border-radius:50%}
+.role.v{color:var(--malachite)} .role.v::before{background:var(--malachite)}
+
+/* ---------- hero ---------- */
+.hero{padding:56px 0 40px}
+.hero h1{font-size:clamp(34px,6vw,64px);font-weight:900;letter-spacing:.04em}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);gap:56px;align-items:end}
+.remember{border-top:3px double var(--ink);border-bottom:3px double var(--ink);padding:18px 4px 14px}
+.remember h2{font-size:20px;margin-bottom:10px}
+.remember ol{margin:0;padding:0;list-style:none}
+.remember li{display:grid;grid-template-columns:40px 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--rule)}
+.remember li:first-child{border-top:none}
+.remember .rn{font-family:var(--serif);font-weight:900;font-size:28px;color:var(--carnelian);line-height:1.1}
+.remember strong{display:block;font-family:var(--serif);font-size:18px}
+.remember span.d{font-size:15px;color:var(--ink-soft)}
+.hero .lede{font-size:19px;max-width:34em;margin-top:18px;color:var(--ink)}
+.hero .legend{display:flex;gap:22px;flex-wrap:wrap;margin-top:24px;padding-top:14px;border-top:1px solid var(--rule);font-size:15px}
+.thesis{display:inline;background:linear-gradient(transparent 62%,rgba(184,134,43,.35) 62%)}
+
+/* ---------- section shell ---------- */
+section.block{padding:52px 0 24px}
+.sec-head{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:8px}
+.sec-head h2{font-size:clamp(26px,3.6vw,36px);font-weight:900}
+.sec-head .aside{color:var(--ink-soft);font-size:15px}
+h3.sub{font-size:23px;font-weight:700;margin:40px 0 6px}
+.note{color:var(--ink-soft);font-size:15px}
+
+/* ---------- glyph cards (harness terms) ---------- */
+.terms{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:0;margin-top:18px;border-top:2px solid var(--ink);border-left:1px solid var(--rule)}
+.term{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:18px 18px 12px;background:rgba(255,250,235,.35)}
+.term h4{font-size:19px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.term .what{margin:0 0 4px}
+.term .like{color:var(--ink-soft);font-size:15px;margin:0}
+.glyph{width:26px;height:26px;flex:none}
+
+/* ---------- details ---------- */
+details>summary{cursor:pointer;list-style:none}
+details>summary::-webkit-details-marker{display:none}
+.more>summary{font-size:14px;color:var(--lapis);margin-top:6px;display:inline-flex;align-items:center;gap:6px;min-height:32px;font-weight:600}
+.more>summary::before{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s}
+.more[open]>summary::before{transform:rotate(45deg)}
+.more[open]>summary .lbl-open{display:none}
+.more:not([open])>summary .lbl-close{display:none}
+.more .inner{font-size:15px;padding:6px 0 4px}
+.more .inner ul{margin:.2em 0;padding-left:1.2em}
+
+/* ---------- registers (pipeline) ---------- */
+.register{margin-top:20px;border-top:3px double var(--ink);border-bottom:3px double var(--ink);padding:22px 0}
+.reg-label{font-family:var(--serif);font-weight:700;font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+.flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+.node{
+  flex:1 1 150px;min-width:140px;border:2px solid var(--ink);padding:14px 14px 12px;position:relative;
+  background:var(--papyrus);text-align:left;font:inherit;color:inherit;
+}
+.node.h{background:var(--carnelian-wash);border-color:var(--carnelian)}
+.node.a{background:var(--lapis-wash);border-color:var(--lapis)}
+.node.v{background:var(--malachite-wash);border-color:var(--malachite)}
+.node .n-title{font-family:var(--serif);font-weight:700;font-size:19px;display:block}
+.node .n-sub{font-size:14px;color:var(--ink-soft);display:block;margin-top:2px}
+.node .role{margin-top:8px}
+button.node{cursor:pointer;min-height:44px}
+button.node:hover,button.node:focus-visible{outline:3px solid var(--ochre);outline-offset:2px}
+button.node[aria-expanded="true"]{box-shadow:inset 0 -5px 0 var(--lapis)}
+.arrow{flex:0 0 34px;display:flex;align-items:center;justify-content:center}
+.arrow svg{width:30px;height:16px}
+.loopback{margin-top:10px;font-size:14px;color:var(--ink-soft);display:flex;align-items:center;gap:8px}
+.loopback svg{width:44px;height:18px;flex:none}
+.layer2{margin-top:18px;border:2px solid var(--lapis);background:rgba(217,226,238,.45);padding:18px}
+.layer2[hidden]{display:none}
+.l2grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.l2grid .node{min-width:0}
+.l2grid button.node[aria-pressed="true"]{outline:3px solid var(--ochre);outline-offset:2px}
+.l2-detail{margin-top:16px;border-top:1px solid var(--rule);padding-top:12px;min-height:3.5em}
+.l2-detail h4{font-size:19px}
+.l2-detail ul{margin:.3em 0;padding-left:1.2em}
+.idx{font-family:var(--serif);font-weight:700;color:var(--ink-soft);margin-right:6px}
+
+/* ---------- step cards ---------- */
+.steps{counter-reset:none;margin-top:16px;border-top:2px solid var(--ink)}
+.step{border-bottom:1px solid var(--rule)}
+.step>summary{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;padding:16px 4px;min-height:44px}
+.step>summary:hover{background:rgba(255,250,235,.5)}
+.step .num{font-family:var(--serif);font-weight:900;font-size:30px;color:var(--carnelian);text-align:center;line-height:1}
+.step .s-title{font-family:var(--serif);font-weight:700;font-size:20px;display:block}
+.step .s-goal{color:var(--ink-soft);font-size:15px;display:block}
+.chev{width:12px;height:12px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg);transition:transform .15s;margin-right:10px}
+details[open]>summary .chev{transform:rotate(225deg)}
+.step-body{display:grid;grid-template-columns:1fr 1fr;gap:4px 32px;padding:4px 4px 22px 82px}
+.field{padding:8px 0}
+.field h5{font-family:var(--serif);font-size:16px;margin:0 0 2px;color:var(--ink)}
+.field p,.field ul{margin:0;font-size:15.5px}
+.field ul{padding-left:1.15em}
+.field.full{grid-column:1/-1}
+
+/* prompt blocks */
+.prompt{position:relative;background:#f8efd6;color:#140f08;border:1.5px solid var(--ink);padding:14px 16px 14px;margin:6px 0 2px;border-radius:2px}
+.prompt pre{margin:0;white-space:pre-wrap;word-break:break-word;font-family:var(--mono);font-size:14.5px;line-height:1.7;padding-right:76px}
+.copy{position:absolute;top:8px;right:8px;font:600 13px var(--sans);color:#2a2318;background:var(--papyrus);border:1px solid var(--ochre);padding:6px 10px;min-height:32px;cursor:pointer;border-radius:2px}
+.copy:hover{background:#fff6dc}
+.copy.done{background:var(--malachite-wash);border-color:var(--malachite)}
+.prompt-label{font-size:13px;color:var(--ink-soft);margin-top:10px}
+
+/* ---------- stages (tabs) ---------- */
+.tabs{display:flex;gap:0;flex-wrap:wrap;border-bottom:2px solid var(--ink);margin-top:18px}
+.tabs button{font:600 15px var(--sans);background:transparent;border:1px solid transparent;border-bottom:none;padding:10px 14px;min-height:44px;cursor:pointer;color:var(--ink);margin-bottom:-2px}
+.tabs button[aria-selected="true"]{background:var(--papyrus);border-color:var(--ink);border-bottom:2px solid var(--papyrus)}
+.tabs button .t-n{font-family:var(--serif);color:var(--carnelian);margin-right:6px}
+.panel{padding:22px 0 8px}
+.panel[hidden]{display:none}
+.strip{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0 18px}
+.strip span{font-size:13px;padding:4px 9px;border:1px solid var(--rule);color:var(--ink-soft);background:rgba(255,250,235,.4)}
+.strip span.now{background:var(--ochre);border-color:var(--ink);color:var(--ink);font-weight:700}
+.why{font-size:17.5px;max-width:38em}
+.panel h4{font-size:20px;margin:24px 0 8px}
+.sub-steps{border-top:1px solid var(--ink)}
+.sub-steps details{border-bottom:1px solid var(--rule)}
+.sub-steps summary{padding:12px 4px;display:flex;align-items:center;gap:10px;min-height:44px;font-weight:600}
+.sub-steps summary .chev{margin-left:auto}
+.sub-body{display:grid;grid-template-columns:1fr 1fr;gap:2px 28px;padding:0 4px 16px 4px}
+.checklist{list-style:none;padding:0;margin:0}
+.checklist li{border-bottom:1px dotted var(--rule)}
+.checklist label{display:flex;gap:12px;align-items:flex-start;padding:9px 2px;cursor:pointer;min-height:44px}
+.checklist input{width:20px;height:20px;margin-top:4px;accent-color:var(--malachite);flex:none}
+.checklist input:checked+span{color:var(--malachite);text-decoration:line-through;text-decoration-thickness:1px}
+.cl-bar{display:flex;align-items:center;gap:14px;margin-top:8px;font-size:14px;color:var(--ink-soft)}
+.btn-plain{font:600 14px var(--sans);background:transparent;border:1px solid var(--rule);padding:6px 12px;min-height:36px;cursor:pointer;color:var(--ink)}
+.talk ul{padding-left:1.2em;margin:.3em 0}
+.deep{font-size:15px;margin-top:14px}
+
+/* ---------- tables ---------- */
+.table-scroll{position:relative;overflow-x:auto;margin-top:14px;border:2px solid var(--ink);background:rgba(255,250,235,.3)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{padding:10px 12px;vertical-align:top;text-align:left;border-bottom:1px solid var(--rule)}
+thead th{position:sticky;top:0;background:var(--papyrus-deep);font-family:var(--serif);font-size:16px;border-bottom:2px solid var(--ink);z-index:1;white-space:nowrap}
+tbody tr:nth-child(even){background:var(--papyrus-zebra)}
+td ul{margin:0;padding-left:1.1em}
+td ul li{margin:.1em 0}
+.skill-table{min-width:1180px;table-layout:fixed}
+.skill-table code{white-space:nowrap;word-break:normal}
+.skill-table td:first-child{white-space:nowrap}
+.wrap.wide{max-width:1400px}
+.stage-tag{display:inline-block;font-size:13px;padding:1px 8px;border:1px solid var(--ink);white-space:nowrap}
+.say{font-family:var(--mono);font-size:14.5px;color:#140f08;background:#f8efd6;border:1px solid #c8ad74;padding:4px 6px;display:block}
+.mx{min-width:760px}
+.mx td,.mx th{text-align:center}
+.mx td:first-child,.mx th:first-child{text-align:left}
+.dot{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:middle}
+.dot.p{background:var(--lapis)}
+.dot.s{border:2px solid var(--lapis)}
+.dot.g{background:var(--carnelian);border-radius:0;transform:rotate(45deg);width:12px;height:12px}
+.mx-legend{display:flex;gap:20px;flex-wrap:wrap;font-size:14px;margin-top:8px;color:var(--ink-soft)}
+.mx-legend span{display:inline-flex;align-items:center;gap:7px}
+
+/* ---------- folder tree ---------- */
+.folders{display:grid;grid-template-columns:minmax(260px,330px) 1fr;gap:28px;margin-top:18px}
+.tree{list-style:none;margin:0;padding:12px 0;overflow:hidden;border:2px solid var(--ink);background:rgba(255,250,235,.35);font-family:var(--mono);font-size:15px}
+.tree ul{list-style:none;margin:0;padding-left:22px;border-left:1px dotted var(--rule);margin-left:16px}
+.tree button{font:inherit;background:none;border:none;cursor:pointer;color:var(--ink);padding:6px 14px;min-height:38px;width:100%;text-align:left;display:flex;gap:8px;align-items:center}
+.tree button:hover{background:var(--papyrus-zebra)}
+.tree button[aria-current="true"]{background:var(--ink);color:var(--papyrus)}
+.tree .lock{font-family:var(--sans);font-size:12px;border:1px solid currentColor;padding:0 5px;margin-left:auto;white-space:nowrap}
+.fdetail{border-top:3px double var(--ink);border-bottom:3px double var(--ink);padding:18px 4px;align-self:start;position:sticky;top:84px}
+.fdetail h4{font-family:var(--mono);font-size:22px;margin-bottom:6px}
+.fdetail dl{display:grid;grid-template-columns:7em 1fr;gap:8px 16px;margin:12px 0 0}
+.fdetail dt{font-family:var(--serif);font-weight:700}
+.fdetail dd{margin:0}
+.fdetail dd ul{margin:0;padding-left:1.1em}
+
+/* ---------- glossary ---------- */
+.gsearch{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:16px}
+.gsearch input{font:16px var(--sans);color:var(--ink);padding:10px 14px;border:2px solid var(--ink);background:#fbf4e0;min-width:min(420px,100%);min-height:44px}
+.gsearch input:focus{outline:3px solid var(--ochre);outline-offset:1px}
+.glist{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:0;margin-top:16px;border-top:2px solid var(--ink);border-left:1px solid var(--rule)}
+.gitem{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:12px 16px}
+.gitem dt{font-family:var(--serif);font-weight:700;font-size:17px}
+.gitem dt small{font-family:var(--sans);font-weight:400;color:var(--ink-soft);font-size:13px;margin-left:6px}
+.gitem dd{margin:2px 0 0;font-size:15px}
+.gitem dd .eg{color:var(--ink-soft);display:block;margin-top:2px}
+.gempty{padding:16px;color:var(--ink-soft)}
+
+footer{margin-top:60px;padding:28px 0 40px;font-size:15px;color:var(--ink-soft)}
+footer .cols{display:flex;gap:40px;flex-wrap:wrap}
+footer h4{font-size:16px;color:var(--ink);margin-bottom:6px}
+footer ul{list-style:none;padding:0;margin:0}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:28px}
+  .l2grid{grid-template-columns:repeat(2,1fr)}
+  .folders{grid-template-columns:1fr}
+  .fdetail{position:static}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .wrap{padding:0 16px}
+  .topnav .wrap{gap:4px;padding-top:6px}
+  .topnav nav{margin-left:0;overflow-x:auto;flex-wrap:nowrap;width:100%}
+  .topnav nav a{padding:8px 10px;white-space:nowrap}
+  .hero{padding:32px 0 28px}
+  .flow{flex-direction:column}
+  .arrow{flex:0 0 26px}
+  .arrow svg{transform:rotate(90deg)}
+  .node{min-width:0}
+  .l2grid{grid-template-columns:1fr}
+  .step>summary{grid-template-columns:44px 1fr auto;gap:10px}
+  .step .num{font-size:24px}
+  .step-body,.sub-body{grid-template-columns:1fr;padding-left:4px}
+  .prompt pre{padding-right:0;padding-top:30px}
+  .fdetail dl{grid-template-columns:1fr}
+  .glist{grid-template-columns:1fr}
+}
+/* ---------- stage flow: one pipeline, highlight moves ---------- */
+.flowcap{margin:14px 0 6px;color:var(--ink-soft);font-size:15px}
+.tabs.sflow{display:flex;flex-wrap:nowrap;gap:0;border:none;margin:4px 0 6px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 10px}
+.tabs.sflow button{scroll-snap-align:start;flex:1 1 0;min-width:150px;position:relative;margin:0 0 0 -10px;padding:12px 26px 12px 30px;min-height:72px;
+  border:none;background:#e3d1a1;color:#3a2f1e;text-align:left;font:600 15px/1.35 var(--sans);
+  clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%,16px 50%)}
+.tabs.sflow button:first-child{margin-left:0;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%)}
+.tabs.sflow button .t-n{display:block;font:700 13px var(--serif);color:var(--ink-soft);margin:0 0 2px;letter-spacing:.04em}
+.tabs.sflow button .gate{display:inline-block;width:9px;height:9px;background:var(--carnelian);transform:rotate(45deg);margin-left:6px;vertical-align:1px}
+.tabs.sflow button:hover{background:#d9c38c}
+.tabs.sflow button[aria-selected="true"]{background:var(--ochre);color:#140f08}
+.tabs.sflow button[aria-selected="true"] .t-n{color:#140f08}
+.tabs.sflow button:focus-visible{outline:3px solid var(--lapis);outline-offset:-3px}
+.sflow-scroll{overflow-x:auto;scroll-snap-type:x mandatory;margin:4px 0 0}
+.sflow-scroll .tabs.sflow{overflow:visible;min-width:1080px;padding-bottom:0}
+.iterband{display:grid;grid-template-columns:1fr 1fr 4fr 1fr;min-width:1080px;margin:6px 0 10px}
+.iterband b{font:600 14px var(--sans);color:var(--lapis);text-align:center;border:2px solid var(--lapis);border-top:none;padding:4px 0 2px;margin:0 10px 0 2px}
+.loopnote{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-soft);margin:0 0 6px}
+.loopnote svg{flex:none}
+.panel .steps,.panel .steps .step:first-child{border-top:none}
+.part{margin-top:28px;padding-bottom:6px;border-bottom:2px solid var(--ink)}
+.iter-note{border:1px dashed var(--lapis);padding:10px 14px;background:#f8efd6;color:#140f08}
+.stagebar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:22px 0 0;padding-top:14px;border-top:1px solid var(--rule)}
+.stagebar .pos{font:600 15px var(--serif)}
+/* ---------- pages ---------- */
+main > [data-hidden]{display:none!important}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:8px auto 40px;padding-top:18px;border-top:3px double var(--ink)}
+.pager a{display:inline-flex;flex-direction:column;gap:2px;text-decoration:none;color:var(--ink);border:1.5px solid var(--ink);padding:10px 16px;min-height:44px;background:#f8efd6;max-width:48%}
+.pager a small{font-size:13px;color:var(--ink-soft)}
+.pager a strong{font:700 17px var(--serif)}
+.pager a.next{margin-left:auto;text-align:right}
+.pager a:hover{background:#efe0b8}
+/* screen-reader only */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="topnav">
+  <div class="wrap">
+    <a class="brand" href="#overview">資料科學 × AI 協作模板</a>
+    <nav aria-label="主選單">
+      <a href="#overview" data-nav="overview">總覽</a>
+      <a href="#stages" data-nav="stages">操作流程</a>
+      <a href="#matrix" data-nav="matrix">Skill 矩陣</a>
+      <a href="#folders" data-nav="folders">資料夾</a>
+      <a href="#glossary" data-nav="glossary">術語</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ===================== HERO ===================== -->
+<div class="frieze"></div>
+<section class="hero" id="overview" data-page="overview">
+  <div class="wrap hero-grid">
+   <div>
+    <h1>人類定邊界，<br>AI 跑實驗。</h1>
+    <p class="lede">AI 讓寫程式、畫圖、跑實驗變得幾乎免費，但它交回來的結果<strong>看起來都很合理</strong>：程式能跑、分數漂亮，卻可能偷看了未來的資訊，或只是某個月份剛好比較好。這份模板把「判斷什麼可信」做成規則、檔案與自動檢查，讓<span class="thesis">人類負責問題的邊界與去留，AI 負責執行、記錄，並主動質疑自己的結果</span>。</p>
+    <div class="legend" aria-label="顏色圖例">
+      <span class="role h">人類閘門：由你決定</span>
+      <span class="role a">AI 執行</span>
+      <span class="role v">已驗證、可採用</span>
+    </div>
+   </div>
+   <aside class="remember" aria-labelledby="rem-h">
+    <h2 id="rem-h">新手只要記兩件事</h2>
+    <ol>
+     <li><span class="rn">1</span><div><strong>親自核准 brief.md</strong><span class="d">把 <code>status</code> 改成 <code>approved</code>，AI 才會開始建模。<a href="#step-3">看第 1 站</a></span></div></li>
+     <li><span class="rn">2</span><div><strong>每輪結束說「round-review」</strong><span class="d">AI 整理證據、給一個建議；留什麼、下一步由你決定。<a href="#step-6">看第 6 站</a></span></div></li>
+    </ol>
+   </aside>
+  </div>
+</section>
+<div class="frieze thin" data-page="overview"></div>
+
+<!-- ===================== HARNESS TERMS ===================== -->
+<section class="block" id="harness" data-page="overview">
+  <div class="wrap">
+    <div class="sec-head"><h2>先認識八個名詞</h2><span class="aside">它們都是「讓 AI 守規矩」的手段，由左而右、由弱到強</span></div>
+    <div class="terms">
+      <article class="term" id="t-assistant">
+        <h4><svg class="glyph" viewBox="0 0 26 26" aria-hidden="true"><rect x="3" y="6" width="20" height="14" fill="none" stroke="#1f1a12" stroke-width="2"/><path d="M7 11l3 2-3 2M12 16h6" stroke="#1f4e8c" stroke-width="2" fill="none"/></svg>AI 助手</h4>
+        <p class="what">在終端機裡和你對話、能讀寫檔案與執行程式的 AI（Claude Code、Codex）。</p>
+        <p class="like">比喻：一位勤快、會寫程式，但會犯「合理錯誤」的助理。</p>
+        <details class="more"><summary><span class="lbl-open">細節</span><span class="lbl-close">收合</span></summary><div class="inner"><ul><li>兩種都可用；Claude Code 另有 subagent 與 hook</li><li>在 repo 根目錄開啟，它會自動讀到 <code>AGENTS.md</code></li></ul></div></details>
+      </article>
+      <article class="term" id="t-agents">
+        <h4><svg class="glyph" viewBox="0 0 26 26" aria-hidden="true"><rect x="5" y="3" width="16" height="20" fill="none" stroke="#1f1a12" stroke-width="2"/><path d="M8.5 9h9M8.5 13h9M8.5 17h6" stroke="#1f1a12" stroke-width="1.6"/></svg>AGENTS.md</h4>
+        <p class="what">專案最上層的規則文件，AI 每次開工都先讀。</p>
+        <p class="like">比喻：新進員工的工作守則。</p>
+        <details class="more"><summary><span class="lbl-open">細節</span><span class="lbl-close">收合</span></summary><div class="inner"><ul><li>十條鐵律：邊界歸人類、只用預測當下可得的資訊、不讀 holdout、不改原始資料、一次只改一項、每個比較都留紀錄……</li><li>Claude Code 與 Codex 共用；<code>CLAUDE.md</code> 只是引用它，再補 Claude 專屬設定</li><li>擋不住：AI 忘記或誤解規則</li></ul></div></details>
+      </article>
+      <article class="term" id="t-skill">
+        <h4><svg class="glyph" viewBox="0 0 26 26" aria-hidden="true"><rect x="2.5" y="7" width="21" height="12" rx="6" fill="none" stroke="#1f1a12" stroke-width="2"/><path d="M21 9v8" stroke="#1f1a12" stroke-width="2"/><path d="M7 13h9" stroke="#1f4e8c" stroke-width="2"/></svg>Skill 技能</h4>
+        <p class="what">一份標準作業程序：某類工作的步驟與驗收標準。</p>
+        <p class="like">比喻：一張料理食譜，誰來做都是同樣的品質。</p>
+        <details class="more"><summary><span class="lbl-open">細節</span><span class="lbl-close">收合</span></summary><div class="inner"><ul><li>共 11 個，放在 <code>.claude/skills/</code>，複本在 <code>.agents/skills/</code> 給 Codex</li><li>用法：「用 <span class="cart">data-card</span> 整理資料」</li><li>完整清單見 <a href="#matrix">Skill 矩陣</a></li></ul></div></details>
+      </article>
+      <article class="term" id="t-subagent">
+        <h4><svg class="glyph" viewBox="0 0 26 26" aria-hidden="true"><circle cx="9" cy="10" r="4" fill="none" stroke="#1f4e8c" stroke-width="2"/><circle cx="17" cy="16" r="4" fill="none" stroke="#a3361f" stroke-width="2"/><path d="M12 12l2 2" stroke="#1f1a12" stroke-width="2"/></svg>Subagent 子代理</h4>
+        <p class="what">只負責某個角色、有權限限制的 AI 分身。</p>
+        <p class="like">比喻：會計與稽核分屬不同人，避免球員兼裁判。</p>
+        <details class="more"><summary><span class="lbl-open">細節</span><span class="lbl-close">收合</span></summary><div class="inner"><ul><li>四個：eda-agent、feature-agent、model-agent、validation-agent</li><li><strong>validation-agent 只能讀、不能改</strong>，任務是試著推翻「模型變好了」</li><li>Claude Code 專屬；Codex 依 AGENTS.md 角色表自我約束</li></ul></div></details>
+      </article>
+      <article class="term" id="t-hook">
+        <h4><svg class="glyph" viewBox="0 0 26 26" aria-hidden="true"><path d="M5 22V8l8-5 8 5v14" fill="none" stroke="#1f1a12" stroke-width="2"/><rect x="10" y="13" width="6" height="9" fill="none" stroke="#a3361f" stroke-width="2"/></svg>Hook 掛鉤</h4>
+        <p class="what">AI 做某些動作前後，自動執行的檢查程式。</p>
+        <p class="like">比喻：門禁系統，刷卡沒過，門就不開。</p>
+        <details class="more"><summary><span class="lbl-open">細節</span><span class="lbl-close">收合</span></summary><div class="inner"><ul><li><code>guard_paths.py</code>：擋寫入 <code>data/raw/</code>、擋讀取 holdout 資料夾</li><li><code>post_edit_tests.py</code>：改了 <code>src/**/*.py</code> 就自動跑洩漏測試；還沒有測試檔也會擋下</li><li>另有 <code>.claude/settings.json</code> 的權限規則保護同樣的資料夾</li></ul></div></details>
+      </article>
+      <article class="term" id="t-precommit">
+        <h4><svg class="glyph" viewBox="0 0 26 26" aria-hidden="true"><rect x="4" y="4" width="18" height="18" fill="none" stroke="#1f1a12" stroke-width="2"/><path d="M8 13l3.5 3.5L18 9" stroke="#2f6b4f" stroke-width="2.4" fill="none"/></svg>pre-commit</h4>
+        <p class="what">每次 git commit 前自動跑的檢查，Codex 與手動操作也適用。</p>
+        <p class="like">比喻：出貨前的品管站。</p>
+        <details class="more"><summary><span class="lbl-open">細節</span><span class="lbl-close">收合</span></summary><div class="inner"><ul><li>三件事：不能提交原始資料、兩份 skill 內容必須一致、<code>src/</code> 有改動就跑洩漏測試</li><li>啟用：<code>pre-commit install</code></li></ul></div></details>
+      </article>
+      <article class="term" id="t-knowledge">
+        <h4><svg class="glyph" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 6h9v15H3zM14 6h9v15h-9z" fill="none" stroke="#1f1a12" stroke-width="2"/><path d="M5.5 10h4M16.5 10h4M5.5 14h4M16.5 14h4" stroke="#b8862b" stroke-width="1.6"/></svg>knowledge/</h4>
+        <p class="what">人類與 AI 的共同記憶，只有四份文件。</p>
+        <p class="like">比喻：研究室的實驗筆記本，換人接手也看得懂。</p>
+        <details class="more"><summary><span class="lbl-open">細節</span><span class="lbl-close">收合</span></summary><div class="inner"><ul><li><code>brief.md</code> 專案定義（人類核准）</li><li><code>data.md</code> 資料說明與坑</li><li><code>log.md</code> 研究日誌（AI 每次回報自動追加，失敗也寫）</li><li><code>findings.md</code> 人類核可的結論</li></ul></div></details>
+      </article>
+      <article class="term" id="t-log">
+        <h4><svg class="glyph" viewBox="0 0 26 26" aria-hidden="true"><path d="M4 20h18M7 20V13M12 20V8M17 20v-9" stroke="#1f1a12" stroke-width="2"/><circle cx="12" cy="5" r="1.8" fill="#2f6b4f"/></svg>實驗紀錄</h4>
+        <p class="what"><code>experiments/log.jsonl</code>：每次比較一行，只追加不修改。</p>
+        <p class="like">比喻：帳本。報告裡每個數字都要對得到一筆帳。</p>
+        <details class="more"><summary><span class="lbl-open">細節</span><span class="lbl-close">收合</span></summary><div class="inner"><ul><li>必填：<code>run_id</code>、git、輪次、完整特徵清單、模型與參數、<strong>每個 fold 的分數</strong></li><li>有 fold 分數，才能做同 fold 配對比較</li></ul></div></details>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PIPELINE ===================== -->
+<section class="block" id="pipeline" data-page="overview">
+  <div class="wrap">
+    <div class="sec-head"><h2>協作模型：三道閘門，一個迴圈</h2></div>
+    <p class="prose">專案切成固定階段，並設下三道<strong>人類閘門</strong>：走到這裡，AI 必須停下來交給你決定。中間的迭代可以重複很多次。點「一輪迭代」看第二層。</p>
+
+    <div class="register" aria-label="第一層：整體流程">
+      <div class="reg-label">第一層　整個專案</div>
+      <div class="flow">
+        <div class="node h"><span class="n-title">① 定邊界</span><span class="n-sub">決策、預測時點 T0、可用資訊、驗證方式、停止條件</span><span class="role h">你核准 brief.md</span></div>
+        <div class="arrow" aria-hidden="true"><svg viewBox="0 0 30 16"><path d="M1 8h24M19 2l7 6-7 6" fill="none" stroke="#1f1a12" stroke-width="2"/></svg></div>
+        <button class="node a" id="iterBtn" aria-expanded="false" aria-controls="layer2" type="button"><span class="n-title">一輪迭代</span><span class="n-sub">假設 → 特徵 → 實驗 → 錯誤分析</span><span class="role a">AI 執行（點此展開）</span></button>
+        <div class="arrow" aria-hidden="true"><svg viewBox="0 0 30 16"><path d="M1 8h24M19 2l7 6-7 6" fill="none" stroke="#1f1a12" stroke-width="2"/></svg></div>
+        <div class="node h"><span class="n-title">② 每輪審查</span><span class="n-sub">說「round-review」；留哪些結論、下一輪／停止／提交</span><span class="role h">你決定</span></div>
+        <div class="arrow" aria-hidden="true"><svg viewBox="0 0 30 16"><path d="M1 8h24M19 2l7 6-7 6" fill="none" stroke="#1f1a12" stroke-width="2"/></svg></div>
+        <div class="node h"><span class="n-title">③ 交付</span><span class="n-sub">holdout 只評估一次、寫給決策者的報告</span><span class="role h">你執行</span></div>
+      </div>
+      <div class="loopback"><svg viewBox="0 0 44 18" aria-hidden="true"><path d="M42 2v8H4M10 4l-6 6 6 6" fill="none" stroke="#1f1a12" stroke-width="2"/></svg>② 決定「下一輪」時，回到一輪迭代</div>
+
+      <div class="layer2" id="layer2" hidden>
+        <div class="reg-label">第二層　一輪迭代裡面做什麼（點任一步看細節）</div>
+        <div class="l2grid" id="l2grid">
+          <button type="button" class="node a" data-l2="0"><span class="n-title"><span class="idx">1</span>假設 EDA</span><span class="n-sub">先寫預期，再分組＋分層驗證</span></button>
+          <button type="button" class="node h" data-l2="1"><span class="n-title"><span class="idx">2</span>特徵卡</span><span class="n-sub">定義、T0 可得性；你確認</span></button>
+          <button type="button" class="node a" data-l2="2"><span class="n-title"><span class="idx">3</span>原型＋配對比較</span><span class="n-sub">和目前最佳組合，同 fold 比</span></button>
+          <button type="button" class="node v" data-l2="3"><span class="n-title"><span class="idx">4</span>穩健嗎？</span><span class="n-sub">每個 fold 都進步才算</span></button>
+          <button type="button" class="node a" data-l2="4"><span class="n-title"><span class="idx">5</span>洩漏稽核</span><span class="n-sub">擾動測試＋validation-agent</span></button>
+          <button type="button" class="node a" data-l2="5"><span class="n-title"><span class="idx">6</span>升級進 src/</span><span class="n-sub">純函式＋測試</span></button>
+          <button type="button" class="node a" data-l2="6"><span class="n-title"><span class="idx">7</span>錯誤分析</span><span class="n-sub">可約 → 下一輪假設</span></button>
+          <button type="button" class="node h" data-l2="7"><span class="n-title"><span class="idx">8</span>回到 ② 審查</span><span class="n-sub">你決定去留</span></button>
+        </div>
+        <div class="l2-detail" id="l2detail" aria-live="polite"><p class="note">選一步，這裡會顯示：做什麼、誰負責、用哪個 skill。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== STAGES ===================== -->
+<section class="block" id="stages" data-page="stages">
+  <div class="wrap">
+    <div class="sec-head"><h2>操作流程</h2><span class="aside">拿到一道題目，就從第 0 站走到第 6 站</span></div>
+    <p class="flowcap">整個專案只有<strong>這一條路</strong>。每一站分兩部分：上面是<strong>你要做的事</strong>（含對 AI 說的話），下面是 <strong>AI 怎麼做</strong>的細節，想深入再展開。<span class="role h">紅色菱形</span>是人類閘門：走到這裡，AI 必須停下來等你決定。</p>
+    <div class="sflow-scroll">
+      <div class="tabs sflow" role="tablist" id="stageTabs" aria-label="操作流程"></div>
+      <div class="iterband" aria-hidden="true"><span></span><span></span><b>一輪迭代：第 2–5 站每輪重複</b><span></span></div>
+    </div>
+    <p class="loopnote"><svg width="46" height="14" viewBox="0 0 46 14" aria-hidden="true"><path d="M44 3 H6 a3 3 0 0 0 0 6 H40" fill="none" stroke="#3a2f1e" stroke-width="1.6"/><path d="M6 1 L1 3 L6 5" fill="none" stroke="#3a2f1e" stroke-width="1.6"/></svg>在第 6 站決定「下一輪」時，回到第 2 站再跑一輪；決定「提交」才往下交付。</p>
+    <div id="stagePanels"></div>
+  </div>
+</section>
+
+<!-- ===================== MATRIX ===================== -->
+<section class="block" id="matrix" data-page="matrix">
+  <div class="wrap wide">
+    <div class="sec-head"><h2>Skill × Subagent 矩陣</h2><span class="aside">螢幕較窄時，表格可左右捲動</span></div>
+
+    <h3 class="sub">11 個 skill</h3>
+    <div class="table-scroll" tabindex="0" aria-label="Skill 總表"><table class="skill-table" id="skillTable">
+      <colgroup><col style="width:176px"><col style="width:92px"><col style="width:220px"><col style="width:150px"><col style="width:180px"><col style="width:190px"><col style="width:214px"><col style="width:120px"></colgroup>
+      <thead><tr><th>Skill</th><th>在哪一站</th><th>做什麼</th><th>何時叫</th><th>對 AI 說</th><th>產出</th><th>你要驗收</th><th>搭配 subagent</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+
+    <h3 class="sub">誰在哪個階段出場</h3>
+    <div class="mx-legend"><span><i class="dot p"></i>主要使用</span><span><i class="dot s"></i>輔助</span><span><i class="dot g"></i>人類閘門階段</span></div>
+    <div class="table-scroll" tabindex="0" aria-label="Skill 與階段對照"><table class="mx" id="mxTable"></table></div>
+
+    <h3 class="sub">4 個 subagent</h3>
+    <div class="table-scroll" tabindex="0" aria-label="Subagent 表"><table id="agentTable" style="min-width:860px">
+      <thead><tr><th>Subagent</th><th>角色</th><th>擅長</th><th>不准做</th><th>回報格式</th><th>典型叫法</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- ===================== FOLDERS ===================== -->
+<section class="block" id="folders" data-page="folders">
+  <div class="wrap">
+    <div class="sec-head"><h2>資料夾：每一個都在回答「這是從哪來的」</h2></div>
+    <p class="prose">由上往下是規則 → 知識 → 程式 → 證據。每個資料夾的 <code>README.md</code> 寫明規則，AI 寫入前會先讀。點資料夾看用途。</p>
+    <div class="folders">
+      <ul class="tree" id="tree" aria-label="資料夾樹"></ul>
+      <div class="fdetail" id="fdetail" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== GLOSSARY ===================== -->
+<section class="block" id="glossary" data-page="glossary">
+  <div class="wrap">
+    <div class="sec-head"><h2>術語速查</h2><span class="aside">完整解釋見 <a href="../textbook/glossary.md">教科書術語表</a></span></div>
+    <div class="gsearch"><label for="gq" class="note">搜尋</label><input id="gq" type="search" placeholder="例如：T0、holdout、配對" autocomplete="off"><span class="note" id="gcount"></span></div>
+    <dl class="glist" id="glist"></dl>
+  </div>
+</section>
+
+<div class="wrap" id="pagerWrap"><nav class="pager" id="pager" aria-label="上一頁／下一頁"></nav></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="frieze thin" style="margin-bottom:22px"></div>
+    <div class="cols">
+      <div><h4>落地手冊（完整版）</h4><ul>
+        <li><a href="../practice/00_overview.md">落地 0｜總覽</a></li>
+        <li><a href="../practice/01_define_boundaries.md">落地 1｜定邊界</a></li>
+        <li><a href="../practice/02_data_and_eda.md">落地 2｜資料理解與假設驗證</a></li>
+        <li><a href="../practice/03_validation_guardrails.md">落地 3｜驗證規則與防洩漏</a></li>
+        <li><a href="../practice/04_feature_lifecycle.md">落地 4｜特徵從原型到上線</a></li>
+        <li><a href="../practice/05_experiments.md">落地 5｜實驗紀錄與模型比較</a></li>
+        <li><a href="../practice/06_review_and_delivery.md">落地 6｜每輪審查與交付</a></li>
+      </ul></div>
+      <div><h4>教科書（觀念）</h4><ul>
+        <li><a href="../textbook/README.md">教科書目錄</a></li>
+        <li><a href="../textbook/glossary.md">術語表</a></li>
+      </ul></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]})}
+/* inline markup helpers: `code`, [[skill]] cartouche */
+function md(s){return esc(s).replace(/`([^`]+)`/g,"<code>$1</code>").replace(/\[\[([a-z-]+)\]\]/g,'<span class="cart">$1</span>').replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>")}
+function ul(a){return "<ul>"+a.map(function(x){return "<li>"+md(x)+"</li>"}).join("")+"</ul>"}
+var uid=0;
+function promptBlock(text,label){
+  uid++;var id="p"+uid;
+  if(label==="對 AI 說")label="";
+  return (label?'<div class="prompt-label">'+esc(label)+'</div>':'')+
+    '<div class="prompt"><pre id="'+id+'">'+esc(text)+'</pre><button class="copy" type="button" data-copy="'+id+'">複製</button></div>';
+}
+
+/* ===================== LAYER 2 ===================== */
+var L2=[
+ {t:"假設 EDA",who:"a",skill:"hypothesis-eda",what:["把「為什麼會發生？」拆成議題樹，挑 1–3 個可驗證的猜測","**跑之前先寫預期**，例如「A 組約是 B 組的 1.5 倍」","一次分組比較＋一次控制混雜因素的分層比較，附樣本數","結論只有：支持／推翻／證據不足；被推翻的也留下"],out:"`knowledge/log.md` 一段假設卡＋T0 可用的代理特徵"},
+ {t:"特徵卡",who:"h",skill:"feature-card",what:["AI 先寫：來源假設、精確定義、每個欄位的 T0 可得性、洩漏風險、預期方向、可能重疊的特徵","**你確認後才動手**：寫定義時最容易發現洩漏"],out:"特徵卡內容寫在 `knowledge/log.md`"},
+ {t:"原型＋配對比較",who:"a",skill:"experiment-protocol",what:["在 `notebooks/` 寫成 `build(base, tables) -> DataFrame`","和「目前最佳組合」比，只改這一項","每個 fold 的分數都寫進 `experiments/log.jsonl`"],out:"兩筆實驗紀錄（附 `run_id`）"},
+ {t:"穩健嗎？",who:"v",skill:"experiment-protocol",what:["**每個 fold 都進步**，且平均增益 > 增益的波動 → 穩健","只有平均變好 → 不能宣稱有效，記為「試過但沒用」並寫原因","單次大幅跳升 → 先懷疑洩漏"],out:"`compare` 的 `folds_improved` 與 `robust`"},
+ {t:"洩漏稽核",who:"a",skill:"leakage-audit",what:["問一句：「預測那一刻，這個值存在嗎？」","擾動測試：竄改 T0 之後才被觀察到的資訊，合法特徵的值必須不變","分數變好後交給唯讀的 validation-agent 試著推翻"],out:"判定：乾淨／洩漏／可疑，附測試輸出"},
+ {t:"升級進 src/",who:"a",skill:"promote-to-src",what:["條件（任一）：第二次被用到／影響最終模型／要交付重現","改成純函式、補洩漏擾動測試與值域測試","notebook 改成 import `src/` 的函式"],out:"`src/<pkg>/features/<群組>.py`＋`tests/`"},
+ {t:"錯誤分析",who:"a",skill:"error-analysis",what:["依類別、數值區間、時間切片，找最弱的群體","看最嚴重的誤報、漏報各 20 筆","**可約**（缺特徵）→ 下一輪假設；**不可約**（T0 根本不存在）→ 告訴決策者"],out:"1–3 個下一輪假設＋「模型做不到」清單"},
+ {t:"回到 ② 審查",who:"h",skill:"round-review",what:["AI 整理摘要、對照停止條件、列 3–5 條沉澱候選、只給一個建議","**你決定**：留哪幾條結論；下一輪、停止，還是提交"],out:"`knowledge/findings.md` 更新；`log.md` 記下決定"}
+];
+var whoTxt={h:'<span class="role h">人類決定</span>',a:'<span class="role a">AI 執行</span>',v:'<span class="role v">判準</span>'};
+var iterBtn=$("#iterBtn"),layer2=$("#layer2");
+iterBtn.addEventListener("click",function(){
+  var open=layer2.hasAttribute("hidden");
+  if(open){layer2.removeAttribute("hidden")}else{layer2.setAttribute("hidden","")}
+  iterBtn.setAttribute("aria-expanded",String(open));
+});
+$$("#l2grid button").forEach(function(b){
+  b.addEventListener("click",function(){
+    $$("#l2grid button").forEach(function(x){x.setAttribute("aria-pressed","false")});
+    b.setAttribute("aria-pressed","true");
+    var d=L2[+b.getAttribute("data-l2")];
+    $("#l2detail").innerHTML='<h4>'+esc(d.t)+'</h4><p>'+whoTxt[d.who]+'　使用 <span class="cart">'+d.skill+'</span></p>'+ul(d.what)+'<p><strong>產出：</strong>'+md(d.out)+'</p>';
+    if(window.innerWidth<900)$("#l2detail").scrollIntoView({block:"nearest",behavior:"smooth"});
+  });
+});
+
+/* ===================== STEPS ===================== */
+var STEPS=[
+ {n:0,t:"建立專案",goal:"從模板複製出一個乾淨的新專案",
+  human:"複製模板、刪掉舊的 git 紀錄、重新初始化",why:"每個專案要有自己乾淨的版本紀錄，報告裡的數字才能對到 commit",
+  sayLabel:"在終端機執行",say:"git clone <這個模板的網址> my-project\ncd my-project\nrm -rf .git && git init\npre-commit install",
+  out:["新的專案資料夾","pre-commit 檢查已啟用"],done:"`git status` 乾淨，可以開始放資料"},
+ {n:1,t:"放資料、登記來源",goal:"讓資料的來源可追溯",
+  human:"把原始資料放進 `data/raw/`，在 `data/README.md` 的來源表補一列",why:"`data/raw/` 之後永遠唯讀；沒有登記來源，資料就無法重新取得或重現",
+  sayLabel:"（這一步主要由你做；也可以請 AI 幫你檢查）",say:"請讀 data/README.md，檢查我在「資料來源登記」表填的內容是否完整（來源、取得日期、授權、下載方式）。不要修改 data/raw/ 裡的任何檔案。",
+  out:["`data/raw/` 原始檔","`data/README.md` 來源表多一列"],done:"來源表每一欄都有內容"},
+ {n:2,t:"定義專案",goal:"把模糊的需求變成可驗證的預測任務",
+  human:"回答 AI 的提問：誰用、何時用、做什麼決定、一天能處理幾件",why:"問題定錯，後面做得再好也沒用；這些資訊在你腦中，不在資料裡",
+  sayLabel:"對 AI 說",say:"用 define-boundaries 幫我定義這個專案。\n背景：<一句話描述業務問題，例如「客服每天只能主動聯絡 50 位顧客，想先找出最可能退貨的訂單」>。\n資料在 data/raw/，共 <N> 張表。\n請一次只問我一題；我不知道的業務數字（成本、容量、負責人）請寫「待業務確認」，不要幫我填。\n完成後把 knowledge/brief.md 的 status 留在 draft，等我核准。",
+  out:["`knowledge/brief.md`（§1 目標與決策 ～ §5 停止條件）","`knowledge/log.md` 一段「R0 定義邊界」"],done:"五個區段都有內容；不知道的寫「待業務確認」"},
+ {n:3,t:"親自核准",goal:"第一道人類閘門：問題的定義由你拍板",
+  human:"逐段讀 `brief.md`，特別是 §3 資訊可得性；同意後把 `status` 改成 `approved`",why:"如果 AI 能自己定義問題，它可能把問題改成自己容易答的版本；核准前 AI 只能整理資料，不准建模",
+  sayLabel:"自己改檔，或對 AI 說",say:"我讀完 knowledge/brief.md 了。\n請把 §3 的 <欄位名稱> 改成「預測當下不可用」，理由是 <它在什麼時候才被觀察到>；其餘我同意。\n請把 status 改成 approved，approved_by 寫 <你的名字>，approved_at 寫今天的日期，並在 log.md 記下這次修改。",
+  out:["`brief.md` 的 `status: approved`"],done:"`approved_by` 有你的名字"},
+ {n:4,t:"認識資料",goal:"先找出資料的坑，再開始分析",
+  human:"讀 AI 整理的資料說明，追問可疑的地方",why:"不知道「一列代表什麼」，合併資料表時就會重複計算；這些坑之後會變成錯誤的圖或洩漏",
+  sayLabel:"對 AI 說",say:"用 data-card 整理 data/raw/ 的每一張表。\n每個數字都必須來自實際執行的程式（程式放 notebooks/R1-data-card.py），不准憑印象填寫。\n特別標出：一對多會放大列數的表、在預測當下不可得的欄位、奇怪的值（負數、未來日期、重複）。\n最後列出 3 個你認為最值得用 EDA 驗證的問題。",
+  out:["`knowledge/data.md`：時間線、表格總覽、怎麼串表、坑","給 EDA 的 3 個問題"],done:"每張表都有粒度、主鍵、join 風險、T0 可得性"},
+ {n:5,t:"跑一輪",goal:"AI 主要工作的階段：假設 → 特徵 → 實驗",
+  human:"指定要驗證的猜測並先寫預期；確認特徵卡；看配對比較",why:"AI 很會畫圖和調參，但「先寫預期」和「這個值在預測當下存在嗎」要由你把關",
+  sayLabel:"驗證一個猜測",say:"用 hypothesis-eda 驗證「<假設，例如：新客戶比較容易退貨>」。\n我預期 <A 組> 的比例約是 <B 組> 的 <N> 倍。\n請做一次分組比較，並控制 <混雜因素，例如：商品類別> 做分層比較，每組附樣本數。\n結論只能是 supported / refuted / inconclusive，並提出預測當下可用的代理特徵。",
+  say2Label:"做一個特徵",say2:"用 feature-card 做「<特徵名稱，例如：顧客過去 90 天的退貨比例>」。\n動手前先寫出定義、每個欄位的預測當下可得性、洩漏風險、預期方向，給我確認。\n確認後在 notebooks/ 做原型，和目前最佳組合做同 fold 配對比較，並寫入 experiments/log.jsonl。",
+  out:["`knowledge/log.md` 每次回報自動多一段","`experiments/log.jsonl` 每次比較多一行"],done:"每個結論都附 `run_id`，失敗也有記錄"},
+ {n:6,t:"每輪審查",goal:"第二道人類閘門：決定留什麼、下一步做什麼",
+  human:"讀摘要、對照停止條件，決定留哪幾條結論，以及下一輪／停止／提交",why:"沒有固定審查點，專案會變成無止盡地「再試一個」；去留牽涉成本與風險，必須由人決定",
+  sayLabel:"對 AI 說（新手唯一要記的指令）",say:"round-review",
+  out:["`knowledge/findings.md` 更新","`log.md` 一段「R<n> 結束：決定 ___」"],done:"你做出決定"},
+ {n:7,t:"提交與報告",goal:"第三道人類閘門：holdout 只評估一次，交給決策者",
+  human:"決定提交後，親自用 holdout 評估一次；審閱報告",why:"holdout 看過一次再回頭改，分數就不再代表上線表現；主管要的是能做決定的一句話",
+  sayLabel:"提交",say:"我決定提交。\n請依 submissions/README.md，用目前最佳設定產生 submissions/<輪次>-final.csv。\nholdout 評估由我來跑；跑完我會把分數告訴你，請在 experiments/log.jsonl 記一行 kind: holdout，並更新 findings.md 的「給決策者」。",
+  say2Label:"寫報告",say2:"用 report-writer 寫報告，讀者是 <主管職稱>。\n第一句話就是決策建議；每個數字都附 run_id；要包含「我們排除了什麼」與「限制與風險」。",
+  out:["`submissions/` 一份最終預測檔","`reports/report.md`"],done:"每個數字都能對到 `run_id`；沒學過資料科學的人也讀得懂"}
+];
+function stepCard(s,k){
+  return '<details class="step" id="step-'+s.n+'"><summary><span class="num" title="這一站的第 '+(k+1)+' 個動作">'+String.fromCharCode(9312+k)+'</span><span><span class="s-title">'+esc(s.t)+'</span><span class="s-goal">'+esc(s.goal)+'</span></span><span class="chev" aria-hidden="true"></span></summary>'+
+  '<div class="step-body">'+
+   '<div class="field"><h5>人類要做什麼</h5><p>'+md(s.human)+'</p></div>'+
+   '<div class="field"><h5>為什麼</h5><p>'+md(s.why)+'</p></div>'+
+   '<div class="field full"><h5>對 AI 說</h5>'+promptBlock(s.say,s.sayLabel)+(s.say2?promptBlock(s.say2,s.say2Label):"")+'</div>'+
+   '<div class="field"><h5>產出</h5>'+ul(s.out)+'</div>'+
+   '<div class="field"><h5>完成訊號</h5><p>'+md(s.done)+'</p></div>'+
+  '</div></details>';
+}
+
+/* ===================== STAGES ===================== */
+var STAGE_NAMES=["定邊界","資料理解","假設 EDA","特徵","實驗","每輪審查","交付"];
+var STAGES=[
+ {id:"s1",n:1,t:"定邊界",now:[0],md:"01_define_boundaries.md",
+  why:"「退貨太多，用資料看看」不是一個可驗證的任務。先把誰用、何時預測、怎樣算成功寫成文件並由人類核准，後面每一步才有依據。",
+  subs:[
+   {t:"讓 AI 訪談你",why:"決策、容量、代價這些資訊在你腦中，不在資料裡；AI 自己猜，你很可能沒細看就同意",how:"AI 一次問一題：決策 → 預測單位與目標 → T0 → 資訊可得性 → 驗證方式 → 指標與基準 → 停止條件",say:"用 define-boundaries 幫我定義這個專案",out:"`knowledge/brief.md`",done:"五個區段都有內容；不知道的寫「待業務確認」"},
+   {t:"檢查資訊可得性表（§3）",why:"這張表是之後所有防洩漏檢查的依據；它錯了，後面全部跟著錯",how:"逐欄問：「在 T0 那一刻，系統裡已經有這個值了嗎？」看的是**被觀察到**的時間，不是發生的時間",say:"§3 的 <欄位> 什麼時候才會出現在系統裡？",out:"修正後的 §3",done:"每張原始表都在表裡"},
+   {t:"親自核准",why:"問題定義是業務判斷；AI 能改定義，就能把問題改成容易答的版本",how:"把 `status: draft` 改成 `approved`，填上名字與日期；之後 AI 想改只能寫「修改提案」",say:"（自己改檔）",out:"`status: approved`",done:"`approved_by` 有你的名字"}
+  ],
+  check:["§1 寫得出誰、何時、做什麼決定、一天能處理幾件","目標定義包含門檻與時間窗","T0 由決策時點決定，說得出理由","§3 涵蓋所有原始表，寫的是被觀察到的時間","§4 有切分方式、主指標、兩種基準","§5 有停止條件","`status` 已由人類改成 approved"],
+  talk:["用「準確率 95%，但退貨率本來就只有 5%」開場","T0 由決策決定：客服要在什麼時候拿到名單才來得及處理？","「被觀察到」和「發生」的差別，是最常見的洩漏來源之一","最常見的錯：讓 AI 代填業務數字"]},
+ {id:"s2",n:2,t:"資料理解與假設驗證",now:[1,2],md:"02_data_and_eda.md",
+  why:"四十張沒有問題意識的圖，看完仍不知道下一步；不知道「一列代表什麼」，合併時就會重複計算。先用 data card 找坑，再用假設卡有目的地驗證。",
+  subs:[
+   {t:"用 data card 認識每張表",why:"一對多的表直接合併會讓金額被重複計算；這種坑要在一開始找出來",how:"逐表回答：一列代表什麼、主鍵、和分析單位的關係、缺失、T0 可得性、奇怪的值。**不准模擬**：數字都來自實際執行",say:"用 data-card 整理資料",out:"`knowledge/data.md`；`data/README.md` 補一列",done:"每張表都有粒度、主鍵、join 風險"},
+   {t:"把大問題拆成可驗證的問題",why:"「為什麼會退貨」太大，沒辦法用一張圖回答；議題樹讓 EDA 有方向",how:"拆成：商品？顧客？過程？拆到每個葉節點都能用一次分組比較驗證",say:"幫我把「為什麼會 <目標>」拆成三層議題樹",out:"1–3 個具體問題",done:"每個問題都能用資料驗證"},
+   {t:"寫假設卡，先寫預期",why:"先看結果再下結論，幾乎一定會「看到」某種模式；先寫預期，結果才能推翻你",how:"分組比較＋控制混雜因素的分層比較，附樣本數；寫競爭解釋",say:"用 hypothesis-eda 驗證「…」，我預期約 N 倍，請控制 Z 做分層",out:"`knowledge/log.md` 一張假設卡",done:"結論是支持／推翻／證據不足，附樣本數"},
+   {t:"把機制轉成 T0 可用的代理特徵",why:"EDA 常發現「事後才知道」的原因（例如收貨後聯絡客服），它不能直接當特徵",how:"找一個 T0 就知道、又和原因相關的替代品",say:"這個機制在 T0 不可得，給我 T0 可用的代理特徵",out:"代理特徵清單",done:"每張卡都標示代理特徵或「無」"}
+  ],
+  check:["`knowledge/data.md` 有時間線、表格總覽、合併方式和坑","data card 的數字都來自實際跑過的程式","至少 3 張假設卡，跑之前都寫了預期","每張卡都有分組＋分層比較、樣本數、競爭解釋","至少 1 張被推翻或證據不足，而且有記錄","每張卡都標示代理特徵或「無」"],
+  talk:["用「金額被重複計算」說明 data card 找的是坑，不是答案","現場請學員先猜一個數字，再讓 AI 跑","圖很多不代表 EDA 做得好；看有沒有分層、有沒有樣本數","T0 之後的欄位可以理解原因，但不能進模型","公開肯定被推翻的假設"]},
+ {id:"s3",n:3,t:"驗證規則與防洩漏",now:[3,4],md:"03_validation_guardrails.md",
+  why:"洩漏不會讓程式出錯，反而讓分數變好，而且每個 fold 都穩定進步。只靠人眼或文件提醒擋不住，所以做成好幾道自動防線。",
+  subs:[
+   {t:"驗證規則寫進程式，AI 不能改",why:"AI 能自己選切法，就可能為了好看選一個「容易」的切法",how:"依 `brief.md` §4 實作在 `src/<pkg>/validation/`，所有實驗呼叫同一份",say:"依 experiment-protocol 建立驗證程式",out:"`src/<pkg>/validation/`",done:"沒有任何實驗自己寫另一種切法"},
+   {t:"原始資料與 holdout 由系統保護",why:"原始資料被改就無法重現；holdout 被看過就失去意義",how:"權限設定＋`guard_paths.py` 自動擋下，你不用做任何事",say:"（自動）",out:"—",done:"AI 被擋下時說明原因，而不是繞過"},
+   {t:"改了 src/ 就自動跑洩漏測試",why:"每次都要記得手動檢查，總有一次會忘",how:"`post_edit_tests.py` 自動跑 `tests/test_leakage*.py`；沒有測試檔也會擋下",say:"（自動）",out:"測試結果",done:"每次修改後測試都通過"},
+   {t:"擾動測試",why:"「顧客平均消費」這種名字看起來正常，但可能用到了未來；分數也擋不住",how:"把 T0 之後才被觀察到的資訊打亂、時間只往**更晚**移；合法特徵在 T0 之前的列必須不變；附一個故意洩漏的反例",say:"用 leakage-audit 檢查這組特徵，附擾動測試輸出",out:"判定：乾淨／洩漏／可疑",done:"反例被抓到；所有群組通過"},
+   {t:"分數變好後交給稽核員",why:"做實驗的 AI 容易被自己的分數說服",how:"唯讀的 validation-agent 試著推翻「模型變好了」",say:"請 validation-agent 審查這一輪的增益",out:"放行／有條件放行／駁回，附證據",done:"重大進步都經過稽核"}
+  ],
+  check:["說得出「預測那一刻，這個值存在嗎？」的用途","知道切分方式由 brief.md §4 決定，AI 不能改","知道哪些資料夾受系統保護，以及為什麼","`tests/test_leakage*.py` 存在，修改 src/ 後自動執行","每個特徵群組都通過擾動測試，反例被抓到","重大的分數進步都經過 validation-agent 審查"],
+  talk:["用「之後 7 天的客服來電次數」開場，再追問「叫『顧客平均消費』還看得出來嗎？」","洩漏的危險在於它讓分數變好","每道防線都有漏洞，所以疊起來用；最後一道永遠是人","擾動測試：換掉答案卷，看答案會不會跟著變"]},
+ {id:"s4",n:4,t:"特徵從原型到上線",now:[3],md:"04_feature_lifecycle.md",
+  why:"三週後說不出特徵的定義、同一段程式在五個 notebook 各寫一份，都是常見的混亂。特徵卡先講清楚，原型試過有用才升級。",
+  subs:[
+   {t:"先寫特徵卡",why:"寫定義時被迫回答「T0 拿得到嗎」，洩漏常在這一步自己浮現",how:"來源、精確定義（分母為 0、缺失、新顧客）、T0 可得性、洩漏風險、預期方向、可能重疊",say:"用 feature-card 做「顧客過去 90 天的退貨比例」",out:"特徵卡（`log.md`）",done:"你讀過並同意"},
+   {t:"在 notebook 試做",why:"大部分特徵試完都沒用；先快速試，不浪費工夫",how:"寫成 `build(base, tables) -> DataFrame`：同列數順序、只回傳新欄位、不改輸入",say:"在 notebooks/ 做原型",out:"`notebooks/R<n>-<主題>`",done:"數值範圍合理"},
+   {t:"和目前最佳組合比較",why:"特徵的價值是邊際的：已經有的特徵之外，再加它還有沒有進步",how:"同 fold 配對比較",say:"和目前最佳組合做配對比較",out:"兩筆紀錄",done:"穩健／只有平均／沒有進步"},
+   {t:"有進步，先檢查洩漏",why:"洩漏特徵也會穩定進步；「有進步」和「合法」是兩道關卡",how:"沒進步 → 記為試過沒用並寫原因；有進步 → leakage-audit",say:"用 leakage-audit 檢查這個特徵",out:"判定與測試輸出",done:"判定為乾淨"},
+   {t:"升級成正式程式",why:"會重複用、影響最終模型、要給別人重現的程式，需要固定位置與測試",how:"純函式放 `src/<pkg>/features/`，補擾動與值域測試，notebook 改成 import",say:"把這個特徵升級進 src",out:"`src/` 程式＋`tests/`",done:"hook 自動跑測試並通過"}
+  ],
+  check:["每個特徵動手前都有特徵卡，並由人類確認","特徵卡寫出 T0 可得性與洩漏風險","每個特徵都和目前最佳組合做過配對比較","沒用的特徵記為「試過但沒用」並寫原因","升級進 src/ 的特徵都通過擾動測試","報告中的數字都來自 src/ 的程式"],
+  talk:["用「三週後說不出特徵定義」開場","特徵卡是最便宜的防洩漏時機","大部分特徵試做後都沒用，這很正常","「有進步」和「合法」順序不能顛倒","升級條件只有三條；不符合就留在 notebook"]},
+ {id:"s5",n:5,t:"實驗紀錄與模型比較",now:[4],md:"05_experiments.md",
+  why:"想不起 0.31 是用哪組特徵、哪個參數跑出來的，這個分數就無法被信任。紀錄要自動發生，進步要用配對比較判斷。",
+  subs:[
+   {t:"建立紀錄工具",why:"分數沒和條件一起記下來，就無法追溯",how:"`tracking.py`：`log_run` 追加一行、`compare` 做同 fold 配對比較；只追加不修改",say:"依 experiment-protocol 建立 tracking.py",out:"`experiments/log.jsonl`",done:"每次比較自動多一行"},
+   {t:"先跑兩種基準",why:"0.30 是好是壞，要有比較對象",how:"不學習的基準（猜比例／平均／上週同一天）＋只用原始欄位的簡單模型",say:"依 experiment-protocol 先跑兩種基準",out:"兩筆基準紀錄",done:"`log.jsonl` 有兩種基準"},
+   {t:"每次只改一項",why:"同時改兩樣，分數變好時不知道是誰的功勞",how:"先寫下這次只改什麼、預期如何；切分、CV、指標、seed 固定",say:"這次只加 <特徵群組>，其他不變",out:"—",done:"每筆紀錄說得出和上一筆差在哪"},
+   {t:"用配對比較判斷",why:"各月份難度不同，平均數會被某個月份帶著走",how:"每個 fold 都進步且增益 > 波動 → 穩健；只有平均 → 不採用；單次大跳 → 先查洩漏。另看過擬合差距",say:"用 compare 比較這兩次實驗",out:"`folds_improved`、`robust`",done:"結論都附 `run_id`"},
+   {t:"錯誤分析",why:"分數只說好多少，不說下一步做什麼",how:"切片找最弱群體；可約 → 下一輪假設；不可約 → 告訴決策者",say:"用 error-analysis 看模型錯在哪",out:"下一輪假設＋「模型做不到」清單",done:"每個發現都分成可約或不可約"}
+  ],
+  check:["`log.jsonl` 每行都有 run_id、特徵清單、每個 fold 的分數","兩種基準都跑過了","每次比較只改一項，事先寫下預期","每個「有進步」都附 run_id，由配對比較判斷","單次大幅進步都先做過洩漏檢查","錯誤分析產生下一輪假設與「模型做不到」清單"],
+  talk:["用「想不起 0.31 怎麼來的」開場","兩種基準回答兩個問題：模型值得做嗎？特徵工程值得做嗎？","一次只改一項，就像做菜一次只改一種調味料","錯誤分析可以用 T0 之後的欄位，因為這是解釋，不是特徵"]},
+ {id:"s6",n:6,t:"每輪審查與交付",now:[5,6],md:"06_review_and_delivery.md",
+  why:"六十幾段紀錄、沒人知道何時該停。過程自動記錄，結論由人類挑選；holdout 只看一次，報告第一句就是決策。",
+  subs:[
+   {t:"過程自動記錄",why:"失敗的嘗試告訴下一輪「這條路不用再走」，但要人提醒才記就會被省略",how:"AI 每次回報都在 `log.md` 追加一段：做了什麼、結果（附 run_id）、結論、坑、下一步",say:"（自動）",out:"`knowledge/log.md`",done:"失敗和卡關也有記錄"},
+   {t:"每輪結束說 round-review",why:"沒有固定審查點，會無止盡地再試一個；去留由人決定",how:"AI 整理摘要、逐條對照停止條件、列沉澱候選、只給一個建議",say:"round-review",out:"摘要＋建議",done:"你做出決定"},
+   {t:"決定哪些結論留下",why:"什麼都往 findings 放，它就會和 log 一樣長、沒人讀",how:"只留：會改變下一步、會改變業務說法、會讓人再踩的坑",say:"留第 1、3 條，第 2 條不要",out:"`knowledge/findings.md`",done:"只包含你核可的結論"},
+   {t:"holdout 只評估一次",why:"看過再回頭改，分數就不再代表上線表現",how:"你決定提交 → 產生一份預測檔 → 你親自評估 → 記一行 `kind: holdout`",say:"我決定提交，請產生 submissions/ 的最終預測檔",out:"`submissions/` 一份檔案",done:"`log.jsonl` 有 holdout 紀錄"},
+   {t:"寫給決策者的報告",why:"主管要的是能做決定的一句話，不是方法",how:"結論先行：決策建議 → 能做什麼 → 證據 → 排除了什麼 → 限制 → 下一步",say:"用 report-writer 寫報告",out:"`reports/report.md`",done:"每個數字都附 run_id"}
+  ],
+  check:["`log.md` 每次回報都有新段落，含失敗與卡關","每輪都以 round-review 結束，由人類決定","`findings.md` 只包含人類核可的結論","holdout 只評估一次，記在 log.jsonl","`submissions/` 只有一份最終預測檔","報告第一句是決策，數字都附 run_id"],
+  talk:["round-review 是新手唯一要記的指令","log 什麼都記，findings 只留會改變決定的","holdout 只看一次","練習把結論寫成主管聽得懂的一句話"]}
+];
+STAGES.unshift({id:"s0",n:0,t:"開工準備",md:"00_overview.md",
+  why:"每個專案都從乾淨的模板開始，原始資料放好、來源登記清楚。這一站只做一次，做完才有東西可以分析。",
+  subs:[],check:["新專案有自己的 git 紀錄","`pre-commit install` 已執行","原始資料都在 `data/raw/`","`data/README.md` 來源表填完整"],
+  talk:["強調 data/raw/ 之後永遠唯讀","來源沒登記，半年後就沒人知道資料怎麼來的"]});
+var STEP_AT={0:[0,1],1:[2,3],2:[4],3:[5],4:[],5:[],6:[6,7]};
+STAGES.forEach(function(s){s.steps=(STEP_AT[s.n]||[]).map(function(k){return STEPS.filter(function(x){return x.n===k})[0]})});
+var ITER_NOTE={3:"第 3–5 站是「跑一輪」的內容：你只要對 AI 說上面那段話，AI 會依序做第 3、4、5 站的事。",4:"這一站沒有新的指令要下：它在「跑一輪」裡由 AI 執行。你的工作是看懂下面的細節，並在檢核清單上驗收。",5:"這一站沒有新的指令要下：它在「跑一輪」裡由 AI 執行。你的工作是看懂下面的細節，並在檢核清單上驗收。"};
+function loadChk(k){try{return localStorage.getItem("dsguide:"+k)==="1"}catch(e){return false}}
+function saveChk(k,v){try{localStorage.setItem("dsguide:"+k,v?"1":"0")}catch(e){}}
+$("#stageTabs").innerHTML=STAGES.map(function(s,i){
+  return '<button role="tab" type="button" id="tab-'+s.id+'" aria-controls="stage-'+s.n+'" aria-selected="'+(i===0)+'" tabindex="'+(i===0?0:-1)+'"><span class="t-n">第 '+s.n+' 站'+((s.n===1||s.n===6)?'<span class="gate" title="人類閘門"></span>':'')+'</span>'+esc(s.t)+'</button>';
+}).join("");
+$("#stagePanels").innerHTML=STAGES.map(function(s,i){
+  var subs='<div class="sub-steps">'+s.subs.map(function(x,j){
+    return '<details id="stage-'+s.n+'-'+(j+1)+'"><summary><span class="idx">'+(j+1)+'</span>'+esc(x.t)+'<span class="chev" aria-hidden="true"></span></summary><div class="sub-body">'+
+      '<div class="field"><h5>為什麼</h5><p>'+md(x.why)+'</p></div>'+
+      '<div class="field"><h5>怎麼做</h5><p>'+md(x.how)+'</p></div>'+
+      '<div class="field full"><h5>對 AI 說</h5>'+(/^（/.test(x.say)?'<p>'+esc(x.say)+'</p>':promptBlock(x.say))+'</div>'+
+      '<div class="field"><h5>產出</h5><p>'+md(x.out)+'</p></div>'+
+      '<div class="field"><h5>怎樣算完成</h5><p>'+md(x.done)+'</p></div></div></details>';
+  }).join("")+'</div>';
+  var check='<ul class="checklist">'+s.check.map(function(c,j){var k=s.id+"-"+j;return '<li><label><input type="checkbox" data-k="'+k+'"'+(loadChk(k)?' checked':'')+'><span>'+md(c)+'</span></label></li>'}).join("")+'</ul>'+
+    '<div class="cl-bar"><span class="cl-count" data-stage="'+s.id+'"></span><button type="button" class="btn-plain" data-reset="'+s.id+'">清除勾選</button></div>';
+  return '<div class="panel" role="tabpanel" id="stage-'+s.n+'" aria-labelledby="tab-'+s.id+'"'+(i===0?'':' hidden')+'>'+
+    '<p class="why">'+md(s.why)+'</p>'+
+    '<h4 class="part">你要做的事</h4>'+
+    (s.steps.length?'<div class="steps">'+s.steps.map(stepCard).join("")+'</div>':'')+
+    (ITER_NOTE[s.n]?'<p class="note iter-note">'+ITER_NOTE[s.n]+'</p>':'')+
+    (s.subs.length?'<h4 class="part">AI 怎麼做（細節）</h4>'+subs:'')+
+    '<h4>檢核清單</h4>'+check+
+    '<details class="more talk"><summary><span class="lbl-open">講師口述要點</span><span class="lbl-close">收合口述要點</span></summary><div class="inner">'+ul(s.talk)+'</div></details>'+
+    '<p class="deep">完整說明：<a href="../practice/'+s.md+'">落地 '+s.n+'｜'+esc(s.n===0?'總覽':s.t)+'</a></p>'+
+    '<div class="stagebar">'+(i>0?'<button type="button" class="btn-plain" data-goto="'+STAGES[i-1].id+'">← 第 '+(s.n-1)+' 站：'+esc(STAGES[i-1].t)+'</button>':'<span></span>')+
+    '<span class="pos">第 '+s.n+' 站（共 0–6 站）</span>'+
+    (i<STAGES.length-1?'<button type="button" class="btn-plain" data-goto="'+STAGES[i+1].id+'">第 '+(s.n+1)+' 站：'+esc(STAGES[i+1].t)+' →</button>':'<span></span>')+'</div></div>';
+}).join("");
+function updateCounts(){
+  $$(".cl-count").forEach(function(el){
+    var id=el.getAttribute("data-stage");var boxes=$$('input[data-k^="'+id+'-"]');
+    var n=boxes.filter(function(b){return b.checked}).length;el.textContent="已完成 "+n+" / "+boxes.length;
+  });
+}
+document.addEventListener("change",function(e){var t=e.target;if(t.matches&&t.matches(".checklist input")){saveChk(t.getAttribute("data-k"),t.checked);updateCounts()}});
+document.addEventListener("click",function(e){
+  var r=e.target.closest&&e.target.closest("[data-reset]");
+  if(r){var id=r.getAttribute("data-reset");$$('input[data-k^="'+id+'-"]').forEach(function(b){b.checked=false;saveChk(b.getAttribute("data-k"),false)});updateCounts()}
+});
+updateCounts();
+function selectTab(id,focus){
+  $$("#stageTabs button").forEach(function(b){var on=b.id==="tab-"+id;b.setAttribute("aria-selected",String(on));b.tabIndex=on?0:-1;if(on&&focus)b.focus();if(on){var bar=b.parentElement;bar.scrollLeft=Math.max(0,b.offsetLeft-bar.offsetLeft-24)}});
+  STAGES.forEach(function(s){var p=document.getElementById("stage-"+s.n);if(s.id===id)p.removeAttribute("hidden");else p.setAttribute("hidden","")});
+}
+$$("#stageTabs button").forEach(function(b,i){
+  b.addEventListener("click",function(){selectTab(STAGES[i].id);setHash("stage-"+STAGES[i].n)});
+  b.addEventListener("keydown",function(e){
+    var k=e.key,j=null;if(k==="ArrowRight")j=(i+1)%STAGES.length;if(k==="ArrowLeft")j=(i-1+STAGES.length)%STAGES.length;
+    if(j!==null){e.preventDefault();selectTab(STAGES[j].id,true)}
+  });
+});
+
+/* ===================== SKILL MATRIX ===================== */
+var SKILLS=[
+ {n:"define-boundaries",st:"定邊界",do:["一次問一題訪談你","寫出 brief.md 五個區段","status 留在 draft"],when:"專案第一天；brief.md 還不是 approved",say:"用 define-boundaries 幫我定義這個專案",out:"`knowledge/brief.md`",check:["T0 由決策時點決定","業務數字沒被 AI 代填","§3 涵蓋所有原始表"],ag:"—（人類與主對話）",m:{0:"p",1:"s"}},
+ {n:"data-card",st:"資料理解",do:["逐表跑程式：粒度、主鍵、缺失、T0 可得性","找出 join 風險與奇怪的值","給 EDA 的 3 個問題"],when:"拿到新資料",say:"用 data-card 整理資料",out:"`knowledge/data.md`、`data/README.md`",check:["每個數字都來自實際執行（不准模擬）","一對多的表有標 join 風險"],ag:"eda-agent",m:{0:"s",1:"p"}},
+ {n:"hypothesis-eda",st:"假設 EDA",do:["議題樹拆解","先寫預期，再分組＋分層比較","結論＋競爭解釋＋代理特徵"],when:"想驗證一個猜測",say:"用 hypothesis-eda 驗證「…」，我預期約 N 倍",out:"`knowledge/log.md` 假設卡",check:["跑之前有預期","有分層、有樣本數","被推翻的也留下"],ag:"eda-agent",m:{2:"p"}},
+ {n:"feature-card",st:"特徵",do:["動手前寫定義、T0 可得性、洩漏風險、預期方向","notebook 原型","和最佳組合配對比較"],when:"新增或評估一個特徵",say:"用 feature-card 做「…」",out:"特徵卡（log.md）、notebook 原型",check:["每個欄位都對照 brief.md §3","寫出可能重疊的特徵","你確認後才動手"],ag:"feature-agent",m:{3:"p"}},
+ {n:"leakage-audit",st:"特徵／實驗",do:["8 項洩漏檢查清單","擾動測試寫法（合成資料＋故意洩漏反例）","判定：乾淨／洩漏／可疑"],when:"分數突然變好；新增歷史聚合；用 target encoding",say:"用 leakage-audit 檢查這組特徵，附擾動測試輸出",out:"判定＋測試輸出",check:["有測試輸出，不是口頭判斷","歷史聚合嚴格 < T0 並排除自己"],ag:"validation-agent、feature-agent",m:{3:"p",4:"s",5:"s"}},
+ {n:"promote-to-src",st:"特徵",do:["純函式化，放進 src/ 分層","補洩漏擾動與值域測試","notebook 改成 import"],when:"第二次被用到／影響最終模型／要交付重現",say:"把這個特徵升級進 src",out:"`src/<pkg>/…`＋`tests/`",check:["只升級需要的那一段","測試綠燈"],ag:"feature-agent",m:{3:"p"}},
+ {n:"experiment-protocol",st:"實驗",do:["建立 tracking.py（log_run、compare）","一次只改一項，先跑兩種基準","同 fold 配對比較判斷穩健"],when:"任何比較：特徵、模型、參數",say:"依 experiment-protocol 比較 A 和 B",out:"`experiments/log.jsonl`",check:["只改一項","有基準","看 folds_improved 與 robust","overfit gap 有沒有變大"],ag:"model-agent",m:{3:"s",4:"p"}},
+ {n:"error-analysis",st:"實驗",do:["用 OOF 預測切片找最弱群體","看最嚴重誤報／漏報各 20 筆","分成可約與不可約"],when:"模型錯在哪、下一步做什麼",say:"用 error-analysis 看模型錯在哪",out:"下一輪假設、「模型做不到」清單",check:["每個發現都分類","不可約的寫進給決策者"],ag:"model-agent",m:{4:"p",2:"s"}},
+ {n:"round-review",st:"每輪審查",do:["摘要這一輪","逐條對照停止條件","列 3–5 條沉澱候選，只給一個建議"],when:"每輪結束",say:"round-review",out:"`findings.md` 更新、log.md 記下決定",check:["建議只有一個且附理由","你決定留什麼、下一步"],ag:"—（人類閘門）",m:{5:"p"}},
+ {n:"knowledge-capture",st:"全程",do:["每次回報自動追加 log.md 一段","round-review 時整理沉澱候選","資料的坑補進 data.md"],when:"自動；或你說「記下來」",say:"記下來",out:"`knowledge/log.md`、`findings.md`",check:["失敗與卡關也有記錄","數字附 run_id"],ag:"所有 subagent",m:{0:"s",1:"s",2:"s",3:"s",4:"s",5:"p",6:"s"}},
+ {n:"report-writer",st:"交付",do:["金字塔結構：一句話結論在最前","決策建議、證據、排除了什麼、限制"],when:"決定停止或提交之後",say:"用 report-writer 寫報告",out:"`reports/report.md`",check:["第一句是決策","每個數字附 run_id","沒有術語也讀得懂"],ag:"—",m:{6:"p"}}
+];
+$("#skillTable tbody").innerHTML=SKILLS.map(function(s){
+  return '<tr id="sk-'+s.n+'"><td><span class="cart">'+s.n+'</span></td><td><span class="stage-tag">'+esc(({"定邊界":"第 1 站","資料理解":"第 2 站","假設 EDA":"第 2 站","特徵／實驗":"第 3–5 站","特徵":"第 4 站","實驗":"第 5 站","每輪審查":"第 6 站","交付":"第 6 站","全程":"全程"})[s.st]||s.st)+'</span></td><td>'+ul(s.do)+'</td><td>'+md(s.when)+'</td><td><span class="say">'+esc(s.say)+'</span></td><td>'+md(s.out)+'</td><td>'+ul(s.check)+'</td><td>'+esc(s.ag)+'</td></tr>';
+}).join("");
+var ST_COLS=["第 1 站 定邊界","第 2 站 資料與假設","第 3 站 防洩漏","第 4 站 特徵","第 5 站 實驗","第 6 站 審查與交付"];
+var GATE={0:1,5:1};
+function rank(v){return v==="p"?2:v==="s"?1:0}
+function pick(a,b){return rank(a)>=rank(b)?a:b}
+SKILLS.forEach(function(sk){var m=sk.m||[];
+  sk.st2=[m[0],pick(m[1],m[2]),(sk.n==="leakage-audit"?"p":(sk.n==="promote-to-src"||sk.n==="feature-card")?"s":""),m[3],m[4],pick(m[5],m[6])];});
+
+$("#mxTable").innerHTML='<thead><tr><th>Skill</th>'+ST_COLS.map(function(n,k){return '<th>'+(GATE[k]?'<i class="dot g" aria-hidden="true"></i> ':'')+n+'</th>'}).join("")+'</tr></thead><tbody>'+
+  SKILLS.map(function(s){return '<tr><td><span class="cart">'+s.n+'</span></td>'+ST_COLS.map(function(_,k){var v=s.st2[k];return '<td>'+(v==="p"?'<i class="dot p" title="主要使用"></i><span class="sr">主要</span>':v==="s"?'<i class="dot s" title="輔助"></i><span class="sr">輔助</span>':'')+'</td>'}).join("")+'</tr>'}).join("")+'</tbody>';
+var AGENTS=[
+ {n:"eda-agent",r:"探索分析員",good:["探索資料與異常","data card","驗證假設卡（分組＋分層）"],no:["修改 src/、tests/、brief.md","寫入 data/raw/、讀 holdout"],rep:"結論 → 數字（含 n）→ 競爭解釋 → 代理特徵",say:"請 eda-agent 驗證這張假設卡"},
+ {n:"feature-agent",r:"特徵工程師",good:["依特徵卡建構特徵","notebook 原型","升級進 src/ 並補洩漏測試"],no:["修改切分、CV、指標","修改 brief.md、讀 holdout"],rep:"新增欄位 → 洩漏測試結果 → 建議的比較組合",say:"請 feature-agent 實作這張特徵卡"},
+ {n:"model-agent",r:"實驗執行者",good:["建模、ablation、參數搜尋","錯誤分析","每次比較寫入 log.jsonl"],no:["修改切分、CV、指標","用 holdout 調參或選模型"],rep:"一句話結論 → 比較表（附 run_id）→ 最可疑的結果 → 下一個實驗",say:"請 model-agent 跑這一輪 ablation"},
+ {n:"validation-agent",r:"稽核員（唯讀）",good:["審查紀錄、洩漏、驗證設計","配對穩健性、過擬合、分布偏移","預設立場是懷疑"],no:["修改任何檔案"],rep:"放行／有條件放行／駁回，每項附證據",say:"請 validation-agent 審查這一輪的增益"}
+];
+$("#agentTable tbody").innerHTML=AGENTS.map(function(a){
+  return '<tr><td><span class="cart">'+a.n+'</span></td><td>'+esc(a.r)+'</td><td>'+ul(a.good)+'</td><td>'+ul(a.no)+'</td><td>'+esc(a.rep)+'</td><td><span class="say">'+esc(a.say)+'</span></td></tr>';
+}).join("");
+
+/* ===================== FOLDERS ===================== */
+var F={
+ "AGENTS.md":{p:"AI 的工作規則，Claude Code 與 Codex 共用",w:"人類",u:"AI 每次開工都先讀",r:["十條鐵律：邊界歸人類、不讀 holdout、不改原始資料、一次只改一項……","CLAUDE.md 只引用它，再補 subagent 與 hook 說明"]},
+ "knowledge/":{p:"人類與 AI 的共同記憶；AI 沒有跨對話記憶",w:"見各文件",u:"開工前讀 brief 與 findings，避免重做",r:["刻意只有四份文件：越多越沒人讀","可用 Obsidian 開，但不是必要"]},
+ "knowledge/brief.md":{p:"專案定義：決策、T0、資訊可得性、驗證、停止條件",w:"AI 訪談後撰寫，人類核准",u:"開始前寫一次",r:["status 為 approved 前，AI 不准建模","核准後只有人類能改；AI 只能寫「修改提案」"]},
+ "knowledge/data.md":{p:"每張表是什麼、怎麼串、有哪些坑",w:"AI（data-card）",u:"拿到資料時；踩到新坑時補",r:["數字都來自實際執行的程式"]},
+ "knowledge/log.md":{p:"研究日誌：每次分析一段",w:"AI 自動追加",u:"每次回報結果",r:["失敗、卡關也要寫","只追加，不改寫舊段落","數字附 run_id"]},
+ "knowledge/findings.md":{p:"沉澱的結論＋給決策者的現況",w:"AI 整理，人類決定留哪些",u:"每輪 round-review",r:["只留：會改變下一步、會改變業務說法、會讓人再踩的坑"]},
+ "data/":{p:"資料的單向流動：raw → interim → processed",w:"見子資料夾",u:"—",r:["interim 與 processed 都必須能用 src/ 重建","新來源都要在 data/README.md 登記"]},
+ "data/raw/":{p:"原始資料",w:"只有人類／下載腳本",u:"專案開始時放入",r:["永遠唯讀，hook 與權限設定保護","不進 git"]},
+ "data/external/":{p:"外部補充資料：假日表、匯率、地理",w:"人類／AI（需登記來源）",u:"需要外部資訊時",r:["登記來源"]},
+ "data/interim/":{p:"清理、合併後的中間產物",w:"AI",u:"處理過程中",r:["可隨時重建"]},
+ "data/processed/":{p:"建模資料表：一列 = 一個預測單位",w:"AI（由 src/ 產生）",u:"建模前",r:["只存在 notebook 裡的中間檔不算數"]},
+ "data/holdout/":{p:"最終評估的答案",w:"只有人類",u:"決定提交後，評估一次",r:["AI 不能讀，hook 與權限設定擋下","看過分數再回頭改，分數就作廢"]},
+ "notebooks/":{p:"探索區：拋棄式程式",w:"AI",u:"每一次試做",r:["命名 R<輪次>-<主題>","不能產生報告中的最終數字","升級條件：第二次被用到／影響最終模型／要給別人重現"]},
+ "src/":{p:"被證明有價值的程式，長期維護",w:"AI，必須附測試",u:"符合升級條件時",r:["分層：data／features／validation／models／tracking.py","特徵介面：build(base, tables) -> DataFrame","前處理包進 Pipeline，只在訓練 fold 上 fit"]},
+ "tests/":{p:"測試；一定要有洩漏擾動測試",w:"AI",u:"每次升級進 src/",r:["用合成小資料，任何機器都能跑","附一個故意洩漏的反例","hook 與 pre-commit 自動執行"]},
+ "experiments/":{p:"實驗紀錄 log.jsonl，每次比較一行",w:"AI（tracking.py）",u:"每次比較",r:["只追加，不改寫、不刪除","報告的每個分數都要對到 run_id","進步用同 fold 配對比較判斷"]},
+ "submissions/":{p:"最終提交的預測檔，一個專案只交一份",w:"人類決定提交時才產生",u:"交付時",r:["基準在本地比，不用提交","提交後記一行 kind: holdout","預測檔不進 git"]},
+ "reports/":{p:"給決策者的報告與圖",w:"AI 撰寫，人類審閱",u:"停止或提交之後",r:["第一句就是決策","圖放 reports/figures/"]},
+ ".claude/":{p:"Claude Code 的工具箱",w:"人類維護",u:"—",r:["skills/：11 個 skill（源頭）","agents/：4 個 subagent","hooks/：guard_paths.py、post_edit_tests.py","settings.json：hook 與權限規則"]},
+ ".agents/":{p:"給 Codex 的 skill 複本",w:"人類（從 .claude/skills 複製）",u:"修改 skill 之後",r:["內容必須和 .claude/skills 一致；pre-commit 會檢查"]},
+ "docs/":{p:"教材：教科書（觀念）與落地手冊（實作）",w:"人類",u:"上課與查閱",r:["只放與資料集無關的方法論"]}
+};
+var TREE=[
+ {k:"AGENTS.md",lock:"規則"},
+ {k:"knowledge/",kids:["knowledge/brief.md","knowledge/data.md","knowledge/log.md","knowledge/findings.md"]},
+ {k:"data/",kids:["data/raw/","data/external/","data/interim/","data/processed/","data/holdout/"]},
+ {k:"notebooks/"},{k:"src/"},{k:"tests/"},{k:"experiments/"},{k:"submissions/"},{k:"reports/"},
+ {k:".claude/"},{k:".agents/"},{k:"docs/"}
+];
+var LOCK={"data/raw/":"唯讀","data/holdout/":"人類專屬","knowledge/brief.md":"人類核准"};
+function label(k){var s=k.split("/");return s[s.length-1]===""?s[s.length-2]+"/":s[s.length-1]}
+function node(k){return '<li><button type="button" data-f="'+k+'">'+esc(label(k))+(LOCK[k]?'<span class="lock">'+LOCK[k]+'</span>':'')+'</button></li>'}
+$("#tree").innerHTML=TREE.map(function(t){
+  var lockSpan=t.lock&&!LOCK[t.k]?'<span class="lock">'+t.lock+'</span>':'';
+  var me='<button type="button" data-f="'+t.k+'">'+esc(t.k)+lockSpan+'</button>';
+  return '<li>'+me+(t.kids?'<ul>'+t.kids.map(node).join("")+'</ul>':'')+'</li>';
+}).join("");
+function showF(k){
+  var d=F[k];if(!d)return;
+  $$("#tree button").forEach(function(b){b.setAttribute("aria-current",String(b.getAttribute("data-f")===k))});
+  $("#fdetail").innerHTML='<h4>'+esc(k)+'</h4><p>'+md(d.p)+'</p><dl><dt>誰能寫</dt><dd>'+md(d.w)+'</dd><dt>何時用</dt><dd>'+md(d.u)+'</dd><dt>規則</dt><dd>'+ul(d.r)+'</dd></dl>';
+}
+$("#tree").addEventListener("click",function(e){var b=e.target.closest("button[data-f]");if(b)showF(b.getAttribute("data-f"))});
+showF("knowledge/");
+
+/* ===================== GLOSSARY ===================== */
+var G=[
+ ["預測時點 T0","Time zero","我們在哪一刻做預測；切點之前已知的可以用，之後的一律不能用。","例：晚上 8 點預測明天下雨，不能用明天中午的雨量。由決策時間決定，不是由資料最完整的時間決定。"],
+ ["分析單位","Unit of analysis","資料表裡一列代表什麼。","例：一位顧客、一筆訂單、一間門市的一天。"],
+ ["目標變數","Target","要預測的答案，門檻與時間窗要寫清楚。","例：六個月內逾期超過 30 天。"],
+ ["基準模型","Baseline","完全不動腦的猜法，用來當比較的底線。","例：永遠猜整體比例；時間序列猜上週同一天。"],
+ ["主指標","Primary metric","事先約定好的唯一裁判，比較時只看它。","可以有參考指標，但不決定勝負。"],
+ ["業務指標","Business metric","把模型表現翻成主管聽得懂的話。","例：名單每 100 筆有 30 筆真的會出問題。"],
+ ["準確率的陷阱","Accuracy","事件少見時，全部猜「不會」也有很高準確率。","退貨率 5%，全猜不退貨 = 95%，但一筆都沒抓到。"],
+ ["Precision@K","","排名最前面 K 筆裡，有多少真的是。","客服每天打 50 通，前 50 名有 20 筆真的會出問題 = 40%。"],
+ ["提升度","Lift","比隨便亂挑好幾倍。","整體 10%，前 50 名 40%，Lift = 4。"],
+ ["PR-AUC","","正例被排得多前面的綜合分數；對少見事件比 ROC-AUC 敏感。","會隨正例比例改變，不同月份不能直接比。"],
+ ["訓練／驗證／保留集","Train / Validation / Holdout","課本、模擬考、正式考試。","holdout 只能看一次。"],
+ ["交叉驗證","Cross-validation, CV","輪流切幾份考幾次，看平均也看每一次。","避免一次考試剛好運氣好或不好。"],
+ ["Fold","","交叉驗證裡的一次考試。","3-fold = 考 3 次。"],
+ ["群組 K-fold","Group K-fold","同一個實體的資料整組放在同一邊。","上線要預測新病人，驗證就要用模型沒見過的病人。"],
+ ["時間切分","Time split","用過去訓練、用之後的時間驗證。","expanding window：每次訓練資料多一個月。"],
+ ["滾動起點回測","Rolling-origin backtest","站在過去某一天預測接下來 h 期，再把起點往後移。","h = 7：用 3/1 以前預測 3/2–3/8，再從 3/8 起。"],
+ ["季節性樸素預測","Seasonal naive","下週一 = 這週一。時間序列的最低標準。","連週期都抓不到的模型，可能輸給它。"],
+ ["同 fold 配對比較","Paired fold comparison","在同一次考試上比兩個做法，看是否每次都贏。","平均數會被某個特別簡單的月份帶著走。"],
+ ["穩健增益","Robust gain","每個 fold 都進步，且平均進步大於進步的波動。",""],
+ ["過擬合差距","Overfit gap","訓練分數減驗證分數；越大越像在背答案。",""],
+ ["資料洩漏","Data leakage","訓練時用到上線時拿不到的資訊。","用「退款完成日」預測「會不會退貨」。上線前完全不會發現。"],
+ ["時點正確","Point-in-time","算歷史統計時，只用 T0 之前已被觀察到的資料。","3/1 的訂單只能用 3/1 以前的消費算平均。"],
+ ["擾動測試","Perturbation test","故意竄改未來的資料，合法特徵的值必須不變。","換掉答案卷，看考生的答案會不會跟著變。"],
+ ["分布漂移","Distribution shift","訓練期和上線期的資料長得不一樣。","疫情前訓練、疫情後上線。"],
+ ["對抗驗證","Adversarial validation","訓練一個分辨器猜資料來自哪一期。","AUC 約 0.5 → 兩期很像；接近 1 → 差很多。"],
+ ["消融實驗","Ablation","一次只加或拿掉一組特徵，看是誰的功勞。","做菜一次只改一種調味料。"],
+ ["邊際價值","Marginal value","已有其他特徵時，再加它能多帶來多少進步。","單獨很強，但和既有特徵重複就沒用。"],
+ ["停止條件","Stopping criteria","開始前就寫好做到什麼程度就停。","實驗上限、最小有意義增益、連續無進展、截止日、提交門檻。"],
+ ["最小有意義增益","","進步小於這個門檻，就當作沒進步。","0.001 的進步可能只是雜訊，也可能不值得多維護一個特徵。"],
+ ["代理特徵","Proxy feature","真正原因在 T0 拿不到時，用一個拿得到、又相關的替代品。","下週實際負載拿不到 → 用已排定的工單數。"],
+ ["目標編碼","Target encoding","把類別換成這個類別過去的目標平均。","必須 out-of-fold 計算，否則會偷看自己的答案。"],
+ ["混雜因素","Confounder","同時影響原因和結果的第三個因素。","冰淇淋銷量和溺水人數都和天氣熱有關。"],
+ ["分層比較","Stratification","在混雜因素的每一層內分別比較。","只在同樣炎熱的日子裡比較。"]
+];
+var glist=$("#glist");
+glist.innerHTML=G.map(function(g,i){
+  return '<div class="gitem" data-s="'+esc((g[0]+" "+g[1]+" "+g[2]+" "+g[3]).toLowerCase())+'"><dt>'+esc(g[0])+(g[1]?'<small>'+esc(g[1])+'</small>':'')+'</dt><dd>'+esc(g[2])+(g[3]?'<span class="eg">'+esc(g[3])+'</span>':'')+'</dd></div>';
+}).join("")+'<div class="gempty" hidden>找不到符合的術語。</div>';
+function filterG(){
+  var q=$("#gq").value.trim().toLowerCase();var n=0;
+  $$(".gitem",glist).forEach(function(it){var ok=!q||it.getAttribute("data-s").indexOf(q)>=0;it.hidden=!ok;if(ok)n++});
+  $(".gempty",glist).hidden=n>0;$("#gcount").textContent=q?("符合 "+n+" 筆"):("共 "+G.length+" 筆");
+}
+$("#gq").addEventListener("input",filterG);filterG();
+
+/* ===================== COPY ===================== */
+document.addEventListener("click",function(e){
+  var b=e.target.closest&&e.target.closest("button.copy");if(!b)return;
+  var text=document.getElementById(b.getAttribute("data-copy")).textContent;
+  function ok(){b.textContent="已複製";b.classList.add("done");setTimeout(function(){b.textContent="複製";b.classList.remove("done")},1600)}
+  function fallback(){var ta=document.createElement("textarea");ta.value=text;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");ok()}catch(err){b.textContent="請手動選取"}document.body.removeChild(ta)}
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(ok,fallback)}else{fallback()}
+});
+
+/* ===================== PAGES (hash router) ===================== */
+var PAGES=[["overview","總覽"],["stages","操作流程"],["matrix","Skill 矩陣"],["folders","資料夾"],["glossary","術語"]];
+var main=$("main");
+function pageOfEl(el){while(el&&el!==main){if(el.parentElement===main&&el.hasAttribute("data-page"))return el.getAttribute("data-page");el=el.parentElement}return null}
+function showPage(pid){
+  $$("main > *").forEach(function(ch){
+    if(ch.id==="pagerWrap")return;
+    if(ch.classList.contains("frieze")&&!ch.hasAttribute("data-page"))return;
+    if(ch.getAttribute("data-page")===pid)ch.removeAttribute("data-hidden");else ch.setAttribute("data-hidden","");
+  });
+  $$(".topnav nav a").forEach(function(a){a.classList.toggle("on",a.getAttribute("data-nav")===pid);if(a.getAttribute("data-nav")===pid)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  var i=PAGES.map(function(p){return p[0]}).indexOf(pid);
+  $("#pager").innerHTML=(i>0?'<a class="prev" href="#'+PAGES[i-1][0]+'"><small>上一頁</small><strong>← '+PAGES[i-1][1]+'</strong></a>':'')+
+    (i<PAGES.length-1?'<a class="next" href="#'+PAGES[i+1][0]+'"><small>下一頁</small><strong>'+PAGES[i+1][1]+' →</strong></a>':'');
+  document.title=PAGES[i][1]+"｜人類定邊界，AI 跑實驗";
+}
+/* 不依賴網址：點擊直接切換；能改網址時才順便改（預覽工具常禁止 hash / history） */
+function setHash(h){try{history.replaceState(null,"","#"+h)}catch(e){}}
+function currentHash(){try{return decodeURIComponent(location.hash.slice(1))}catch(e){return ""}}
+function route(){routeTo(currentHash())}
+function routeTo(h){
+  h=h||"overview";
+  var el=document.getElementById(h);
+  var pid=el?pageOfEl(el):null;
+  if(!pid){pid="overview";el=null}
+  showPage(pid);
+  var m=/^stage-(\d)/.exec(h);
+  if(m){var st=STAGES.filter(function(x){return String(x.n)===m[1]})[0];if(st)selectTab(st.id)}
+  var ms=/^step-(\d)/.exec(h);
+  if(ms){var st2=STAGES.filter(function(x){return (STEP_AT[x.n]||[]).indexOf(+ms[1])>=0})[0];if(st2)selectTab(st2.id)}
+  if(el){
+    var p=el;while(p){if(p.tagName==="DETAILS")p.open=true;p=p.parentElement}
+    if(h==="layer2"){$("#layer2").removeAttribute("hidden");iterBtn.setAttribute("aria-expanded","true")}
+  }
+  var isPageTop=PAGES.some(function(p){return p[0]===h})||!el||/^stage-\d$/.test(h);
+  setTimeout(function(){if(isPageTop)window.scrollTo(0,0);else el.scrollIntoView({block:"start"})},0);
+}
+try{window.addEventListener("hashchange",route)}catch(e){}
+route();
+document.addEventListener("click",function(e){
+  if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey)return;
+  var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;
+  var h=a.getAttribute("href").slice(1);
+  if(h&&!document.getElementById(h))return;
+  e.preventDefault();routeTo(h);setHash(h||"overview");
+});
+document.addEventListener("click",function(e){
+  var g=e.target.closest&&e.target.closest("[data-goto]");if(!g)return;
+  var s=STAGES.filter(function(x){return x.id===g.getAttribute("data-goto")})[0];
+  selectTab(s.id);setHash("stage-"+s.n);
+  $("#stageTabs").scrollIntoView({block:"start"});
+});
+})();
+</script>
+</body>
+</html>
