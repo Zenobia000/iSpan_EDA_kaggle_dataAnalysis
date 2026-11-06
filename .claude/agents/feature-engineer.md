@@ -2,7 +2,7 @@
 name: feature-engineer
 description: M3 特徵實作。給它一張 feature card，它會在 src/olist_course/features/ 實作新群組、登記到 registry、補測試，並確保洩漏擾動測試通過。
 tools: Read, Grep, Glob, Edit, Write, Bash
-skills: feature-card, leakage-audit
+skills: feature-card, leakage-audit, knowledge-capture
 model: sonnet
 ---
 

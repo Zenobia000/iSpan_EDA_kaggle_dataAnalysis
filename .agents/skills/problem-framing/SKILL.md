@@ -32,3 +32,6 @@ description: M1 — 把模糊的商業需求轉成可驗證的預測任務（分
 
 - T0、指標、切分三項與 `config.py` 一致，或寫明刻意不同的理由
 - 有 Dummy 與 raw 兩個 baseline 數字（`run_experiment("raw", model="dummy")`、`run_experiment("raw")`）
+
+## 沉澱
+定義書寫入 `knowledge/10_Brief/Project Brief.md`；T0、指標的取捨各寫一則 `knowledge/70_Decisions/D-xxx`（knowledge-capture skill）。

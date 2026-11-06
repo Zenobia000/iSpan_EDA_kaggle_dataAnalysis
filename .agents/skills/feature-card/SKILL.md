@@ -35,3 +35,6 @@ uv run pytest tests/test_leakage.py tests/test_features.py
 ```
 
 通過後，交給 ablation-run 量增益；沒有增益的特徵也要保留卡片並寫「無增益」的結論。
+
+## 沉澱
+feature card 本身就存成 `knowledge/40_Features/F-xxx <名稱>.md`（模板 Feature），`hypothesis` 連到來源假設；ablation 後回寫 `status` 與驗證紀錄。

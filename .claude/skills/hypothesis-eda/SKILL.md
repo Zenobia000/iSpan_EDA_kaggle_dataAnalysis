@@ -37,3 +37,6 @@ description: M2 — 假設驅動 EDA：議題樹拆解 → 假設卡 → 用資�
 ## 驗收
 
 3 張以上假設卡，至少 1 張被推翻或證據不足；每張都標示 T0 可用的代理特徵或「無」。
+
+## 沉澱
+每張假設卡寫成 `knowledge/30_Hypotheses/H-xxx <標題>.md`（模板 Hypothesis）；有結論的寫一則 Finding（knowledge-capture skill）。

@@ -65,6 +65,18 @@ from olist_course.submit import make_submission
 ## 工作流程 skill（`.agents/skills/` 與 `.claude/skills/` 內容相同）
 
 problem-framing → data-card → hypothesis-eda → feature-card → leakage-audit → ablation-run → error-analysis → report-writer
+（每一步之後：knowledge-capture）
+
+## 知識庫（`knowledge/`，Obsidian vault）
+
+開始任何分析前，先讀 `knowledge/10_Brief/Project Brief.md` 與 `Data Brief.md`，再看 `knowledge/00_Home.md` 的開放問題與既有發現，
+**不要重做已經有結論的實驗**（先搜 `knowledge/40_Features/` 與 `60_Findings/`）。
+
+- 每個假設、特徵、實驗、發現、決策各一則筆記：H-xxx / F-xxx / EXP-xxx / FND-xxx / D-xxx（模板 `knowledge/90_Meta/templates/`）
+- 實驗筆記的數字必須取自 `experiments/log.jsonl` 或 `compare()`；Finding 的標題是一句完整結論
+- 被推翻、無增益、洩漏的結果也要寫（`status: refuted | no-gain | leaky`）
+- 跨專案可重用的方法論寫到 `knowledge/80_Concepts/`
+- 寫完跑 `uv run pytest tests/test_knowledge_vault.py`（斷鏈、ID 重複會失敗）
 
 ## 回報格式
 

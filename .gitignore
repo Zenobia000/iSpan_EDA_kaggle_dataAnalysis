@@ -12,3 +12,9 @@ submissions/*
 !submissions/.gitkeep
 CLAUDE.local.md
 leaderboard.md
+
+# Obsidian 個人狀態
+knowledge/.obsidian/workspace*.json
+knowledge/.obsidian/cache
+knowledge/.obsidian/plugins/
+knowledge/.trash/

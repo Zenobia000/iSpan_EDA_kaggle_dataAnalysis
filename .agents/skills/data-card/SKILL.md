@@ -37,3 +37,6 @@ description: M1 — 為 Olist 9 張表產出「真的跑過程式」的 Data Car
 ## 驗收
 
 數字可由同一段程式重現；T0 分類與 `config.POST_T0_COLUMNS` 有差異時要指出來。
+
+## 沉澱
+自動部分：`uv run python scripts/build_data_notes.py` 產生 `knowledge/20_Data/<table>.md`；人寫的觀察寫在該頁「筆記」段（不要寫在 AUTO 區塊內）。

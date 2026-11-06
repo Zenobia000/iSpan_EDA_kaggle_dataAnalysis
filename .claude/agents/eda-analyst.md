@@ -2,7 +2,7 @@
 name: eda-analyst
 description: M2 假設驅動 EDA。給它一張假設卡（或一個商業問題），它會跑資料、做分組與控制混雜因素的比較，回報支持/推翻/證據不足。唯讀 src/，不修改 pipeline。
 tools: Read, Grep, Glob, Bash
-skills: hypothesis-eda, data-card
+skills: hypothesis-eda, data-card, knowledge-capture
 model: sonnet
 ---
 

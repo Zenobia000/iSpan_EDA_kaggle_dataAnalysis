@@ -2,7 +2,7 @@
 name: model-runner
 description: M4/M5 實驗執行。用 run_experiment / compare 跑 ablation 或模型比較，回報 fold 配對增益、overfit gap，必要時產生 submission。不修改任何 .py。
 tools: Read, Grep, Glob, Bash
-skills: ablation-run, error-analysis
+skills: ablation-run, error-analysis, knowledge-capture
 model: sonnet
 ---
 

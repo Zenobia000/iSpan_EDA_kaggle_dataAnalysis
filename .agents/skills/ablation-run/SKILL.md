@@ -39,3 +39,6 @@ table[["n_features", "pr_auc_mean", "pr_auc_std", "gain_vs_base",
 ## 回報格式
 
 一句話結論（哪些群組 robust 有增益）→ ablation 表 → 一個最值得懷疑的結果與下一個實驗。
+
+## 沉澱
+每次比較寫一則 `knowledge/50_Experiments/EXP-xxx`（模板 Experiment，數字取自 compare() / log.jsonl），並更新 `knowledge/00_Home.md` 的分數演進表（knowledge-capture skill）。
