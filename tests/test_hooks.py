@@ -71,3 +71,15 @@ def test_stop_hook_only_counts_real_tool_calls(tmp_path):
     assert not stop.ran_experiment(str(t))  # 寫入含 run_experiment 字樣的檔案不算跑實驗
     t.write_text(json.dumps(skill_text) + "\n" + json.dumps(real_call) + "\n")
     assert stop.ran_experiment(str(t))
+
+
+def test_stop_hook_only_looks_at_current_turn(tmp_path):
+    real_call = {"message": {"role": "assistant", "content": [
+        {"type": "tool_use", "name": "Bash", "input": {"command": "python -c 'run_experiment(\"raw\")'"}}]}}
+    tool_result = {"message": {"role": "user", "content": [{"type": "tool_result", "content": "ok"}]}}
+    new_prompt = {"message": {"role": "user", "content": "都產出了?"}}
+    t = tmp_path / "t.jsonl"
+    t.write_text("\n".join(json.dumps(x) for x in (real_call, tool_result, new_prompt)) + "\n")
+    assert not stop.ran_experiment(str(t))  # 上一輪跑的實驗不算本輪
+    t.write_text("\n".join(json.dumps(x) for x in (new_prompt, real_call, tool_result)) + "\n")
+    assert stop.ran_experiment(str(t))

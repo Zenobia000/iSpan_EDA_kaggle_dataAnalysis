@@ -29,12 +29,32 @@ def _tool_inputs(line: str) -> list[str]:
             if isinstance(c, dict) and c.get("type") == "tool_use" and c.get("name") in EXECUTING_TOOLS]
 
 
-def ran_experiment(transcript_path: str) -> bool:
+def _is_user_prompt(line: str) -> bool:
+    """使用者真正輸入的訊息（不是 tool_result 回傳）。"""
     try:
-        lines = Path(transcript_path).read_text(encoding="utf-8").splitlines()[-400:]
+        entry = json.loads(line)
+    except json.JSONDecodeError:
+        return False
+    msg = entry.get("message", {}) if isinstance(entry, dict) else {}
+    if not isinstance(msg, dict) or msg.get("role") != "user":
+        return False
+    content = msg.get("content")
+    if isinstance(content, str):
+        return True
+    return isinstance(content, list) and not any(
+        isinstance(c, dict) and c.get("type") == "tool_result" for c in content
+    )
+
+
+def ran_experiment(transcript_path: str) -> bool:
+    """只看「本輪」：最後一則使用者訊息之後執行過的程式。"""
+    try:
+        lines = Path(transcript_path).read_text(encoding="utf-8").splitlines()
     except OSError:
         return False
-    calls = [inp for ln in lines for inp in _tool_inputs(ln)]
+    starts = [i for i, ln in enumerate(lines) if _is_user_prompt(ln)]
+    turn = lines[starts[-1] + 1:] if starts else lines
+    calls = [inp for ln in turn for inp in _tool_inputs(ln)]
     return any("run_experiment(" in c and "log=False" not in c for c in calls)
 
 
