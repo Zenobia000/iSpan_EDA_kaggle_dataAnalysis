@@ -62,9 +62,12 @@ def test_post_edit_only_watches_package_python():
 
 def test_stop_hook_only_counts_real_tool_calls(tmp_path):
     skill_text = {"message": {"content": [{"type": "text", "text": "用 run_experiment(...) 跑"}]}}
-    real_call = {"message": {"content": [{"type": "tool_use", "input": {"command": "python -c 'run_experiment(\"raw\")'"}}]}}
+    real_call = {"message": {"content": [{"type": "tool_use", "name": "Bash",
+                                          "input": {"command": "python -c 'run_experiment(\"raw\")'"}}]}}
+    write_call = {"message": {"content": [{"type": "tool_use", "name": "Write",
+                                           "input": {"file_path": "m3.py", "content": "run_experiment(\"raw\")"}}]}}
     t = tmp_path / "t.jsonl"
-    t.write_text(json.dumps(skill_text) + "\n")
-    assert not stop.ran_experiment(str(t))
+    t.write_text(json.dumps(skill_text) + "\n" + json.dumps(write_call) + "\n")
+    assert not stop.ran_experiment(str(t))  # 寫入含 run_experiment 字樣的檔案不算跑實驗
     t.write_text(json.dumps(skill_text) + "\n" + json.dumps(real_call) + "\n")
     assert stop.ran_experiment(str(t))

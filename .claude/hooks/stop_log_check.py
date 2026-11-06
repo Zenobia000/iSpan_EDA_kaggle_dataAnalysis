@@ -12,8 +12,11 @@ LOG = ROOT / "experiments" / "log.jsonl"
 WINDOW_SECONDS = 30 * 60
 
 
+EXECUTING_TOOLS = {"Bash", "mcp__ide__executeCode"}  # 只算「真的執行程式」的呼叫；Write/Edit 寫檔不算
+
+
 def _tool_inputs(line: str) -> list[str]:
-    """從 transcript 的一行 JSON 取出 Claude 實際發出的 tool_use input（忽略 skill/說明文字）。"""
+    """從 transcript 的一行 JSON 取出 Claude 實際執行程式的 tool_use input（忽略 skill 文字與寫檔內容）。"""
     try:
         msg = json.loads(line).get("message", {})
     except (json.JSONDecodeError, AttributeError):
@@ -22,7 +25,8 @@ def _tool_inputs(line: str) -> list[str]:
     if not isinstance(content, list):
         return []
     return [json.dumps(c.get("input", {}), ensure_ascii=False)
-            for c in content if isinstance(c, dict) and c.get("type") == "tool_use"]
+            for c in content
+            if isinstance(c, dict) and c.get("type") == "tool_use" and c.get("name") in EXECUTING_TOOLS]
 
 
 def ran_experiment(transcript_path: str) -> bool:
