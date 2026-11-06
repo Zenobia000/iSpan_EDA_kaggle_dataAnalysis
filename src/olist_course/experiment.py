@@ -6,6 +6,7 @@
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
 from collections.abc import Iterable
@@ -34,6 +35,7 @@ class ExperimentResult:
     oof: pd.DataFrame            # order_id, fold, y, score
     feature_names: tuple[str, ...]
     pipelines: list = field(repr=False, default_factory=list)
+    run_id: str = ""             # 寫進 experiments/log.jsonl 的 ID；知識庫的 EXP 筆記用它追溯數字
 
 
 def _git_sha() -> str:
@@ -73,6 +75,12 @@ def cross_validate(ds: Dataset, model: str, seed: int = config.SEED) -> tuple[pd
     return pd.DataFrame(rows), pd.concat(oof_parts, ignore_index=True), pipes
 
 
+def make_run_id(now: datetime, name: str, model: str) -> str:
+    """可讀且幾乎不碰撞的 ID：R<UTC 時間>-<雜湊>，例 R20261106T0325-3fa9c1。"""
+    digest = hashlib.sha1(f"{now.isoformat()}|{name}|{model}".encode()).hexdigest()[:6]
+    return f"R{now:%Y%m%dT%H%M%S}-{digest}"
+
+
 def log_experiment(entry: dict) -> None:
     config.EXPERIMENT_LOG.parent.mkdir(parents=True, exist_ok=True)
     with config.EXPERIMENT_LOG.open("a", encoding="utf-8") as f:
@@ -88,25 +96,30 @@ def run_experiment(
     seed: int = config.SEED,
     log: bool = True,
     dataset: Dataset | None = None,
+    run_id: str | None = None,
 ) -> ExperimentResult:
     ds = dataset if dataset is not None else load_dataset(groups, allow_leaky=allow_leaky)
     folds, oof, pipes = cross_validate(ds, model, seed)
     summary = _summarize(folds)
     name = groups if isinstance(groups, str) else "+".join(ds.groups)
+    now = datetime.now(timezone.utc)
+    run_id = (run_id or make_run_id(now, name, model)) if log else ""
     if log:
         log_experiment({
-            "time": datetime.now(timezone.utc).isoformat(timespec="seconds"), "git": _git_sha(),
+            "run_id": run_id, "kind": "cv", "time": now.isoformat(timespec="seconds"), "git": _git_sha(),
             "name": name, "groups": list(ds.groups), "model": model, "seed": seed,
-            "n_features": ds.X.shape[1], "allow_leaky": allow_leaky, "author": author, "note": note,
+            "n_features": ds.X.shape[1], "features": list(ds.X.columns),
+            "allow_leaky": allow_leaky, "author": author, "note": note,
             **summary,
         })
-    return ExperimentResult(name, ds.groups, model, folds, summary, oof, tuple(ds.X.columns), pipes)
+    return ExperimentResult(name, ds.groups, model, folds, summary, oof, tuple(ds.X.columns), pipes, run_id)
 
 
-def read_log() -> pd.DataFrame:
-    if not config.EXPERIMENT_LOG.exists():
-        return pd.DataFrame()
-    return pd.read_json(config.EXPERIMENT_LOG, lines=True)
+def read_log(include_reference: bool = False) -> pd.DataFrame:
+    """讀學員自己的實驗紀錄；include_reference=True 時併入講師的參考紀錄（experiments/reference_log.jsonl）。"""
+    paths = [config.EXPERIMENT_LOG] + ([config.REFERENCE_LOG] if include_reference else [])
+    frames = [pd.read_json(p, lines=True).assign(source=p.stem) for p in paths if p.exists() and p.stat().st_size]
+    return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
 
 
 def compare(results: Iterable[ExperimentResult], baseline: str | None = None) -> pd.DataFrame:

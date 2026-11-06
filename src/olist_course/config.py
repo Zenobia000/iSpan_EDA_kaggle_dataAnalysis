@@ -9,6 +9,7 @@ PROCESSED_DIR = ROOT / "data" / "processed"
 HOLDOUT_DIR = ROOT / "data" / "holdout"
 SUBMISSION_DIR = ROOT / "submissions"
 EXPERIMENT_LOG = ROOT / "experiments" / "log.jsonl"
+REFERENCE_LOG = ROOT / "experiments" / "reference_log.jsonl"  # 講師參考實驗（知識庫範例筆記的數字來源）
 
 SEED = 42
 

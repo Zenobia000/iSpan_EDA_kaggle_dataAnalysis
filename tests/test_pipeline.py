@@ -46,7 +46,9 @@ def test_run_experiment_logs_and_compares(base, tables, tmp_path, monkeypatch):
     r2 = run_experiment("raw+time", model="logreg", dataset=make_dataset(base, tables, "raw+time"))
     lines = [json.loads(x) for x in log.read_text().splitlines()]
     assert [x["name"] for x in lines] == ["raw", "raw+time"]
-    assert {"pr_auc_mean", "pr_auc_std", "overfit_gap", "git"} <= set(lines[0])
+    assert {"pr_auc_mean", "pr_auc_std", "overfit_gap", "git", "run_id", "features"} <= set(lines[0])
+    assert lines[0]["run_id"] == r1.run_id and r1.run_id.startswith("R")
+    assert lines[0]["features"] == list(r1.feature_names)
     assert len(r1.folds) == len(config.CV_FOLD_MONTHS)
     table = compare([r1, r2])
     assert table.loc["raw", "gain_vs_base"] == 0
