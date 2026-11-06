@@ -10,3 +10,5 @@ CLAUDE.local.md
 knowledge/.obsidian/workspace*.json
 knowledge/.obsidian/plugins/
 knowledge/.trash/
+submissions/*
+!submissions/README.md
