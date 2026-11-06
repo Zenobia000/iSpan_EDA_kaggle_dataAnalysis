@@ -7,6 +7,17 @@
 **任務**：在顧客**下單當下**，預測這筆 Olist 訂單會不會拿到 1–2 星差評，讓客服每天主動關懷風險最高的 5%。
 完整課綱見 [`docs/syllabus.md`](docs/syllabus.md)。
 
+## 用在其他專案：`skeleton/`
+
+本 repo 根目錄是 Olist 課程（第一個實例）。要開新的資料科學專案，複製骨架：
+
+```bash
+cp -r skeleton ../my-project && cd ../my-project && git init
+```
+
+骨架只有**資料夾分層 + 每層的說明文件 + 定義文件模板 + agents/skills/hooks**，不附分析程式碼——
+程式碼由 AI 在對話中產生，被證明有價值才升級進 `src/`。說明見 [`skeleton/README.md`](skeleton/README.md)。
+
 ## 快速開始
 
 ```bash
