@@ -71,12 +71,38 @@ def run_holdout(tmp: Path) -> None:
                **{k: round(v, 4) for k, v in s.items() if k != "submission"})
 
 
+CAPACITIES = (0.01, 0.02, 0.05, 0.10, 0.20)
+
+
+def run_capacity(tmp: Path) -> None:
+    """名單容量 K 的取捨：K 越大，命中率越低、涵蓋的差評越多（Decision Card 的決策 2）。"""
+    import numpy as np
+    import pandas as pd
+
+    from olist_course.score import LABELS
+    from olist_course.submit import make_submission
+
+    if not LABELS.exists():
+        return
+    sub = pd.read_csv(make_submission("all_safe", name="ref_capacity", out_dir=tmp))
+    df = pd.read_csv(LABELS).merge(sub, on="order_id")
+    order = np.argsort(-df["score"].to_numpy(), kind="stable")
+    y = df[config.TARGET].to_numpy()[order]
+    months = 3
+    for k in CAPACITIES:
+        n = int(round(len(y) * k))
+        _extra(f"REF-009-k{int(k * 100):02d}", "capacity", name="all_safe holdout", k=k,
+               list_per_day=round(n / (months * 30), 1), precision=round(float(y[:n].mean()), 4),
+               lift=round(float(y[:n].mean() / y.mean()), 4), recall=round(float(y[:n].sum() / y.sum()), 4))
+
+
 def main() -> None:
     config.EXPERIMENT_LOG = config.REFERENCE_LOG  # 本腳本的所有紀錄寫到參考 log
     if config.REFERENCE_LOG.exists():
         config.REFERENCE_LOG.unlink()
     run_cv_experiments()
     run_holdout(config.ROOT / "submissions")
+    run_capacity(config.ROOT / "submissions")
     n = sum(1 for _ in config.REFERENCE_LOG.open(encoding="utf-8"))
     print(f"[ok] {config.REFERENCE_LOG.relative_to(config.ROOT)}  entries={n}")
     print(json.dumps([json.loads(x)["run_id"] for x in config.REFERENCE_LOG.open(encoding="utf-8")]))
