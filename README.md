@@ -73,7 +73,7 @@ experiments/log.jsonl     # 每次 run_experiment 自動寫入
 
 ## 講師
 
-見 [`docs/instructor_guide.md`](docs/instructor_guide.md)。修改教材的流程：
+見 [`docs/instructor_guide.md`](docs/instructor_guide.md)；範例成果報告（M5 解答）見 [`docs/sample_report.md`](docs/sample_report.md)。修改教材的流程：
 - 改 notebook：編輯 `scripts/notebook_src/m*.py`，再執行 `uv run python scripts/build_notebooks.py`
 - 改 skill：編輯 `.claude/skills/`，再執行 `uv run python scripts/sync_skills.py`
 

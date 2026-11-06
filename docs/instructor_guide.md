@@ -56,6 +56,7 @@
 ### M5（3h）
 - 錯誤分析的核心結論：嚴重遲到造成的差評，在 T0 是**不可約**的。商業建議是增加第二個預測時點（出貨延誤時）。
 - Lab ABC 見 `docs/labs/lab_abc_ai_comparison.md`。
+- 成果報告的範例（解答）：`docs/sample_report.md`。課前請勿發給學員。
 - 收 submission：`uv run python -m olist_course.score submissions/*.csv`，產生 `leaderboard.md`。
 
 ## Harness 行為（講師須知）
