@@ -4,7 +4,7 @@
 
 ## 命名
 
-`<輪次>-<主題>.ipynb` 或 `.py`，例如 `R2-seller-history.ipynb`、`R3-leak-check.py`。
+`<輪次>-<主題>.ipynb` 或 `.py`，例如 `R2-customer-history.ipynb`、`R3-leak-check.py`。
 同一主題要改版就開新檔，不要覆蓋已經被 knowledge 筆記引用的檔案。
 
 ## 什麼時候要「升級」到 `src/`（任一條成立）
