@@ -1,0 +1,22 @@
+# 工具無關的防線：不論用 Claude Code、Codex 或手動 commit 都會執行
+# 安裝：uv run pre-commit install
+repos:
+  - repo: local
+    hooks:
+      - id: no-raw-data
+        name: data/raw 與 data/holdout 不可提交
+        entry: "data/raw 與 data/holdout 的內容不可提交（只允許 .gitkeep）"
+        language: fail
+        files: ^data/(raw|holdout)/(?!\.gitkeep$)
+      - id: skills-in-sync
+        name: .claude/skills 與 .agents/skills 一致
+        entry: uv run python scripts/sync_skills.py --check
+        language: system
+        pass_filenames: false
+        files: ^(\.claude|\.agents)/skills/
+      - id: leakage-tests
+        name: 洩漏守門測試
+        entry: uv run pytest tests/test_leakage.py -q
+        language: system
+        pass_filenames: false
+        files: ^src/olist_course/
