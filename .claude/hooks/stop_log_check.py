@@ -1,22 +1,25 @@
 #!/usr/bin/env python3
-"""Stop：本輪對話有呼叫 run_experiment 卻沒有新的 experiments/log.jsonl 紀錄時提醒（只提醒一次）。"""
+"""Stop：本輪對話有執行 run_experiment 卻沒有新的 experiments/*.jsonl 紀錄時提醒（只提醒一次）。"""
 from __future__ import annotations
 
 import json
+import re
 import sys
 import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-LOG = ROOT / "experiments" / "log.jsonl"
+LOG_DIR = ROOT / "experiments"   # log.jsonl（學員）或 reference_log.jsonl（講師）任一更新都算
 WINDOW_SECONDS = 30 * 60
 
 
 EXECUTING_TOOLS = {"Bash", "mcp__ide__executeCode"}  # 只算「真的執行程式」的呼叫；Write/Edit 寫檔不算
+# `cat > f <<'EOF' ... EOF` / `tee f <<EOF` 是寫檔，不是執行；`python - <<EOF` 才是執行
+WRITE_HEREDOC = re.compile(r"\b(?:cat|tee)\b[^\n]*<<-?\s*['\"]?(\w+)['\"]?[^\n]*\n.*?\n\1\b", re.S)
 
 
 def _tool_inputs(line: str) -> list[str]:
-    """從 transcript 的一行 JSON 取出 Claude 實際執行程式的 tool_use input（忽略 skill 文字與寫檔內容）。"""
+    """從 transcript 的一行 JSON 取出 Claude 實際執行的程式碼（忽略 skill 文字、Write/Edit、寫檔用的 heredoc）。"""
     try:
         msg = json.loads(line).get("message", {})
     except (json.JSONDecodeError, AttributeError):
@@ -24,9 +27,13 @@ def _tool_inputs(line: str) -> list[str]:
     content = msg.get("content") if isinstance(msg, dict) else None
     if not isinstance(content, list):
         return []
-    return [json.dumps(c.get("input", {}), ensure_ascii=False)
-            for c in content
-            if isinstance(c, dict) and c.get("type") == "tool_use" and c.get("name") in EXECUTING_TOOLS]
+    codes = []
+    for c in content:
+        if isinstance(c, dict) and c.get("type") == "tool_use" and c.get("name") in EXECUTING_TOOLS:
+            inp = c.get("input", {}) or {}
+            raw = str(inp.get("command") or inp.get("code") or "")
+            codes.append(WRITE_HEREDOC.sub("", raw))
+    return codes
 
 
 def _is_user_prompt(line: str) -> bool:
@@ -59,7 +66,8 @@ def ran_experiment(transcript_path: str) -> bool:
 
 
 def log_is_fresh() -> bool:
-    return LOG.exists() and time.time() - LOG.stat().st_mtime < WINDOW_SECONDS
+    now = time.time()
+    return any(now - p.stat().st_mtime < WINDOW_SECONDS for p in LOG_DIR.glob("*.jsonl"))
 
 
 def main() -> int:

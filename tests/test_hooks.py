@@ -83,3 +83,26 @@ def test_stop_hook_only_looks_at_current_turn(tmp_path):
     assert not stop.ran_experiment(str(t))  # 上一輪跑的實驗不算本輪
     t.write_text("\n".join(json.dumps(x) for x in (new_prompt, real_call, tool_result)) + "\n")
     assert stop.ran_experiment(str(t))
+
+
+def _bash(cmd):
+    return {"message": {"role": "assistant", "content": [{"type": "tool_use", "name": "Bash", "input": {"command": cmd}}]}}
+
+
+@pytest.mark.parametrize("cmd, expected", [
+    ("cat > scripts/x.py <<'EOF'\nrun_experiment(\"raw\")\nEOF\necho done", False),   # 寫檔不算
+    ("tee a.py <<EOF\nrun_experiment(\"raw\")\nEOF", False),
+    ("uv run python - <<'EOF'\nrun_experiment(\"raw\")\nEOF", True),                 # 執行才算
+    ("uv run python -c 'run_experiment(\"raw\", log=False)'", False),
+])
+def test_stop_hook_distinguishes_write_from_execute(tmp_path, cmd, expected):
+    t = tmp_path / "t.jsonl"
+    t.write_text(json.dumps({"message": {"role": "user", "content": "go"}}) + "\n" + json.dumps(_bash(cmd)) + "\n")
+    assert stop.ran_experiment(str(t)) is expected
+
+
+def test_stop_hook_accepts_any_experiment_log(tmp_path, monkeypatch):
+    monkeypatch.setattr(stop, "LOG_DIR", tmp_path)
+    assert not stop.log_is_fresh()
+    (tmp_path / "reference_log.jsonl").write_text("{}\n")
+    assert stop.log_is_fresh()
