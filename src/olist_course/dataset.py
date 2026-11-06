@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 import numpy as np
 import pandas as pd
@@ -10,7 +10,7 @@ import pandas as pd
 from olist_course import config
 from olist_course.data.build_base import build_base_table
 from olist_course.data.load import load_tables
-from olist_course.features.registry import build_features, categorical_columns, resolve_groups
+from olist_course.features.registry import build_features, categorical_columns, resolve_groups, validate_columns
 from olist_course.split import assign_split
 
 
@@ -64,3 +64,29 @@ def load_dataset(groups: str | Iterable[str], allow_leaky: bool = False) -> Data
 def load_tables_cached() -> dict[str, pd.DataFrame]:
     load_dataset("raw")
     return _CACHE["tables"]  # type: ignore[return-value]
+
+
+def add_features(ds: Dataset, extra: pd.DataFrame, categorical: Iterable[str] = ()) -> Dataset:
+    """notebook 原型用：以 order_id 併入新特徵，回傳新 Dataset（不修改原本的）。
+
+    ⚠️ 這裡的特徵沒有經過 test_leakage 擾動測試；驗證有效後必須升級到 features/ 才能進最終模型。
+    """
+    if "order_id" not in extra.columns:
+        raise ValueError("extra 需要 order_id 欄位")
+    new_cols = [c for c in extra.columns if c != "order_id"]
+    clash = set(new_cols) & set(ds.X.columns)
+    if clash:
+        raise ValueError(f"欄位名稱重複：{sorted(clash)}")
+    validate_columns(new_cols)
+    aligned = ds.order_id.to_frame().merge(extra, on="order_id", how="left")[new_cols]
+    X = pd.concat([ds.X, aligned.set_axis(ds.X.index)], axis=1)
+    return replace(ds, X=X, groups=(*ds.groups, "notebook"), categorical=(*ds.categorical, *categorical))
+
+
+def drop_features(ds: Dataset, columns: Iterable[str]) -> Dataset:
+    """回傳拿掉指定欄位的新 Dataset（M4：移除帶時間趨勢的特徵）。"""
+    cols = list(columns)
+    missing = set(cols) - set(ds.X.columns)
+    if missing:
+        raise KeyError(f"找不到欄位：{sorted(missing)}")
+    return replace(ds, X=ds.X.drop(columns=cols), categorical=tuple(c for c in ds.categorical if c not in cols))

@@ -22,11 +22,18 @@ SAFE_GROUPS = [g for g in FEATURE_GROUPS if g not in LEAKY_GROUPS]
 
 
 def perturb_future(tables: dict[str, pd.DataFrame]) -> dict[str, pd.DataFrame]:
-    """回傳新 dict：所有 T0 之後的資訊被打亂（不修改輸入）。"""
+    """回傳新 dict：CUTOFF 之後才發生的事件被竄改（不修改輸入）。
+
+    只動「CUTOFF 之後」的事件，且只往更晚移 → 事件仍在未來。
+    這樣「只用 T0 前已發生事件」的合法特徵（例：賣家過去已送達訂單的遲到率）不會被誤判。
+    order_status 沒有時間戳、無法判斷何時得知 → 視為全部在未來，一律竄改。
+    """
     rng = np.random.default_rng(123)
+    delivered = tables["orders"]["order_delivered_customer_date"]
+    future_delivery = delivered >= CUTOFF
+    shift = pd.to_timedelta(rng.integers(1, 30, len(delivered)), unit="D")
     orders = tables["orders"].assign(
-        order_delivered_customer_date=lambda d: d["order_delivered_customer_date"]
-        + pd.to_timedelta(rng.integers(-30, 30, len(d)), unit="D"),
+        order_delivered_customer_date=delivered.where(~future_delivery, delivered + shift),
         order_status="canceled",
     )
     reviews = tables["reviews"]
@@ -80,3 +87,24 @@ def test_validate_columns_accepts_safe():
 def test_all_safe_group_outputs_pass_column_validation(base, tables):
     feats = build_features(base, tables, SAFE_GROUPS)
     validate_columns(list(feats.columns))
+
+
+def _seller_past_late_rate(base, tables):
+    """合法特徵範例：賣家「在 T0 之前已送達」的訂單中遲到的比例。擾動測試不應誤判它。"""
+    o = tables["orders"][["order_id", "order_delivered_customer_date", "order_estimated_delivery_date"]]
+    seller = tables["items"].drop_duplicates("order_id")[["order_id", "seller_id"]]
+    ev = o.merge(seller, on="order_id").dropna(subset=["order_delivered_customer_date"])
+    ev = ev.assign(late=(ev["order_delivered_customer_date"] > ev["order_estimated_delivery_date"]).astype(int))
+    out = []
+    for sid, t0 in zip(base["main_seller_id"], base[config.T0_COL]):
+        past = ev[(ev["seller_id"] == sid) & (ev["order_delivered_customer_date"] < t0)]
+        out.append(past["late"].mean() if len(past) else np.nan)
+    return pd.DataFrame({"seller_past_late_rate": out}, index=base.index)
+
+
+def test_perturbation_does_not_flag_legit_past_delivery_feature(tables):
+    base = build_base_table(tables)
+    before = _seller_past_late_rate(base, tables)
+    after = _seller_past_late_rate(base, perturb_future(tables))
+    past = base[config.T0_COL] < CUTOFF
+    pd.testing.assert_frame_equal(before[past.values], after[past.values])
