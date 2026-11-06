@@ -22,4 +22,4 @@ tags: [concept, leakage]
 - 在全資料上做 target encoding 再切分
 
 ## 在專案中的實例
-- [[F-005 賣家歷史差評率 seller_prior_low_rate]]（正確）vs [[F-007 洩漏特徵三件組 leaky]]（錯誤）
+- [[F-005 歷史群組 history]]（正確）vs [[F-007 洩漏特徵三件組 leaky]]（錯誤）

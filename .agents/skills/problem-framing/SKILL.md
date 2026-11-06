@@ -34,4 +34,4 @@ description: M1 — 把模糊的商業需求轉成可驗證的預測任務（分
 - 有 Dummy 與 raw 兩個 baseline 數字（`run_experiment("raw", model="dummy")`、`run_experiment("raw")`）
 
 ## 沉澱
-定義書寫入 `knowledge/10_Brief/Project Brief.md`；T0、指標的取捨各寫一則 `knowledge/70_Decisions/D-xxx`（knowledge-capture skill）。
+定義書寫入 `knowledge/10_Brief/Project Brief.md`；業務面（名單給誰、容量、關懷成本、驗收方式、待主管決定）寫入 `knowledge/10_Brief/Decision Card.md`；T0、指標、切分的技術規則對照 `knowledge/10_Brief/Validation Protocol.md`。

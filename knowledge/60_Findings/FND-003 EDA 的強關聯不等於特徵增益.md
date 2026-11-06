@@ -1,10 +1,11 @@
 ---
 type: finding
 id: FND-003
-confidence: high
+confidence: medium
 source: ["[[EXP-003 原型 賣家過去遲到率]]"]
 concepts: ["[[Marginal value of a feature]]"]
 created: 2026-11-06
+ops: "「直覺上重要」的因素不一定讓名單更準；需求方提的特徵也要過實驗才上線"
 tags: [finding, methodology]
 ---
 # EDA 的強關聯不等於特徵增益
@@ -17,4 +18,8 @@ tags: [finding, methodology]
 任何「單變量很強」的候選特徵；越晚加入的特徵越容易冗餘。
 
 ## 影響了哪些決定
-[[D-004 以同月份配對增益判斷進步]]：每個特徵都要過 ablation 才能升級。
+[[Validation Protocol]]：每個特徵都要過 ablation 才能升級。
+
+## 對營運的意義
+「直覺上重要」的因素不一定讓名單更準；需求方提的特徵也要過實驗才上線
+→ [[Decision Card]]

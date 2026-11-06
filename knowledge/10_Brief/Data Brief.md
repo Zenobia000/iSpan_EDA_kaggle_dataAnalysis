@@ -46,6 +46,7 @@ source: https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
 
 - 分析單位：**一筆有評價的訂單**（97,917 筆）
 - 目標 `is_low_review`：該訂單**第一則**評價 ≤ 2 星；整體約 14.2%
+  （CV 驗證月 15.8%、holdout 10.7% —— 三個數字的差別見 [[Validation Protocol]] §5）
 
 ## 5. 欄位在 T0 是否可得（最重要的一張表）
 
@@ -55,7 +56,33 @@ source: https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
 
 規則實作在 `src/olist_course/config.py` 的 `POST_T0_COLUMNS`。概念見 [[Point-in-time correctness]]。
 
-## 6. 已知的資料怪癖
+## 6. 表格怎麼串（SQL 寫法，給新成員）
+
+```sql
+-- 一列 = 一筆有評價的訂單（對應 build_base_table）
+WITH first_review AS (
+  SELECT order_id, review_score,
+         ROW_NUMBER() OVER (PARTITION BY order_id ORDER BY review_answer_timestamp, review_id) AS rn
+  FROM order_reviews
+),
+main_item AS (                       -- 主商品/主賣家 = order_item_id 最小者
+  SELECT order_id, product_id, seller_id,
+         ROW_NUMBER() OVER (PARTITION BY order_id ORDER BY order_item_id) AS rn
+  FROM order_items
+)
+SELECT o.order_id, o.order_purchase_timestamp, o.order_estimated_delivery_date,
+       c.customer_unique_id, c.customer_state, s.seller_state, p.product_category_name,
+       CASE WHEN r.review_score <= 2 THEN 1 ELSE 0 END AS is_low_review
+FROM orders o
+JOIN customers c   ON c.customer_id = o.customer_id
+JOIN main_item mi  ON mi.order_id = o.order_id AND mi.rn = 1
+JOIN sellers s     ON s.seller_id = mi.seller_id
+JOIN products p    ON p.product_id = mi.product_id
+JOIN first_review r ON r.order_id = o.order_id AND r.rn = 1;
+-- ⚠️ 不要直接 JOIN order_items / order_payments / geolocation：一單多列，金額會重複加總
+```
+
+## 7. 已知的資料怪癖
 
 - `customer_id` 每筆訂單都不同，要找回購請用 `customer_unique_id`
 - 少數訂單有多則評價 → 取最早回覆的一則
@@ -63,6 +90,6 @@ source: https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
 - `product_name_lenght` / `product_description_lenght` 原始欄位名拼錯（lenght）
 - geolocation 一個郵遞區號前綴對應很多座標，直接 join 會讓列數爆炸 → 先取平均
 
-## 7. 讀完之後
+## 8. 讀完之後
 
 先寫 [[Project Brief]] 的問題定義書（problem-framing skill），再開始 [[00_Home|探索]]。

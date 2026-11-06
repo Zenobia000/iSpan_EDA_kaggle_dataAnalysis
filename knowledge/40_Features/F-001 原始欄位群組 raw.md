@@ -6,6 +6,9 @@ group: raw
 columns: [n_items, n_products, n_sellers, items_price, items_freight, payment_value, payment_installments, n_payment_methods, product_name_length, product_description_length, product_photos_qty, product_weight_g, customer_state, seller_state, product_category, payment_type]
 t0_safe: true
 created: 2026-11-06
+round: R1
+redundant_with: ""
+fail_reason: 
 tags: [feature]
 ---
 # F-001 原始欄位群組 raw

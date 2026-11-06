@@ -7,6 +7,9 @@ hypothesis: "[[H-001 實際遲到導致差評]]"
 columns: [seller_past_late_rate]
 t0_safe: true
 created: 2026-11-06
+round: R3
+redundant_with: "[[F-005 歷史群組 history]]"
+fail_reason: redundant
 tags: [feature]
 ---
 # F-006 賣家過去遲到率 seller_past_late_rate

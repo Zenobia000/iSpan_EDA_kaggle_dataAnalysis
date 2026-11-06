@@ -15,4 +15,4 @@ tags: [concept, validation]
 「增益 > fold std」：fold 難度差異大時，所有真實改進都會被判無效（[[FND-004 fold 間標準差主要反映月份難度]]）。
 
 ## 在專案中的實例
-`olist_course.experiment.compare()`；[[D-004 以同月份配對增益判斷進步]]
+`olist_course.experiment.compare()`；[[Validation Protocol]]

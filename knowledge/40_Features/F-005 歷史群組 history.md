@@ -7,9 +7,12 @@ hypothesis: "[[H-004 賣家過去的品質能預測未來差評]]"
 columns: [seller_prior_orders, seller_prior_reviews, seller_prior_low_rate, customer_prior_orders]
 t0_safe: true
 created: 2026-11-06
+round: R2
+redundant_with: ""
+fail_reason: 
 tags: [feature, point-in-time]
 ---
-# F-005 賣家歷史差評率 seller_prior_low_rate
+# F-005 歷史群組 history
 
 ## 定義
 （T0 前已回覆的該賣家差評數 + 0.15×10）/（T0 前已回覆的該賣家評價數 + 10）

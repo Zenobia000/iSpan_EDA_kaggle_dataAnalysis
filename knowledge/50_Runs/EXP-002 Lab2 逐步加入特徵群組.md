@@ -11,10 +11,14 @@ pr_auc_std: 0.0439
 gain_vs_base: 0.0262
 folds_improved: 3/3
 robust: true
-tests: ["[[F-002 時間群組 time]]", "[[F-003 地理群組 geo]]", "[[F-004 商品群組 product]]", "[[F-005 賣家歷史差評率 seller_prior_low_rate]]"]
+tests: ["[[F-002 時間群組 time]]", "[[F-003 地理群組 geo]]", "[[F-004 商品群組 product]]", "[[F-005 歷史群組 history]]"]
+run_ids: ["REF-002-raw", "REF-002-raw+time", "REF-002-raw+time+geo", "REF-002-raw+time+geo+product", "REF-002-all_safe"]
+round: R2
 tags: [experiment, M3, ablation]
 ---
 # EXP-002 Lab2 逐步加入特徵群組
+
+> 數字以 [[ledger]] 中的 run_id 為準；本頁只寫解讀。
 
 ## 累計（相對 raw）
 | 組合 | 特徵數 | PR-AUC | std | 增益 | 配對 std | 進步月份 | robust | overfit gap |

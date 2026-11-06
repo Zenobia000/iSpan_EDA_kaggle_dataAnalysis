@@ -6,9 +6,13 @@ question: 從未用於調參的 2018-06~08，表現是否延續？
 model: lgbm
 feature_set: raw vs all_safe
 pr_auc: 0.2003
+run_ids: ["REF-008-raw", "REF-008-all_safe", "REF-009-k05"]
+round: R5
 tags: [experiment, M5, holdout]
 ---
 # EXP-008 Holdout 提交
+
+> 數字以 [[ledger]] 中的 run_id 為準；本頁只寫解讀。
 
 | submission | PR-AUC | ROC-AUC | P@5% | Lift@5% |
 |---|---|---|---|---|

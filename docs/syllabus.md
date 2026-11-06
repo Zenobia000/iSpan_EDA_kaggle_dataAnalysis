@@ -25,7 +25,7 @@
 |---|---|---|---|---|
 | D1 | M1 資料理解與問題定義 | 2h | 問題定義書、Data Card、Baseline | — |
 | D1 | M2 假設驅動 EDA | 3h | 3 張假設卡（≥1 張被推翻） | Lab1 相關 ≠ 因果 |
-| D2 | M3 特徵工程實驗室 | 4h | 10–15 張 feature card、1 個升級進 pipeline 的特徵群組 | Lab2 增加特徵一定更好？ |
+| D2 | M3 特徵工程實驗室 | 4h | 3–5 張特徵群組卡（`knowledge/40_Features/`）、1 個升級進 pipeline 的特徵群組 | Lab2 增加特徵一定更好？ |
 | D2–D3 | M4 特徵驗證與篩選 | 3h | Ablation 表、Permutation Importance、Adversarial Validation | Lab3 分數變高 = 變好？ |
 | D3 | M5 建模、AI 對照實驗與報告 | 3h | 最終模型、錯誤分析、submission、成果報告 | Lab ABC |
 
@@ -47,7 +47,7 @@
 |---|---|---|
 | 問題理解 | 20% | T0、指標、驗證設計的理由是否正確 |
 | EDA 與假設 | 25% | 假設卡先寫預期；有控制混雜因素；有被推翻的假設 |
-| 特徵實驗 | 25% | feature card 完整；ablation 一次只改一項；至少一個特徵升級進 pipeline 且通過洩漏測試 |
+| 特徵實驗 | 25% | 特徵群組卡完整（含失敗原因）；ablation 一次只改一項；至少一個特徵升級進 pipeline 且通過洩漏測試 |
 | 模型驗證 | 20% | 用配對增益判斷進步；找出並排除洩漏；理解分布偏移 |
 | 成果解釋 | 10% | 報告第一句話就是決策；數字可追溯到 experiments/log.jsonl |
 

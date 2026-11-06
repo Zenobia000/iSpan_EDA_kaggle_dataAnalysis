@@ -69,14 +69,13 @@ problem-framing → data-card → hypothesis-eda → feature-card → leakage-au
 
 ## 知識庫（`knowledge/`，Obsidian vault）
 
-開始任何分析前，先讀 `knowledge/10_Brief/Project Brief.md` 與 `Data Brief.md`，再看 `knowledge/00_Home.md` 的開放問題與既有發現，
-**不要重做已經有結論的實驗**（先搜 `knowledge/40_Features/` 與 `60_Findings/`）。
+開始任何分析前，先讀 `knowledge/00_Home.md`（Now / Next）、`10_Brief/Project Brief.md`、`Data Brief.md`、`Validation Protocol.md`。
+**不要重做已經有結論的實驗**：先 `grep -ril` 搜 `knowledge/40_Features/` 與 `60_Findings/`。
 
-- 每個假設、特徵、實驗、發現、決策各一則筆記：H-xxx / F-xxx / EXP-xxx / FND-xxx / D-xxx（模板 `knowledge/90_Meta/templates/`）
-- 實驗筆記的數字必須取自 `experiments/log.jsonl` 或 `compare()`；Finding 的標題是一句完整結論
-- 被推翻、無增益、洩漏的結果也要寫（`status: refuted | no-gain | leaky`）
-- 跨專案可重用的方法論寫到 `knowledge/80_Concepts/`
-- 寫完跑 `uv run pytest tests/test_knowledge_vault.py`（斷鏈、ID 重複會失敗）
+- 實驗紀錄自動進 `experiments/log.jsonl`；帳本 `knowledge/50_Runs/ledger.md` 由 `scripts/build_ledger.py` 產生，不手寫分數
+- 只為**改變決定的**實驗寫 EXP 筆記，`run_ids` 必填；EXP 寫完只追加不改寫
+- Finding 標題是一句完整結論，`ops` 欄位寫對營運的意義；被推翻 / 無增益 / 洩漏也要寫（`fail_reason`）
+- 流程細節：knowledge-capture skill；寫完跑 `uv run pytest tests/test_knowledge_vault.py`
 
 ## 回報格式
 

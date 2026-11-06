@@ -14,4 +14,4 @@ tags: [concept, validation]
 - 前處理（填補、編碼、縮放）在 Pipeline 內，只在訓練 fold fit
 
 ## 在專案中的實例
-[[D-003 用時間切分與月份 CV]]
+[[Validation Protocol]]

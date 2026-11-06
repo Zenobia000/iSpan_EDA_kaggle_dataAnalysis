@@ -11,9 +11,13 @@ gain_vs_base: 0.2929
 folds_improved: 3/3
 robust: true
 tests: ["[[F-007 洩漏特徵三件組 leaky]]"]
+run_ids: ["REF-002-all_safe", "REF-004-leaky"]
+round: R3
 tags: [experiment, M4, leakage]
 ---
 # EXP-004 Lab3 刻意洩漏
+
+> 數字以 [[ledger]] 中的 run_id 為準；本頁只寫解讀。
 
 | | PR-AUC | P@5% | Lift@5% |
 |---|---|---|---|

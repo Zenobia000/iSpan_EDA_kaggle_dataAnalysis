@@ -39,4 +39,4 @@ cutoff 之前的訂單特徵值只要有任何改變 → 該群組偷看了未�
 `src/olist_course/features/leaky.py`：欄位名全部合法，但三個特徵都偷看未來 — 只檢查欄位名擋不住。
 
 ## 沉澱
-判定為洩漏的特徵：對應 F-xxx 的 `status: leaky` 並寫明原因；新的洩漏模式寫進 `knowledge/80_Concepts/`。
+判定為洩漏的特徵：對應 F-xxx 的 `status: leaky` 並寫明原因；`fail_reason: leaky`；新的洩漏模式寫進 `knowledge/80_Playbook/`。

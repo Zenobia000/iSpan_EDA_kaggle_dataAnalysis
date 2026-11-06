@@ -5,6 +5,7 @@ confidence: high
 source: ["[[EXP-002 Lab2 逐步加入特徵群組]]"]
 concepts: ["[[Paired fold comparison]]", "[[Time-based validation]]"]
 created: 2026-11-06
+ops: "無直接營運影響；影響的是資料團隊如何判斷「模型有沒有進步」"
 tags: [finding, methodology]
 ---
 # fold 間標準差主要反映月份難度，不是模型雜訊
@@ -14,4 +15,8 @@ tags: [finding, methodology]
 若用「增益 > fold std」當標準，所有特徵群組都會被判無效。
 
 ## 影響了哪些決定
-[[D-004 以同月份配對增益判斷進步]]
+[[Validation Protocol]]
+
+## 對營運的意義
+無直接營運影響；影響的是資料團隊如何判斷「模型有沒有進步」
+→ [[Decision Card]]

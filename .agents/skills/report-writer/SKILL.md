@@ -37,4 +37,4 @@ description: M5 — 以金字塔原則撰寫最終成果報告（結論先行、
 每個數字都對得到 `experiments/log.jsonl` 的一筆紀錄；第一句話讓主管不讀後文也能做決定。
 
 ## 沉澱
-報告的證據段落應直接連到 `knowledge/60_Findings/` 與 `50_Experiments/`；先跑 knowledge-capture 的「模組結束沉澱清單」再寫報告。範例：`docs/sample_report.md`。
+報告的證據段落應直接連到 `knowledge/60_Findings/` 與 `50_Runs/`（數字引用 `50_Runs/ledger.md` 的 run_id）；開頭先對應 `knowledge/10_Brief/Decision Card.md` 的待決事項；先跑 knowledge-capture 的「模組結束沉澱清單」再寫報告。範例：`docs/sample_report.md`。

@@ -10,9 +10,13 @@ pr_auc: 0.2859
 gain_vs_base: -0.0049
 folds_improved: 0/3
 robust: false
+run_ids: ["REF-002-all_safe", "REF-006-drop_trending", "REF-006-adv-all_safe", "REF-006-adv-all_safe-trending"]
+round: R4
 tags: [experiment, M4, drift]
 ---
 # EXP-006 Adversarial validation 與時間趨勢特徵
+
+> 數字以 [[ledger]] 中的 run_id 為準；本頁只寫解讀。
 
 | 設定 | adversarial AUC（train vs holdout） | CV PR-AUC |
 |---|---|---|

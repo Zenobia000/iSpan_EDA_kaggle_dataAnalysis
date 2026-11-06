@@ -7,6 +7,9 @@ hypothesis: "[[H-001 實際遲到導致差評]]"
 columns: [same_state, customer_seller_km]
 t0_safe: true
 created: 2026-11-06
+round: R2
+redundant_with: ""
+fail_reason: 
 tags: [feature]
 ---
 # F-003 地理群組 geo

@@ -41,4 +41,4 @@ table[["n_features", "pr_auc_mean", "pr_auc_std", "gain_vs_base",
 一句話結論（哪些群組 robust 有增益）→ ablation 表 → 一個最值得懷疑的結果與下一個實驗。
 
 ## 沉澱
-每次比較寫一則 `knowledge/50_Experiments/EXP-xxx`（模板 Experiment，數字取自 compare() / log.jsonl），並更新 `knowledge/00_Home.md` 的分數演進表（knowledge-capture skill）。
+跑完執行 `uv run python scripts/build_ledger.py` 更新帳本；只有**改變決定**的比較才寫 `knowledge/50_Runs/EXP-xxx`（`run_ids` 必填），並更新對應 F 卡的 status（knowledge-capture skill）。

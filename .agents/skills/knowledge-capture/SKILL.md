@@ -1,46 +1,42 @@
 ---
 name: knowledge-capture
-description: 把探索與實驗的結果沉澱進 Obsidian 知識庫（knowledge/）：假設卡、特徵卡、實驗筆記、發現、決策、跨專案概念，並維護雙向連結與分數演進。當一個實驗跑完、一個假設有結論、一個模組結束、或學員說「記下來」「整理筆記」「沉澱」時使用。
+description: 把探索與實驗的結果沉澱進 Obsidian 知識庫（knowledge/）：假設卡、特徵群組卡、會改變決定的實驗筆記、發現（含對營運的意義）、跨專案 playbook。當一輪實驗有結論、一個假設被驗證或推翻、一個模組結束、或學員說「記下來」「整理筆記」「沉澱」時使用。
 ---
 
 # Knowledge Capture
 
-Kaggle 是「探索 → 收斂 → 發現新特徵 → 拉高分數」的迴圈。**沒有寫下來的發現，下一輪就會重做一次。**
+Kaggle 是「探索 → 收斂 → 發現新特徵 → 拉高分數」的迴圈。**沒寫下來的發現，下一輪會重做；寫太多，沒人會讀。**
 
-## 知識鏈（每則筆記都要往前、往後各連一個）
+## 寫之前（必做）
+1. **先搜尋**：`grep -ril "<關鍵字>" knowledge/` —— 已有筆記就更新它，不要新建
+2. **取號**：同資料夾最大號 + 1；寫完跑測試，ID 重複會失敗
+3. 讀 `knowledge/00_Home.md` 的 Now / Next，確認這件事還沒有結論
 
-```
-H-xxx 假設 → F-xxx 特徵 → EXP-xxx 實驗 → FND-xxx 發現 → D-xxx 決定
-                                            └→ 80_Concepts（跨專案方法論）
-```
+## 寫什麼、寫到哪
 
-## 什麼時候寫哪一種
+| 事件 | 動作 |
+|---|---|
+| 跑了任何實驗 | **不用寫筆記**。`run_experiment()` 已自動進 `experiments/log.jsonl`；執行 `uv run python scripts/build_ledger.py` 更新 [[ledger]] |
+| 實驗**改變了決定**（採用/放棄特徵、換模型、發現洩漏） | `knowledge/50_Runs/EXP-xxx`，`run_ids` 必填 |
+| 有可驗證的猜測 | `knowledge/30_Hypotheses/H-xxx` |
+| 決定做一個特徵群組 | `knowledge/40_Features/F-xxx`（一個 registry 群組一張卡） |
+| 得到下次還會用到的結論 | `knowledge/60_Findings/FND-xxx`，標題即結論，`ops` 必填 |
+| 方法論可帶去下一場比賽 | `knowledge/80_Playbook/` |
+| 還沒想清楚 | `knowledge/00_Inbox/`（模組結束前清空） |
 
-| 事件 | 寫到 | 模板 |
-|---|---|---|
-| 想到一個可驗證的猜測 | `knowledge/30_Hypotheses/H-xxx <標題>.md` | Hypothesis |
-| 決定做一個特徵 | `knowledge/40_Features/F-xxx <名稱>.md` | Feature |
-| 跑完一次 `run_experiment` / `compare` | `knowledge/50_Experiments/EXP-xxx <標題>.md` | Experiment |
-| 實驗告訴你一件「下次還會用到」的事 | `knowledge/60_Findings/FND-xxx <一句完整結論>.md` | Finding |
-| 做了有取捨的設計選擇 | `knowledge/70_Decisions/D-xxx <標題>.md` | Decision |
-| 發現可以帶去下一場比賽的方法 | `knowledge/80_Concepts/<英文名>.md` | Concept |
-| 還沒想清楚 | `knowledge/00_Inbox/` | — |
-
-模板在 `knowledge/90_Meta/templates/`。編號：同類最大號 + 1。
+模板：`knowledge/90_Meta/templates/`。
 
 ## 規則
+1. **數字不重抄**：EXP 只寫 `run_ids` 與解讀；若在 frontmatter 寫 `pr_auc`，必須等於某個 run_id 的紀錄（測試會比對）
+2. **EXP 寫完即鎖定**：之後只能在文末 `## 追記` 追加，不改寫原文
+3. **失敗要可檢索**：F 卡 `status: no-gain | leaky` 時必填 `fail_reason: redundant | leaky | unstable | no-signal`；冗餘填 `redundant_with`
+4. **confidence**：`high` 需要 ≥ 2 個獨立證據，或 holdout 也成立；只有一個 CV 實驗 → `medium`
+5. **Finding 要對業務說話**：`ops` 欄位一句話說明對營運的意義，並連到 [[Decision Card]]
+6. **更新 Home 的 Now / Next**（≤ 5 行），不要在 Home 抄分數表
+7. 寫完執行 `uv run pytest tests/test_knowledge_vault.py`
 
-1. **數字必須可追溯**：實驗筆記的 frontmatter 填 `git`、`pr_auc`、`gain_vs_base`、`folds_improved`、`robust`，取自 `experiments/log.jsonl` 或 `compare()` 輸出；不准估計
-2. **Finding 標題就是結論**：「賣家歷史差評率是最穩健的增益來源」✓；「關於賣家的觀察」✗
-3. **被推翻的也要寫**：`status: refuted` / `no-gain` / `leaky` 是成果，避免下一輪重踩
-4. **狀態要回寫**：實驗結束後更新對應 F-xxx 的 `status` 與驗證紀錄表、H-xxx 的 `status`
-5. **更新 `knowledge/00_Home.md`**：分數演進表加一列；最重要的發現與開放問題視情況更新
-6. **Concept 不寫專案細節**：寫成下一場比賽也用得到的樣子，專案實例只放連結
-7. 連結用 `[[檔名]]`（不含 .md）；寫完執行 `uv run pytest tests/test_knowledge_vault.py` 確認沒有斷鏈
-
-## 模組結束時的沉澱清單
-
-- [ ] 本模組的假設都有結論（supported / refuted / inconclusive）
-- [ ] 每個實驗都有 EXP 筆記且連到它測的特徵
-- [ ] 至少 1 則 Finding；檢查是否有可提升為 Concept 的方法論
-- [ ] `00_Home` 的分數演進與開放問題已更新
+## 模組結束清單
+- [ ] 本模組假設都有 status
+- [ ] 改變決定的實驗都有 EXP；`ledger` 已重建
+- [ ] ≥ 1 則 Finding（含 ops）；有可帶走的方法 → Playbook
+- [ ] `00_Inbox` 已清空；Home 的 Now / Next 已更新

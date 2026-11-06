@@ -8,7 +8,7 @@ CELLS = [
 流程：**假設（M2）→ feature card → notebook 原型 → ablation 驗證 → 升級進 `features/` + 測試**
 
 本單元產出：
-- 10–15 張 feature card
+- 3–5 張特徵群組卡（寫在 `knowledge/40_Features/`，一個群組一張）
 - 1 個在 notebook 原型、並升級進 pipeline 的新特徵群組
 - Lab2：增加特徵一定會提升模型嗎？
 """ + AI_TIP.format(skill="feature-card", agent="feature-engineer")),

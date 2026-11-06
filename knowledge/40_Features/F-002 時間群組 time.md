@@ -7,6 +7,9 @@ hypothesis: "[[H-001 實際遲到導致差評]]"
 columns: [purchase_hour, purchase_dow, purchase_month, is_weekend, est_delivery_days, shipping_limit_days]
 t0_safe: true
 created: 2026-11-06
+round: R2
+redundant_with: ""
+fail_reason: unstable
 tags: [feature]
 ---
 # F-002 時間群組 time

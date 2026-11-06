@@ -6,6 +6,9 @@ group: leaky
 columns: [actual_delivery_days, delivery_delay_days, seller_low_rate_global]
 t0_safe: false
 created: 2026-11-06
+round: R3
+redundant_with: ""
+fail_reason: leaky
 tags: [feature, leakage]
 ---
 # F-007 洩漏特徵三件組 leaky
