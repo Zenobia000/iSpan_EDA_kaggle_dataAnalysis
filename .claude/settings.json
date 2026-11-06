@@ -5,28 +5,30 @@
       "Read(./data/holdout/**)",
       "Edit(./data/raw/**)",
       "Write(./data/raw/**)"
-    ],
-    "allow": [
-      "Bash(uv run pytest:*)",
-      "Bash(uv run python:*)"
     ]
   },
   "hooks": {
     "PreToolUse": [
       {
         "matcher": "Edit|Write|MultiEdit|NotebookEdit|Read|Grep|Glob|Bash",
-        "hooks": [{ "type": "command", "command": "uv run --project \"$CLAUDE_PROJECT_DIR\" --no-sync python \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard_paths.py\"" }]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard_paths.py\""
+          }
+        ]
       }
     ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write|MultiEdit",
-        "hooks": [{ "type": "command", "command": "uv run --project \"$CLAUDE_PROJECT_DIR\" --no-sync python \"$CLAUDE_PROJECT_DIR/.claude/hooks/post_edit_tests.py\"", "timeout": 200 }]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [{ "type": "command", "command": "uv run --project \"$CLAUDE_PROJECT_DIR\" --no-sync python \"$CLAUDE_PROJECT_DIR/.claude/hooks/stop_log_check.py\"" }]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/post_edit_tests.py\"",
+            "timeout": 200
+          }
+        ]
       }
     ]
   }

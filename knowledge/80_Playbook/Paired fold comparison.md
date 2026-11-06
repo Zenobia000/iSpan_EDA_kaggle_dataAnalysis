@@ -12,7 +12,6 @@ tags: [concept, validation]
 所有 fold 都進步，且平均差 > 差值的 std。
 
 ## 常見錯誤
-「增益 > fold std」：fold 難度差異大時，所有真實改進都會被判無效（[[FND-004 fold 間標準差主要反映月份難度]]）。
 
-## 在專案中的實例
-`olist_course.experiment.compare()`；[[Validation Protocol]]
+## 在本專案中的實例
+- 

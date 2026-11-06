@@ -1,93 +1,82 @@
-# AI 時代的資料分析與特徵工程：Olist Kaggle 實戰
+# 資料科學專案模板：人類定邊界，AI 跑實驗
 
-15 小時課程｜Claude Code ✕ Codex 雙相容｜notebook 做實驗、`.py` 寫 pipeline
+這是一個**空模板**。裡面沒有分析程式碼，只有三樣東西：
 
-> 讓 AI 執行重複工作，讓人類制定驗證標準，用可靠實驗決定成敗。
+- **資料夾分層**：每個資料夾的 `README.md` 規定這裡放什麼
+- **定義文件**：`knowledge/10_Brief/`，由人類填寫
+- **AI 的工作規範**：`AGENTS.md`、`.claude/`（Claude Code）、`.agents/`（Codex）
 
-**任務**：在顧客**下單當下**，預測這筆 Olist 訂單會不會拿到 1–2 星差評，讓客服每天主動關懷風險最高的 5%。
-完整課綱見 [`docs/syllabus.md`](docs/syllabus.md)。
+程式碼由 AI 在對話中產生；被證明有價值的，才放進 `src/`。
 
-## 用在其他專案：`skeleton/`
+---
 
-本 repo 根目錄是 Olist 課程（第一個實例）。要開新的資料科學專案，複製骨架：
+## 使用步驟
 
+### 1. 建立新專案
 ```bash
-cp -r skeleton ../my-project && cd ../my-project && git init
+git clone <這個 repo> my-project
+cd my-project
+rm -rf .git && git init
 ```
 
-骨架只有**資料夾分層 + 每層的說明文件 + 定義文件模板 + agents/skills/hooks**，不附分析程式碼——
-程式碼由 AI 在對話中產生，被證明有價值才升級進 `src/`。說明見 [`skeleton/README.md`](skeleton/README.md)。
+### 2. 放資料
+把原始資料放進 `data/raw/`，並在 `data/README.md` 登記來源。
 
-## 快速開始
+### 3. 定義專案（人類決定）
+開啟 Claude Code 或 Codex，輸入：
+> 用 define-boundaries 幫我定義這個專案
 
-```bash
-# 1. 安裝（需要 Python 3.10+ 與 uv）
-uv sync
+AI 會問你：預測給誰用、做什麼決定、預測當下知道哪些資訊、怎麼驗證、何時停止。
+問完後，它會寫好 `knowledge/10_Brief/` 的文件。
+**你檢查 `Validation Protocol.md`，同意後把 `status` 改成 `approved`**，AI 才會開始建模。
 
-# 2. 下載資料（需要 ~/.kaggle/kaggle.json：Kaggle → Settings → API → Create New Token）
-uv run python scripts/download_data.py
+### 4. 跑一輪
+> 用 data-card 整理資料，然後開始第一輪 EDA
 
-# 3. 確認環境
-uv run pytest
+AI 會探索資料、提出假設、做特徵、跑實驗，並把結果記錄在 `knowledge/` 和 `experiments/`。
 
-# 4.（選用）安裝 pre-commit 防線
-uv run pre-commit install
+### 5. 每輪結束時審查
+> round-review
 
-# 5. 開始上課
-uv run jupyter lab notebooks/M1_problem_framing.ipynb
-```
+AI 會整理這一輪的結果，並對照停止條件。**由你決定：下一輪 / 停止 / 提交。**
 
-接著在 repo 根目錄開啟 `claude` 或 `codex`，AI 會自動讀到課程規則（`AGENTS.md`）。
+重複第 4、5 步，直到你決定停止。
 
-## 為什麼在本地寫，不在 Kaggle Notebook 上寫？
+---
 
-- Olist 是 Kaggle **資料集**，不是競賽，所以沒有官方 submission。計分在本地進行：講師用 holdout 期間的 label 跑 `olist_course.score`。
-- AI agent（Claude Code / Codex）需要本地檔案系統、測試與 hook 才能發揮作用。
-- 可重用邏輯放在 `src/olist_course/` 並附測試；Kaggle Notebook 無法直接 import 本地套件。
+## 資料夾
 
-## 專案結構
+| 資料夾 | 放什麼 |
+|---|---|
+| `knowledge/` | 定義文件、假設、特徵、實驗、發現（用 Obsidian 開啟） |
+| `data/` | `raw/` 原始資料（唯讀）、`processed/` 建模資料、`holdout/` 最終答案（只有人類能碰） |
+| `notebooks/` | 探索用的程式，用完即丟 |
+| `src/` | 被證明有價值的程式碼，必須附測試 |
+| `tests/` | 測試，一定要有洩漏測試 |
+| `experiments/` | 實驗紀錄 `log.jsonl` |
+| `reports/` | 給決策者看的報告 |
 
-```
-AGENTS.md                 # 課程鐵律（Claude Code 與 Codex 共用的單一真相源）
-CLAUDE.md                 # @AGENTS.md + Claude 專屬說明（subagents / hooks）
-.claude/
-  skills/                 # 8 個工作流程 skill（源頭）
-  agents/                 # eda-analyst / feature-engineer / model-runner / validation-auditor
-  hooks/                  # 擋寫原始資料、擋讀 holdout、改 src 後自動跑洩漏測試
-  settings.json
-.agents/skills/           # 給 Codex 的 skill（由 scripts/sync_skills.py 複製，勿手改）
-src/olist_course/         # pipeline：資料、切分、特徵群組、模型、評估、實驗紀錄
-tests/                    # 含洩漏擾動測試 test_leakage.py
-notebooks/                # 學員版 M1–M5（solutions/ 為講師解答）
-scripts/                  # 下載、holdout、skill 同步、notebook 產生器
-docs/                     # 課綱、講師手冊、4 份 Lab
-experiments/log.jsonl     # 每次 run_experiment 自動寫入
-```
+## 你和 AI 的分工
 
-## 課程地圖
+| 人類 | AI |
+|---|---|
+| 定義目標、可用資訊、驗證方法、停止條件 | 探索、做特徵、建模、記錄 |
+| 每輪決定下一步 | 每輪整理證據、給建議 |
+| 保管 holdout | 不能讀 holdout、不能改原始資料 |
 
-| 模組 | 時數 | 核心問題 | Notebook | Skill |
-|---|---|---|---|---|
-| M1 | 2h | 下單那一秒，我們知道什麼？ | `M1_problem_framing` | problem-framing、data-card |
-| M2 | 3h | 相關性代表因果嗎？ | `M2_hypothesis_eda` | hypothesis-eda |
-| M3 | 4h | 增加特徵一定更好嗎？ | `M3_feature_lab` | feature-card、leakage-audit |
-| M4 | 3h | 分數變高，模型真的變好了嗎？ | `M4_validation_ablation` | ablation-run、leakage-audit |
-| M5 | 3h | AI Only vs Human Guided vs Validated AI | `M5_model_and_report` | error-analysis、report-writer |
+## 常用指令
 
-## 三道洩漏防線
+| 想做什麼 | 對 AI 說 |
+|---|---|
+| 定義專案 | 用 define-boundaries |
+| 理解資料 | 用 data-card |
+| 驗證一個猜測 | 用 hypothesis-eda 驗證「…」 |
+| 做一個特徵 | 用 feature-card 做「…」 |
+| 檢查有沒有洩漏 | 用 validation-agent 審查這一輪 |
+| 整理成報告 | 用 report-writer |
 
-| 防線 | 作用範圍 | 擋得住 `features/leaky.py` 嗎？ |
-|---|---|---|
-| `validate_columns()` 欄位名檢查 | 所有工具 | ✗（欄位名合法） |
-| `compare()` 配對穩健性 | 所有工具 | ✗（每個 fold 都「進步」） |
-| `tests/test_leakage.py` 擾動測試 | 所有工具（pytest / pre-commit / Claude hook） | ✓ |
+## 備註
 
-## 講師
-
-見 [`docs/instructor_guide.md`](docs/instructor_guide.md)；範例成果報告（M5 解答）見 [`docs/sample_report.md`](docs/sample_report.md)。修改教材的流程：
-- 改 notebook：編輯 `scripts/notebook_src/m*.py`，再執行 `uv run python scripts/build_notebooks.py`
-- 改 skill：編輯 `.claude/skills/`，再執行 `uv run python scripts/sync_skills.py`
-
-## 前作
-
-本課程延伸自 [python-DA-vibe-coding-fundamentals](https://github.com/sunnyDataScience/python-DA-vibe-coding-fundamentals) 的「分析師 Prompt 武器庫」。差別在於這次的 prompt 變成了 skill，角色變成了 subagent，口頭規範則變成 hook 與測試。
+- Windows 使用者：如果沒有 `python3` 指令，把 `.claude/settings.json` 裡的 `python3` 改成 `py`
+- 修改 skill 時改 `.claude/skills/`，再複製一份到 `.agents/skills/`，讓 Codex 也能用
+- 執行 `pre-commit install` 後，commit 時會自動跑洩漏測試

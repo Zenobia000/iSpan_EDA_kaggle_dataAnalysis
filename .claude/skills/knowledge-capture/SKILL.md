@@ -16,7 +16,7 @@ Kaggle 是「探索 → 收斂 → 發現新特徵 → 拉高分數」的迴圈�
 
 | 事件 | 動作 |
 |---|---|
-| 跑了任何實驗 | **不用寫筆記**。`run_experiment()` 已自動進 `experiments/log.jsonl`；執行 `uv run python scripts/build_ledger.py` 更新 [[ledger]] |
+| 跑了任何實驗 | **不用寫筆記**，只要 `experiments/log.jsonl` 有一行紀錄（experiment-protocol） |
 | 實驗**改變了決定**（採用/放棄特徵、換模型、發現洩漏） | `knowledge/50_Runs/EXP-xxx`，`run_ids` 必填 |
 | 有可驗證的猜測 | `knowledge/30_Hypotheses/H-xxx` |
 | 決定做一個特徵群組 | `knowledge/40_Features/F-xxx`（一個 registry 群組一張卡） |
@@ -33,10 +33,10 @@ Kaggle 是「探索 → 收斂 → 發現新特徵 → 拉高分數」的迴圈�
 4. **confidence**：`high` 需要 ≥ 2 個獨立證據，或 holdout 也成立；只有一個 CV 實驗 → `medium`
 5. **Finding 要對業務說話**：`ops` 欄位一句話說明對營運的意義，並連到 [[Decision Card]]
 6. **更新 Home 的 Now / Next**（≤ 5 行），不要在 Home 抄分數表
-7. 寫完執行 `uv run pytest tests/test_knowledge_vault.py`
+7. 寫完檢查：新筆記的 `[[連結]]` 都指向存在的筆記、ID 沒有重複、EXP 的 `run_ids` 都在 `experiments/log.jsonl` 裡
 
 ## 模組結束清單
 - [ ] 本模組假設都有 status
-- [ ] 改變決定的實驗都有 EXP；`ledger` 已重建
+- [ ] 改變決定的實驗都有 EXP，`run_ids` 對得到 log
 - [ ] ≥ 1 則 Finding（含 ops）；有可帶走的方法 → Playbook
 - [ ] `00_Inbox` 已清空；Home 的 Now / Next 已更新

@@ -13,5 +13,5 @@ tags: [concept, feature-engineering]
 - 在既有特徵之上的 ablation 配對增益
 - Permutation importance（打亂後掉多少）
 
-## 在專案中的實例
-[[FND-003 EDA 的強關聯不等於特徵增益]]
+## 在本專案中的實例
+- 

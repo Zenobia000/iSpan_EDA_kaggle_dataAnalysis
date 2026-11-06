@@ -13,5 +13,5 @@ tags: [concept, validation]
 - CV 用 expanding window：每個驗證期只用它之前的資料訓練
 - 前處理（填補、編碼、縮放）在 Pipeline 內，只在訓練 fold fit
 
-## 在專案中的實例
-[[Validation Protocol]]
+## 在本專案中的實例
+- 

@@ -2,19 +2,11 @@ __pycache__/
 *.pyc
 .venv/
 .pytest_cache/
-.coverage
 .ipynb_checkpoints/
-data/raw/*
-data/processed/*
-data/holdout/*
-!data/**/.gitkeep
-submissions/*
-!submissions/.gitkeep
+data/*/*
+!data/*/.gitkeep
+!data/README.md
 CLAUDE.local.md
-leaderboard.md
-
-# Obsidian 個人狀態
 knowledge/.obsidian/workspace*.json
-knowledge/.obsidian/cache
 knowledge/.obsidian/plugins/
 knowledge/.trash/

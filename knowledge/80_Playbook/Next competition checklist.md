@@ -28,3 +28,6 @@ tags: [concept, playbook]
 ## 結案
 - [ ] 錯誤分析分清可約 / 不可約
 - [ ] 商業建議不隱含因果 → [[Prediction is not causation]]
+
+## 在本專案中的實例
+- 
