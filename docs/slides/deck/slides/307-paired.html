@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>同 fold 配對比較</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+.v{position:absolute;font-size:24px;width:100px;text-align:center}
+.ax{position:absolute;font-size:24px;color:var(--muted)}
+.df{position:absolute;font-size:26px;width:140px;text-align:center;background:var(--paper)}
+.card{position:absolute;left:1230px;width:590px;font-size:26px;line-height:1.45;padding-left:110px}
+.card .h{font-size:30px}
+#avg{position:absolute;left:180px;top:885px;font-size:28px}
+</style></head><body><div class="slide">
+<h1>進步是真的嗎？同 fold 配對比較</h1><p class="lead">平均高 0.010 的做法 B，只在第 13 月大贏，另外兩個月都輸。</p>
+<div class="ax" style="left:110px;top:300px">分數</div>
+<div class="ax" style="left:330px;top:840px">第 13 月</div><div class="ax" style="left:630px;top:840px">第 14 月</div><div class="ax" style="left:930px;top:840px">第 15 月</div>
+<div class="v ind" style="left:220px;top:458px">A 0.400</div><div class="v ver" style="left:220px;top:368px">B 0.440</div>
+<div class="v ind" style="left:616px;top:680px">A 0.250</div><div class="v ver" style="left:616px;top:790px">B 0.245</div>
+<div class="v ind" style="left:916px;top:680px">A 0.250</div><div class="v ver" style="left:916px;top:790px">B 0.245</div>
+<div class="df ind" style="left:440px;top:420px">+0.040</div><div class="df ver" style="left:740px;top:610px">−0.005</div><div class="df ver" style="left:1040px;top:610px">−0.005</div>
+<div id="avg">平均　A 0.300　B 0.310　→ <b>+0.010，被一個月帶著走</b></div>
+<div class="card" style="top:330px"><div class="h ind">每個 fold 都進步</div>平均進步大於波動 → 穩健，可以採用</div>
+<div class="card" style="top:520px"><div class="h mus">平均進步，但有 fold 退步</div>不能宣稱有效，可能只是某段時間剛好有利</div>
+<div class="card" style="top:710px"><div class="h ver">某一次突然大幅進步</div>先懷疑洩漏</div>
+<div class="read"><em>怎麼讀：</em>月份之間的落差（0.40 vs 0.25）遠大於兩個做法的差距——所以要在同一個月上配對比，看 B 是不是每個月都贏。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const xs=[366,666,966],Y=v=>830-(v-0.2)/0.26*480;
+D.line(200,330,200,830,{strokeWidth:2});D.line(200,830,1120,830,{strokeWidth:2});
+const A=[0.400,0.250,0.250],B=[0.440,0.245,0.245];
+D.curve(xs.map((x,i)=>[x,Y(A[i])]),{stroke:D.C.ind,strokeWidth:3,roughness:0.6});
+D.curve(xs.map((x,i)=>[x,Y(B[i])]),{stroke:D.C.ver,strokeWidth:3,roughness:0.6});
+xs.forEach((x,i)=>{D.sq(x-15,Y(A[i])-15,30,'ind',{fillStyle:'solid',strokeWidth:1.6});D.ci(x,Y(B[i]),30,'ver',{strokeWidth:1.6});});
+// 卡片圖示
+D.sq(1240,340,60,'ind',{strokeWidth:2});
+D.tri(1270,555,70,'mus',{strokeWidth:2});
+D.tri(1270,745,70,'ver',{strokeWidth:2});
+</script></body></html>

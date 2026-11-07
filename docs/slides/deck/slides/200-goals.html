@@ -1,0 +1,21 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>第 2 章 探索式資料分析</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.ch{font-size:40px;color:var(--ver)}#goals{position:absolute;left:1010px;top:110px;width:800px}#goals li{margin:18px 0}
+.case{position:absolute;left:150px;top:868px;width:1640px;font-size:30px;line-height:1.5}</style></head><body><div class="slide">
+  <div class="abs ch" style="left:110px;top:100px">第 2 章</div>
+  <h1 class="abs xl" style="left:110px;top:150px">探索式資料分析</h1>
+  <p class="abs lead" style="left:110px;top:300px;width:800px;margin:0">EDA 是為了<b>做決定</b>而減少不確定，不是為了畫圖。沒有預期的圖不畫。</p>
+  <div id="goals"><h2>學習目標</h2><ul class="dots" style="margin-top:20px">
+    <li>說明 EDA 的目的，以及「探索」與「驗證」的差別</li>
+    <li>用「由粗到細四層」的順序檢查資料</li>
+    <li>用 5W1H 找切角，並判斷切角好不好</li>
+    <li>用分層比較檢查混雜，說出相關不等於因果的五種陷阱</li>
+    <li>把結果寫成假設卡，轉成 T0 拿得到的特徵</li></ul></div>
+  <div class="case"><span class="mus">本章案例</span>　影音訂閱平台 50 萬名月付會員的退訂：T0＝帳單日前 7 天，整體退訂率約 6%。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+D.ci(330,640,360,'ver',{fillStyle:'hachure',strokeWidth:2.5});
+D.ci(620,760,90,'#f7d6cf',{fillStyle:'solid',stroke:D.C.ver,strokeWidth:3});
+D.dash(500,700,575,740);
+D.rect(110,840,1700,110,'#f7e7c0',{fillStyle:'solid',stroke:'#b98a12',strokeWidth:3});
+</script></body></html>

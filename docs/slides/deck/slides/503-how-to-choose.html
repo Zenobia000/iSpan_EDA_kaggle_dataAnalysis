@@ -1,0 +1,27 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>五個問題選模型</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+.rq{position:absolute;left:200px;width:430px;font-size:28px}
+.ra{position:absolute;left:680px;width:560px;font-size:26px;color:var(--muted)}
+.hd{position:absolute;font-size:24px;color:var(--muted);top:300px}
+#res{position:absolute;left:1440px;top:470px;width:320px;text-align:center;font-size:34px;line-height:1.4}
+#res2{position:absolute;left:1360px;top:770px;width:470px;font-size:26px;line-height:1.5}
+</style></head><body><div class="slide">
+<h1>讓問題的條件幫你選模型</h1><p class="lead">本章例子：銀行信用卡審核，五個問題逐一回答。</p>
+<div class="hd" style="left:200px">問題</div><div class="hd" style="left:680px">本章例子的答案</div>
+<div class="rq" style="top:355px">資料有多少列、多少欄？</div><div class="ra" style="top:357px">8,000 列、30 欄，屬於小資料</div>
+<div class="rq" style="top:465px">欄位是什麼型態？</div><div class="ra" style="top:467px">多為數值</div>
+<div class="rq ver" style="top:575px">需要解釋到什麼程度？</div><div class="ra" style="top:577px"><b>法規要求說明拒絕理由</b></div>
+<div class="rq" style="top:685px">部署有什麼限制？</div><div class="ra" style="top:687px">批次審核，速度不是問題</div>
+<div class="rq" style="top:795px">要排序還是機率？</div><div class="ra" style="top:797px">用機率訂額度，需要校準</div>
+<div id="res">邏輯迴歸<br>＋分箱<br><span style="font-size:26px">評分卡</span></div>
+<div id="res2">即使梯度提升樹分數略高——<b>最好的模型，是最符合決策需求的模型。</b></div>
+<div class="read"><em>怎麼讀：</em>五條線匯向右邊的圓；決定性的是朱紅那一條——解釋需求一票就決定了答案。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const ys=[375,485,595,705,815];
+ys.forEach((y,i)=>{const red=i===2;
+  D.sq(120,y-25,50,red?'ver':'ind',{strokeWidth:1.6,fillStyle:red?'solid':'hachure'});
+  D.line(1220,y,1430,590,{stroke:red?D.C.ver:D.C.grey,strokeWidth:red?4:2});});
+D.ci(1600,590,330,'#f7e7c0',{fillStyle:'solid',strokeWidth:3});
+</script></body></html>

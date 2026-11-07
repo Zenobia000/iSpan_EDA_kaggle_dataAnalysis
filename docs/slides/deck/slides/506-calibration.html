@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>校準</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+.ax{position:absolute;font-size:24px;color:var(--muted)}
+.sy{position:absolute;font-size:24px;color:var(--muted);border:2px dashed var(--grey);padding:2px 12px}
+.ln{position:absolute;font-size:26px;background:var(--paper)}
+.blk{position:absolute;left:1060px;width:760px;font-size:26px;line-height:1.5}
+.blk .h{font-size:30px;color:var(--ink)}
+.wh{position:absolute;width:330px;font-size:26px;line-height:1.45;text-align:center}
+</style></head><body><div class="slide">
+<h1>校準：模型說 30%，真的是 30% 嗎？</h1><p class="lead">排序準不代表機率準：它說 30% 的那群人，實際違約率可能是 50%。</p>
+<div class="sy" style="left:620px;top:300px">示意</div>
+<div class="ax" style="left:110px;top:300px">實際違約率</div><div class="ax" style="left:470px;top:885px">模型預測機率 →</div>
+<div class="ax" style="left:160px;top:845px">0%</div><div class="ax" style="left:670px;top:845px">100%</div>
+<div class="ln mut" style="left:560px;top:470px">對角線＝完美校準</div>
+<div class="ln ver" style="left:190px;top:515px">說 30%，實際 50%</div>
+<div class="blk" style="top:310px"><div class="h">怎麼檢查</div>依預測機率分成 10 組，比每組「平均預測機率」和「實際違約率」</div>
+<div class="blk" style="top:450px"><div class="h">怎麼修正</div>Platt scaling 或 isotonic regression，把輸出轉換到貼近實際比例</div>
+<div class="h blk" style="top:600px;font-size:30px">什麼時候需要？</div>
+<div class="wh" style="left:1090px;top:800px"><span class="ver">直接用機率數值</span><br>訂價、額度、預期損失<br>→ 需要校準</div>
+<div class="wh" style="left:1460px;top:800px"><span class="ind">只排序取前幾名</span><br>排序正確就夠了</div>
+<div class="read"><em>怎麼讀：</em>點落在對角線上＝說幾 % 就真的幾 %；偏離越遠，機率數字越不能直接拿去訂額度。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const x0=180,y0=840,L=520,P=(p,a)=>[x0+p*L,y0-a*L];
+D.line(x0,y0-L-10,x0,y0,{strokeWidth:2});D.line(x0,y0,x0+L+10,y0,{strokeWidth:2});
+D.dash(...P(0,0),...P(1,1),{stroke:D.C.ink,strokeWidth:2});
+const pts=[[0.05,0.08],[0.15,0.26],[0.3,0.5],[0.45,0.66],[0.6,0.78],[0.8,0.9]];
+D.curve(pts.map(([p,a])=>P(p,a)),{stroke:D.C.ver,strokeWidth:3,roughness:0.6});
+pts.forEach(([p,a])=>D.ci(...P(p,a),20,'ver',{strokeWidth:1.2}));
+D.dash(...P(0.3,0.3),...P(0.3,0.5),{stroke:D.C.ver,strokeWidth:2.4});
+D.ci(...P(0.3,0.3),20,'ind',{strokeWidth:1.2});
+D.line(1000,300,1000,920,{stroke:D.C.grey,strokeWidth:1.4});
+D.ci(1255,720,110,'ver',{strokeWidth:2});D.sq(1570,665,110,'ind',{strokeWidth:2});
+</script></body></html>

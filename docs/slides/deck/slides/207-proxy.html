@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>從機制到代理特徵</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.b{position:absolute;display:flex;flex-direction:column;justify-content:center;text-align:center;font-size:30px;line-height:1.4}
+.y{position:absolute;left:1560px;width:260px;font-size:26px;line-height:1.45}</style></head><body><div class="slide">
+  <h1>T0 拿不到的原因，找代理</h1><p class="lead">最能解釋結果的因素，往往在預測當下還不存在。</p>
+  <div class="abs lbl mut" style="left:150px;top:290px">過去</div>
+  <div class="abs ver" style="left:985px;top:280px;font-size:30px">T0　帳單日前 7 天</div>
+  <div class="abs lbl mut" style="left:1440px;top:290px">帳單日</div>
+  <div class="abs lbl ind" style="left:300px;top:385px">T0 拿得到的代理特徵</div>
+  <div class="abs lbl ver" style="left:1060px;top:385px">T0 拿不到的機制</div>
+  <div class="b" style="left:300px;top:440px;width:560px;height:170px">過去 30 天播放失敗的次數<br>過去 90 天客服紀錄</div>
+  <div class="b" style="left:1060px;top:440px;width:440px;height:170px">接下來會打客服電話<span style="font-size:26px">退訂率高達 <b>40%</b></span></div>
+  <div class="b" style="left:300px;top:680px;width:560px;height:150px">最近 7 天觀看時數<br>vs 過去平均</div>
+  <div class="b" style="left:1060px;top:680px;width:440px;height:150px">接下來不再觀看</div>
+  <div class="y" style="top:490px"><span class="mut">原因</span><br>對服務不滿</div>
+  <div class="y" style="top:715px"><span class="mut">原因</span><br>失去興趣</div>
+  <div class="abs lbl" style="left:885px;top:470px">代理</div><div class="abs lbl" style="left:885px;top:700px">代理</div>
+  <div class="read"><em>怎麼讀：</em>朱紅線右邊的機制不能當輸入，只能拿來理解原因；沿著虛線往左，找一個 T0 拿得到、又和它高度相關的替代品。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+D.arrow(150,335,1780,335,{strokeWidth:2.5});
+D.line(960,270,960,880,{stroke:D.C.ver,strokeWidth:6,roughness:0.8});
+D.rect(300,440,560,170,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:3});
+D.rect(300,680,560,150,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:3});
+D.rect(1060,440,440,170,'#f7d6cf',{fillStyle:'solid',stroke:D.C.ver,strokeWidth:3});
+D.rect(1060,680,440,150,'#f7d6cf',{fillStyle:'solid',stroke:D.C.ver,strokeWidth:3});
+D.cross(1500,440,22);D.cross(1500,680,22);
+[[525],[755]].forEach(([y])=>{D.dash(1055,y,870,y,{strokeWidth:2.5});D.line(870,y,890,y-14,{strokeWidth:2.5});D.line(870,y,890,y+14,{strokeWidth:2.5});});
+</script></body></html>

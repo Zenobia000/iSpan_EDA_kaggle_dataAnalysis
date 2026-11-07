@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>由粗到細四層檢查</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.h{position:absolute;width:370px;height:110px;padding:12px 20px}.h h2{font-size:36px;line-height:1.2}.h p{font-size:24px;color:var(--muted);line-height:1.4}
+.f{position:absolute;top:735px;width:370px;font-size:26px;line-height:1.5}.f i{font-style:normal;display:block;font-size:22px;color:var(--muted)}
+.s{position:absolute;font-size:22px}</style></head><body><div class="slide">
+  <h1>EDA 由粗到細四層</h1><p class="lead">每一層都建立在前一層上：前一層「沒問題」，才進到下一層。</p>
+  <div class="h" style="left:110px;top:290px"><h2>① 單變量</h2><p>資料乾淨嗎？</p></div>
+  <div class="h" style="left:545px;top:290px"><h2>② 目標 × 特徵</h2><p>和退訂有關嗎？</p></div>
+  <div class="h" style="left:980px;top:290px"><h2>③ 分層</h2><p>是不是別的因素造成的？</p></div>
+  <div class="h" style="left:1415px;top:290px"><h2>④ 時間</h2><p>關係穩定嗎？</p></div>
+  <div class="s ver" style="left:130px;top:450px">負數</div><div class="s mut" style="left:330px;top:690px">年資</div>
+  <div class="s" style="left:600px;top:690px">月付高</div><div class="s" style="left:730px;top:690px">月付低</div>
+  <div class="s" style="left:1010px;top:690px">有年約</div><div class="s" style="left:1200px;top:690px">無年約</div>
+  <div class="s ver" style="left:1620px;top:460px">漲價</div><div class="s mut" style="left:1700px;top:690px">月份</div>
+  <div class="s mut" style="left:1760px;top:258px">示意</div>
+  <div class="f" style="left:110px"><i>本案例發現</i>年資有負數；方案價格缺失集中在某個月</div>
+  <div class="f" style="left:545px"><i>本案例發現</i>月付金額高的，退訂率較高</div>
+  <div class="f" style="left:980px"><i>本案例發現</i>控制「是否有年約」後，價格的影響變小</div>
+  <div class="f" style="left:1415px"><i>本案例發現</i>某次漲價後，退訂率整體跳升</div>
+  <div class="read"><em>怎麼讀：</em>由左往右，每格回答一個問題。最常見的錯：跳過 ① 在髒資料上找規律，或停在 ② 把關聯當成原因。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const xs=[110,545,980,1415],fills=['#d9e1ee','#d9e1ee','#d9e1ee','#d9e1ee'];
+xs.forEach((x,i)=>{D.rect(x,290,370,110,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:3});
+  if(i<3)D.arrow(x+378,345,x+428,345,{strokeWidth:3});
+  D.line(x,680,x+370,680);});
+/* ① 直方圖，左邊一根負數 */
+D.dash(190,470,190,680,{stroke:D.C.grey});
+D.rect(135,640,40,40,'ver',{fillStyle:'solid'});
+[60,130,180,150,100,60,30].forEach((h,i)=>D.rect(205+i*38,680-h,30,h,'#c9c3b5',{fillStyle:'solid',strokeWidth:1.5}));
+/* ② 分組 */
+D.rect(600,680-200,80,200,'ver',{fillStyle:'solid'});D.rect(730,680-128,80,128,'grey',{fillStyle:'solid'});
+/* ③ 分層：每層內差距變小 */
+D.rect(1000,680-150,55,150,'ver',{fillStyle:'solid'});D.rect(1060,680-128,55,128,'grey',{fillStyle:'solid'});
+D.rect(1190,680-210,55,210,'ver',{fillStyle:'solid'});D.rect(1250,680-185,55,185,'grey',{fillStyle:'solid'});
+D.line(1157,450,1157,680,{stroke:D.C.ink,strokeWidth:2});
+/* ④ 時間：漲價後跳升 */
+D.curve([[1430,610],[1480,600],[1530,615],[1580,605],[1620,600]],{stroke:D.C.ind,strokeWidth:3});
+D.curve([[1620,520],[1670,510],[1720,525],[1770,515]],{stroke:D.C.ind,strokeWidth:3});
+D.dash(1620,490,1620,680,{stroke:D.C.ver,strokeWidth:2.5});
+</script></body></html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>特徵評估流程</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.n{position:absolute;text-align:center;font-size:28px;line-height:1.35}
+.n small{font-size:22px;color:var(--muted)}
+.yn{position:absolute;font-size:24px}
+.pn{position:absolute;top:760px;width:340px;font-size:24px;line-height:1.45}.pn span{font-size:28px;display:block;margin-bottom:4px}</style></head><body><div class="slide">
+<h1>一個特徵要過哪些關卡</h1><p class="lead">每一道關卡擋一種錯誤：沒有理由的嘗試、雜訊增益、資料洩漏。</p>
+<div class="n" style="left:110px;top:352px;width:260px">寫特徵卡<br><small>理由・定義・T0 可得性</small></div>
+<div class="n" style="left:430px;top:372px;width:200px">做出原型</div>
+<div class="n" style="left:720px;top:368px;width:200px;font-size:26px">每個 fold<br>都進步？</div>
+<div class="n" style="left:1100px;top:368px;width:200px;font-size:26px">偷看未來的<br>檢查通過？</div>
+<div class="n ind" style="left:1530px;top:385px;width:180px">正式採用</div>
+<div class="yn" style="left:965px;top:362px">是</div><div class="yn" style="left:1345px;top:362px">是</div>
+<div class="yn" style="left:835px;top:525px">否</div><div class="yn" style="left:1215px;top:525px">否</div>
+<div class="n" style="left:690px;top:590px;width:260px;font-size:26px">記錄為試過沒用<br>寫下原因</div>
+<div class="n" style="left:1070px;top:590px;width:260px;font-size:26px">洩漏：改找<br>T0 拿得到的替代</div>
+<div class="abs note" style="left:1340px;top:285px;width:170px;text-align:center">擾動測試<br>（第 3 章）</div>
+<div class="pn" style="left:300px"><span>消融實驗</span>一次只加或拿掉一組，切分、模型、參數全部固定</div>
+<div class="pn" style="left:900px"><span>邊際價值</span>已有「過去退貨率」，再加「過去退款金額」——重疊太多，沒有幫助</div>
+<div class="pn" style="left:1480px"><span>置換重要度</span>在<b>驗證集</b>上打亂一欄，看分數掉多少</div>
+<div class="read"><em>怎麼讀：</em>從左上的特徵卡往右走，兩個菱形各擋一種假進步；往下掉的也要寫成紀錄，否則下一次會有人再試一次。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');const sty=(f,c)=>({fillStyle:'solid',stroke:c,strokeWidth:3});
+D.rect(110,340,260,120,'#d9e1ee',sty(0,D.C.ind));D.arrow(372,400,428,400);
+D.rect(430,350,200,100,'#d9e1ee',sty(0,D.C.ind));D.arrow(632,400,700,400);
+D.dia(820,400,230,'#f7e7c0',sty(0,D.C.mus));D.arrow(937,400,1083,400);
+D.dia(1200,400,230,'#f7e7c0',sty(0,D.C.mus));D.arrow(1317,400,1515,400);
+D.ci(1620,400,200,'#d9e1ee',sty(0,D.C.ind));
+D.arrow(820,517,820,578,{stroke:D.C.ver});D.arrow(1200,517,1200,578,{stroke:D.C.ver});
+D.rect(690,580,260,100,'#f7d6cf',sty(0,D.C.ver));D.rect(1070,580,260,100,'#f7d6cf',sty(0,D.C.ver));
+// ablation icon
+[0,1,2,3].forEach(i=>D.sq(115+i*42,770,34,i===3?'mus':'grey',{fillStyle:'solid',strokeWidth:1.6}));
+D.sq(115,820,34,'grey',{fillStyle:'solid',strokeWidth:1.6});D.sq(157,820,34,'grey',{fillStyle:'solid',strokeWidth:1.6});D.sq(199,820,34,'grey',{fillStyle:'solid',strokeWidth:1.6});
+// venn
+D.ci(760,830,130,'ind',{fillStyle:'hachure'});D.ci(820,830,130,'mus',{fillStyle:'hachure'});
+// permutation icon
+D.rect(1320,770,130,120,null);[0,1,2].forEach(i=>D.line(1320,800+i*30,1450,800+i*30,{stroke:D.C.grey,strokeWidth:1.4}));D.rect(1365,770,40,120,'ver',{fillStyle:'hachure'});</script></body></html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>滾動起點回測</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+.d{position:absolute;font-size:22px;color:var(--muted);width:46px;text-align:center;top:300px}
+.row{position:absolute;left:110px;font-size:26px;width:200px;line-height:1.3}
+.sec{position:absolute;font-size:32px}
+.bl{position:absolute;font-size:24px;width:110px;text-align:center}
+.side{position:absolute;left:1440px;width:390px;font-size:26px;line-height:1.5}
+</style></head><body><div class="slide">
+<h1>滾動起點回測</h1><p class="lead">案例 B：假裝站在過去某個週日晚上，只用那天以前的資料，預測接下來 7 天（h = 7）。</p>
+<div class="d" style="left:254px">3 月</div><div id="days"></div>
+<div class="row" style="top:352px">起點 3/3</div><div class="row" style="top:437px">起點 3/10</div><div class="row" style="top:522px">起點 3/17</div>
+<div class="sec" style="left:110px;top:605px">基準：<span class="ind">季節性樸素預測</span>＝照抄上週同一天</div>
+<div class="bl" style="left:170px;top:930px">週一</div><div class="bl" style="left:300px;top:930px">週六</div><div class="bl" style="left:430px;top:930px">週日</div>
+<div class="bl" style="left:740px;top:930px">週一</div><div class="bl" style="left:870px;top:930px">週六</div><div class="bl" style="left:1000px;top:930px">週日</div>
+<div class="bl" style="left:170px;top:672px;width:390px">這週實際銷量</div><div class="bl" style="left:740px;top:672px;width:390px">下週的預測</div>
+<div id="vals"></div>
+<div class="side" style="top:350px">每一次的處境，都和「週日晚上預測下週」一模一樣；把每次的誤差平均，就是評估結果。</div>
+<div class="side" style="top:720px">模型在回測中誤差沒有明顯小於它 → <b>沒學到比「照抄上週」更多的東西。</b></div>
+<div class="read"><em>怎麼讀：</em>朱紅直線是起點，每週往右移一次；方塊是可用的過去，圓形是要預測並比較的 7 天。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const X0=320,W=46,S=34,days=document.getElementById('days');
+for(let d=1;d<=24;d++){if(d%7!==3&&d!==1&&d!==24)continue;const e=document.createElement('div');e.className='d';e.style.left=(X0+(d-1)*W-6)+'px';e.style.top='300px';e.textContent=d;days.appendChild(e);}
+[3,10,17].forEach((o,i)=>{const y=352+i*85;
+  for(let d=1;d<=24;d++){const x=X0+(d-1)*W;
+    if(d<=o)D.sq(x,y,S,'ind',{strokeWidth:1.4,hachureGap:5});
+    else if(d<=o+7)D.ci(x+S/2,y+S/2,S+4,'ver',{strokeWidth:1.6});
+    else D.ci(x+S/2,y+S/2,7,'grey',{stroke:D.C.grey});}
+  const lx=X0+o*W-6;D.line(lx,y-14,lx,y+S+14,{stroke:D.C.ver,strokeWidth:4});});
+// 季節性樸素
+const base=910,sc=0.5,vals=[120,310,280],vb=document.getElementById('vals');
+vals.forEach((v,i)=>{const h=v*sc;
+  D.rect(190+i*130,base-h,70,h,'ind',{strokeWidth:1.8});
+  D.rect(760+i*130,base-h,70,h,'grey',{strokeWidth:1.8,strokeLineDash:[8,6]});
+  [190,760].forEach(x0=>{const e=document.createElement('div');e.className='bl';e.style.left=(x0+i*130-20)+'px';e.style.top=(base-h-36)+'px';e.textContent=v;vb.appendChild(e);});});
+D.line(160,base,580,base);D.line(730,base,1150,base);
+D.arrow(600,800,710,800,{strokeWidth:2.6});
+D.line(1410,350,1410,940,{stroke:D.C.grey,strokeWidth:1.4});
+</script></body></html>

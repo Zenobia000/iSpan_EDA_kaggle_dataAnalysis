@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>為什麼要學這堂課</title>
+<link rel="stylesheet" href="_base.css">
+<script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script>
+<style>
+.scene{position:absolute;width:760px}
+#s1{left:120px;top:300px} #s2{left:120px;top:660px}
+.scene h3{font-size:40px;margin-bottom:10px}
+.bars{position:absolute;left:560px;top:320px;width:300px;height:230px}
+.quote{font-size:34px;line-height:1.5}
+#core{position:absolute;left:960px;top:300px;width:820px;font-size:46px;line-height:1.5;font-weight:700}
+#steps{position:absolute;left:960px;top:540px;width:860px}
+.step{display:flex;align-items:center;height:96px;font-size:42px}
+.step b{display:inline-flex;width:70px;height:70px;align-items:center;justify-content:center;font-size:34px;margin-right:28px}
+.lbl{position:absolute;font-size:24px;color:#4a5878}
+</style></head><body><div class="slide">
+<h1><span class="hl">為什麼</span>要學這堂課</h1>
+
+<div class="scene" id="s1"><h3>場景一</h3><p class="quote">驗證時分數很漂亮，<br>上線後卻完全失靈。</p></div>
+<div class="lbl" style="left:590px;top:560px">驗證時</div><div class="lbl" style="left:735px;top:560px">上線後</div>
+
+<div class="scene" id="s2"><h3>場景二</h3><p class="quote">主管問：「為什麼選這些特徵？」<br>「這個進步不是運氣嗎？」</p></div>
+
+<div id="core">你知道<span class="hl">怎麼做</span>，<br>卻不一定知道<span class="pink">為什麼</span>。</div>
+
+<div id="steps">
+ <div class="small" style="margin-bottom:14px">這門課補的是「為什麼」——大道至簡，四步：</div>
+ <div class="step"><b>1</b>問題定對</div>
+ <div class="step"><b>2</b>切分做對</div>
+ <div class="step"><b>3</b>特徵講得出理由</div>
+ <div class="step"><b>4</b>模型最後才挑</div>
+</div>
+</div>
+<svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>
+const rc=rough.svg(document.getElementById('r')), s=document.getElementById('r');
+const ink='#1d2b4f';
+const add=n=>s.appendChild(n);
+// scene frames
+add(rc.rectangle(100,280,800,320,{stroke:ink,strokeWidth:2.2,roughness:1.6}));
+add(rc.rectangle(100,640,800,240,{stroke:ink,strokeWidth:2.2,roughness:1.6}));
+// mini bar chart: tall vs short (no numbers)
+add(rc.line(570,550,860,550,{stroke:ink,strokeWidth:2}));
+add(rc.rectangle(590,340,90,210,{fill:'#7fa7e0',fillStyle:'hachure',hachureGap:9,stroke:ink,strokeWidth:2}));
+add(rc.rectangle(735,470,90,80,{fill:'#ff8fab',fillStyle:'hachure',hachureGap:9,stroke:ink,strokeWidth:2}));
+add(rc.curve([[700,330],[760,300],[800,420]],{stroke:'#d6336c',strokeWidth:2.4}));
+add(rc.line(800,420,786,402,{stroke:'#d6336c',strokeWidth:2.4}));add(rc.line(800,420,808,398,{stroke:'#d6336c',strokeWidth:2.4}));
+// arrow from scenes to core
+add(rc.curve([[910,460],[935,430],[950,400]],{stroke:ink,strokeWidth:2.4}));
+// step circles + connecting path
+const ys=[640,736,832,928];
+ys.forEach(y=>add(rc.circle(995,y,72,{stroke:ink,strokeWidth:2.4,fill:'#ffe45c',fillStyle:'solid'})));
+for(let i=0;i<3;i++) add(rc.line(995,ys[i]+38,995,ys[i+1]-38,{stroke:ink,strokeWidth:2}));
+</script></body></html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>先備：一對多合併</title><link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.cell{position:absolute;font-size:26px;text-align:center;width:150px}.cap{position:absolute;font-size:30px}</style></head><body><div class="slide">
+<h1>最常見的錯：一對多合併</h1><p class="lead">一筆訂單有 3 列商品明細。直接合併再加總金額，這筆訂單會被算 3 次。</p>
+<div class="cap ver" style="left:110px;top:330px">錯誤：先合併再加總</div><div class="cap ind" style="left:1010px;top:330px">正確：先彙總到訂單，再合併</div>
+<div class="cell" style="left:120px;top:425px">訂單<br>1000 元</div>
+<div class="cell" style="left:450px;top:400px">商品 A</div><div class="cell" style="left:450px;top:500px">商品 B</div><div class="cell" style="left:450px;top:600px">商品 C</div>
+<div class="cap" style="left:120px;top:760px">加總：<b>3000 元</b>（重複 3 次）</div>
+<div class="cell" style="left:1020px;top:400px">商品 A</div><div class="cell" style="left:1020px;top:500px">商品 B</div><div class="cell" style="left:1020px;top:600px">商品 C</div>
+<div class="cell" style="left:1330px;top:470px;width:220px">訂單層級<br>商品數 3</div><div class="cell" style="left:1620px;top:475px">訂單<br>1000 元</div>
+<div class="cap" style="left:1020px;top:760px">加總：<span class="ind">1000 元</span></div>
+<div class="read"><em>怎麼讀：</em>左邊一個方塊被三條線複製成三份；右邊先把明細收成一個方塊，再一對一合併。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+D.rect(110,420,170,80,'#f7d6cf',{fillStyle:'solid',stroke:D.C.ver,strokeWidth:3});[400,500,600].forEach(y=>{D.rect(440,y-20,170,70,null);D.line(282,460,438,y+15,{stroke:D.C.ver});});
+D.cross(700,520,40);
+[400,500,600].forEach(y=>{D.rect(1010,y-20,170,70,null);D.line(1182,y+15,1330,500);});
+D.rect(1330,455,230,100,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:3});D.arrow(1565,505,1610,505);D.rect(1610,470,170,80,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:3});</script></body></html>

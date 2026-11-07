@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>第 3 章 切分與洩漏</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+#left{position:absolute;left:110px;top:100px;width:820px}
+#left .ch{font-size:44px;color:var(--ver)}
+#left h1{margin-top:6px}
+#right{position:absolute;left:1010px;top:120px;width:800px}
+#right h2{margin-bottom:14px}
+#right li{font-size:30px;line-height:1.5;margin:14px 0}
+#case{position:absolute;left:1010px;top:655px;width:800px;padding:22px 34px;font-size:26px;line-height:1.55}
+#case .t{font-size:30px;margin-bottom:6px}
+</style></head><body><div class="slide">
+<div id="left"><div class="ch">第 3 章</div><h1 class="xl">資料切分<br>與洩漏</h1>
+<p class="lead">驗證要<b>模擬上線那一刻</b>。<br>一句話擋下大多數洩漏：<br>「預測那一刻，這個值存在嗎？」</p></div>
+<div id="right"><h2>學習目標</h2><ul class="dots">
+<li>用「考試」比喻說明訓練、驗證、保留集，以及保留集為什麼只能用一次</li>
+<li>依上線情境選切分方式：新對象用群組、未來事件用時間</li>
+<li>說明滾動起點回測與季節性樸素預測</li>
+<li>用同 fold 配對比較判斷進步是否穩定</li>
+<li>辨識五種洩漏，說明擾動測試與對抗驗證</li></ul></div>
+<div id="case"><div class="t">本章案例</div>
+<span class="ind">A 醫院再入院：</span>病人出院時，預測 30 天內會不會再住院（同一人可能住院很多次）<br>
+<span class="ind">B 門市銷量：</span>每週日晚上，預測下週一到週日每天的銷量</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+D.tri(450,820,330,'mus',{strokeWidth:2.6});
+D.tri(800,900,110,'ver',{strokeWidth:2.2});
+D.rect(1000,640,820,250,'#f7e7c0',{fillStyle:'solid',stroke:D.C.ink,strokeWidth:2.5});
+</script></body></html>

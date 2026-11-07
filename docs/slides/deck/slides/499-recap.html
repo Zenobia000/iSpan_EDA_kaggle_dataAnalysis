@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>第 4 章小結</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>#k{position:absolute;left:110px;top:270px;width:960px}#k li{font-size:28px;line-height:1.5;margin:14px 0}
+.rl{position:absolute;left:1180px;width:110px;font-size:22px}.hd{position:absolute;top:300px;width:110px;text-align:center;font-size:22px}</style></head><body><div class="slide">
+<h1>第 4 章小結</h1>
+<ul class="dots" id="k">
+<li>表格資料上，好特徵通常比換模型有效：把業務知識翻譯成欄位</li>
+<li>前處理配合模型：樹只看順序，不必縮放；線性直接乘權重，要縮放與轉形狀</li>
+<li>高基數目標編碼：一定做 out-of-fold 與平滑，否則就是洩漏或過信小樣本</li>
+<li>歷史特徵要時點正確：只用 T0 前「已被觀察到」的事件、排除自己；新對象給整體平均，不給 0</li>
+<li>判斷價值：一次加一組、看邊際價值、每個 fold 都進步、在驗證集看置換重要度</li></ul>
+<div id="m"></div>
+<div class="next">下一章：模型選擇與評估</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const names=['數值','類別','時間','歷史','多表','文字','地理'],hd=['形狀','編碼','組合','聚合','洩漏'];
+const on=[[1,0,1,0,0],[0,1,0,0,1],[0,1,1,0,0],[0,0,0,1,1],[0,0,0,1,0],[0,1,0,0,1],[0,1,1,1,1]];
+const cs=[['#d9e1ee',D.C.ind],['#f7e7c0',D.C.mus],['#f7d6cf',D.C.ver],['#e3dfd4',D.C.ink]];
+const X0=1300,Y0=345,S=104,H=72;let h='';
+hd.forEach((t,j)=>h+=`<div class="hd" style="left:${X0+j*S-3}px">${t}</div>`);
+names.forEach((n,i)=>{const y=Y0+i*H;h+=`<div class="rl" style="top:${y+18}px">${n}</div>`;
+ on[i].forEach((v,j)=>{const x=X0+j*S;if(j===4){v?D.tri(x+52,y+40,44,'mus'):D.ci(x+52,y+36,9,'grey',{stroke:D.C.grey});return;}
+  v?D.rect(x+8,y+6,88,H-12,cs[j][0],{fillStyle:'solid',stroke:cs[j][1],strokeWidth:2.2}):D.ci(x+52,y+36,9,'grey',{stroke:D.C.grey});});});
+D.line(1180,Y0-4,1820,Y0-4,{strokeWidth:2});
+document.getElementById('m').innerHTML=h;</script></body></html>

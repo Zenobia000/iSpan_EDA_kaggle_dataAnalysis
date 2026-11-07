@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>為什麼要學這堂課</title>
+<link rel="stylesheet" href="_base.css">
+<script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script>
+<style>
+h1{position:absolute;left:110px;top:80px}
+.lab{position:absolute;font-size:28px}
+#q{position:absolute;left:1180px;top:250px;width:640px;font-size:36px;line-height:1.6}
+.st{position:absolute;top:840px;width:330px;text-align:center;font-size:38px}
+#hint{position:absolute;left:110px;top:760px;font-size:28px}
+</style></head><body><div class="slide">
+<h1>為什麼要學這堂課</h1>
+<div class="lab dim" style="left:150px;top:640px">開發時</div>
+<div class="lab y" style="left:770px;top:640px">上線那一刻</div>
+<div class="lab dim" style="left:170px;top:236px">分數</div>
+<div class="lab p" style="left:880px;top:520px">跌下去了</div>
+<div id="q">驗證分數很漂亮，上線卻失靈。<br>主管問：<span class="y">為什麼選這些特徵？</span><br><span class="y">這個進步是運氣嗎？</span><br><br>這門課補的是<span class="p">「為什麼」</span>。</div>
+<div id="hint" class="dim">大道至簡，依序四步：</div>
+<div class="st" style="left:110px">問題定對</div>
+<div class="st" style="left:540px">切分做對</div>
+<div class="st" style="left:970px">特徵講得出理由</div>
+<div class="st" style="left:1400px">模型最後才挑</div>
+</div>
+<svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>
+const rc=rough.svg(document.getElementById('r')),s=document.getElementById('r'),add=n=>s.appendChild(n);
+const chalk='#f2efe6',o={stroke:chalk,strokeWidth:2.6,roughness:2.2,bowing:1.5};
+add(rc.line(150,620,1080,620,o));add(rc.line(150,620,150,250,o));
+add(rc.curve([[160,560],[300,470],[450,380],[600,330],[760,310]],Object.assign({},o,{stroke:'#8fd8cc',strokeWidth:4})));
+add(rc.curve([[760,310],[800,420],[860,560],[1060,590]],Object.assign({},o,{stroke:'#f5a3b5',strokeWidth:4})));
+add(rc.line(770,260,770,620,Object.assign({},o,{stroke:'#f4d35e',strokeLineDash:[12,12]})));
+[110,540,970,1400].forEach((x,i)=>{add(rc.rectangle(x,815,330,100,Object.assign({},o,{stroke:i===1?'#f4d35e':chalk})));
+ if(i<3){add(rc.line(x+340,865,x+420,865,o));add(rc.line(x+420,865,x+402,852,o));add(rc.line(x+420,865,x+402,878,o));}});
+</script></body></html>

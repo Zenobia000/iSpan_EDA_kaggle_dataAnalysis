@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>五種資料洩漏</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+.c{position:absolute;top:560px;width:310px}
+.c .h{font-size:34px;color:var(--ver)}
+.c .s{font-size:24px;line-height:1.5;margin-top:8px;height:150px}
+.c .f{font-size:24px;line-height:1.5;color:var(--ind);margin-top:14px;padding-left:34px;position:relative}
+.c .f::before{content:"";position:absolute;left:0;top:.35em;width:18px;height:18px;background:var(--ind)}
+.t0{position:absolute;font-size:22px;color:var(--ver)}
+</style></head><body><div class="slide">
+<h1>五種資料洩漏</h1><p class="lead">洩漏＝用到上線時拿不到的資訊。它讓<b>每一個 fold 都變好</b>，所以配對比較擋不住。</p>
+<div class="c" style="left:120px"><div class="h">目標洩漏</div><div class="s">用「出院後 30 天內門診次數」預測再入院——它本身就是結果的一部分</div><div class="f">每個欄位標記 T0 之前或之後才知道</div></div>
+<div class="c" style="left:460px"><div class="h">時間洩漏</div><div class="s">「過去平均住院天數」用了全部資料，含這次之後的紀錄</div><div class="f">只用 T0 之前，並排除自己</div></div>
+<div class="c" style="left:800px"><div class="h">群組洩漏</div><div class="s">同一位病人的住院紀錄，分散在訓練與驗證兩邊</div><div class="f">群組切分</div></div>
+<div class="c" style="left:1140px"><div class="h">前處理洩漏</div><div class="s">先用全部資料算平均補缺失、做標準化，再切分</div><div class="f">先切分，前處理只用訓練資料算</div></div>
+<div class="c" style="left:1480px"><div class="h">驗證污染</div><div class="s">反覆看保留集調模型；或先在全部資料上挑特徵再做 CV</div><div class="f">保留集只看一次；挑特徵在每個 fold 內做</div></div>
+<div class="t0" style="left:255px;top:300px">T0</div><div class="t0" style="left:595px;top:300px">T0</div>
+<div class="read"><em>怎麼讀：</em>上排圖示都是同一個動作——朱紅的東西越過了它不該越過的線。每一欄最後一行是防法。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const red={stroke:D.C.ver,strokeWidth:3};
+// 1 目標：T0 線右側的圓被拉回來
+D.line(270,340,270,520,red);D.line(130,430,420,430,{stroke:D.C.grey});
+D.sq(160,405,50,'ind',{strokeWidth:1.6});D.ci(360,430,54,'ver');D.arrow(330,470,215,470,red);
+// 2 時間：平均的範圍越過 T0
+D.line(610,340,610,520,red);D.line(470,430,760,430,{stroke:D.C.grey});
+[490,530,570].forEach(x=>D.sq(x,415,30,'ind',{fillStyle:'solid',strokeWidth:1.2}));[650,700].forEach(x=>D.sq(x,415,30,'grey',{fillStyle:'solid',strokeWidth:1.2}));
+D.rect(480,395,265,70,null,{stroke:D.C.ver,strokeWidth:2.6,strokeLineDash:[8,6]});D.cross(705,370,14);
+// 3 群組：同色跨兩邊
+D.rect(820,350,140,150,null,{strokeWidth:2});D.ci(1050,425,150,null,{strokeWidth:2});
+D.ci(870,400,36,'ind');D.ci(910,450,36,'ind');D.ci(1050,425,36,'ind');D.dash(925,445,1030,425,red);
+// 4 前處理：平均框住訓練＋驗證
+D.rect(1160,370,150,110,'ind',{strokeWidth:1.6});D.ci(1380,425,110,'ver',{strokeWidth:1.6});
+D.rect(1150,355,300,140,null,{stroke:D.C.ver,strokeWidth:2.6,strokeLineDash:[8,6]});
+// 5 驗證污染：保留集被反覆看
+D.tri(1640,440,140,'mus',{strokeWidth:2});
+[0,1,2].forEach(k=>D.arrow(1500+k*10,345+k*40,1590,400+k*20,red));
+</script></body></html>

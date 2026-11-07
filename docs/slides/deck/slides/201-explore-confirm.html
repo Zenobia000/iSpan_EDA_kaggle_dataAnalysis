@@ -1,0 +1,27 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>探索與驗證兩階段</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.st{position:absolute;top:290px}.st h2{font-size:44px}.st p{font-size:26px;line-height:1.45;color:var(--muted)}
+.o{position:absolute;font-size:30px;text-align:center;width:220px}</style></head><body><div class="slide">
+  <h1>探索找線索，驗證下結論</h1><p class="lead">兩個階段混在一起做，就容易被巧合騙。中間的門檻是：先寫預期。</p>
+  <div class="st" style="left:110px"><h2>探索</h2><p>資料長什麼樣？哪裡怪怪的？<br>開放、好奇</p></div>
+  <div class="abs lbl mus" style="left:400px;top:680px">產出：線索</div>
+  <div class="abs" style="left:715px;top:395px;width:430px;font-size:36px;color:#b98a12">先寫預期</div>
+  <div class="abs" style="left:715px;top:455px;width:430px;font-size:30px;line-height:1.5">「我預期月繳超過 400 元的會員，退訂率約是其他會員的 <b>1.5 倍</b>。」</div>
+  <div class="st" style="left:1290px"><h2 class="ind">驗證</h2><p>我的猜測對不對？<br>嚴謹、懷疑</p></div>
+  <div class="o" style="left:1430px;top:500px">支持</div><div class="o" style="left:1430px;top:580px">推翻</div><div class="o" style="left:1430px;top:660px">證據不足</div>
+  <div class="abs" style="left:110px;top:790px;width:1700px;font-size:28px;line-height:1.55"><span class="ver">沒寫預期時</span>　結果 1.5 倍 →「果然貴的方案容易退訂」；結果 1.05 倍 →「果然價格不是主因」。怎樣都「果然」，就學不到東西。</div>
+  <div class="read"><em>怎麼讀：</em>左邊散點只是線索；必須經過中間的黃色門檻寫下數字，進到右邊才算結論——被推翻的時候，才是真正學到東西。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+/* 探索：散落的點 */
+let s=11;const r=()=>{s=(s*9301+49297)%233280;return s/233280;};
+for(let i=0;i<34;i++){const x=130+r()*500,y=440+r()*220;D.ci(x,y,14+r()*10,'#c9c3b5',{strokeWidth:1,roughness:0.8});}
+[[260,520],[470,600],[560,470]].forEach(([x,y])=>D.ci(x,y,34,'mus'));
+D.arrow(645,560,690,560,{strokeWidth:3});
+D.rect(700,380,460,300,'#f7e7c0',{fillStyle:'solid',stroke:'#b98a12',strokeWidth:3});
+D.arrow(1170,560,1240,560,{strokeWidth:3});
+D.ci(1540,600,330,null,{stroke:D.C.ind,strokeWidth:3});
+D.rect(1450,500,180,52,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:2});
+D.rect(1450,580,180,52,'#f7d6cf',{fillStyle:'solid',stroke:D.C.ver,strokeWidth:2});
+D.rect(1450,660,180,52,'#e2ddd1',{fillStyle:'solid',strokeWidth:2});
+</script></body></html>

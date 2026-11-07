@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>相關不等於因果的五種陷阱</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.col{position:absolute;top:600px;width:320px}.col h2{font-size:34px}.col p{font-size:26px;line-height:1.5;margin-top:10px}
+.col .k{font-size:26px;color:var(--ind);margin-top:16px}.s{position:absolute;font-size:22px;text-align:center}</style></head><body><div class="slide">
+  <h1>相關不等於因果：五種陷阱</h1><p class="lead">看到兩件事一起變動，先問是不是落入其中一種。</p>
+  <div class="col" style="left:110px"><h2>混雜</h2><p>訂閱意圖同時影響付款方式與退訂</p><div class="k">檢查：分層比較</div></div>
+  <div class="col" style="left:455px"><h2>反向因果</h2><p>很少登入的人容易退訂——也可能是決定退訂的人才不登入</p><div class="k">檢查：看時間先後</div></div>
+  <div class="col" style="left:800px"><h2>選擇偏差</h2><p>只分析填過滿意度問卷的會員，他們本來就比較投入</p><div class="k">檢查：哪些人沒進到資料？</div></div>
+  <div class="col" style="left:1145px"><h2>Simpson 悖論</h2><p>整體看家庭方案退訂率較高，但每個價格帶內都比較低</p><div class="k">檢查：分層後重算</div></div>
+  <div class="col" style="left:1490px"><h2>生態謬誤</h2><p>退訂率高的地區平均年齡較低，不代表年輕人較易退訂</p><div class="k">檢查：回到個人層級</div></div>
+  <div class="s" style="left:470px;top:385px;width:120px">少登入</div><div class="s" style="left:650px;top:385px;width:100px">退訂</div>
+  <div class="s mut" style="left:815px;top:270px;width:300px">全部會員</div><div class="s" style="left:900px;top:448px;width:120px;color:#fff">填問卷</div>
+  <div class="s mut" style="left:1390px;top:300px;width:80px">示意</div>
+  <div class="s mut" style="left:1490px;top:300px;width:170px">地區（群體）</div><div class="s ver" style="left:1700px;top:470px;width:110px">個人？</div>
+  <div class="read"><em>怎麼讀：</em>每個小圖是一種結構。分層之後關聯仍在，也只排除了一個混雜因素——要證明因果，通常需要實驗。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+/* 混雜 */
+D.ci(270,350,70,'ver');D.sq(150,470,60,'ind',{fillStyle:'solid'});D.sq(330,470,60,'ind',{fillStyle:'solid'});
+D.arrow(250,385,190,465,{strokeWidth:2.5});D.arrow(290,385,350,465,{strokeWidth:2.5});D.dash(215,500,325,500,{strokeWidth:2});
+/* 反向因果 */
+D.rect(470,370,120,60,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:2.5});D.rect(650,370,100,60,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:2.5});
+D.arrow(595,400,645,400,{stroke:D.C.grey,strokeWidth:2});D.cross(620,400,14,{strokeWidth:3});
+D.curve([[700,435],[650,500],[540,500],[520,440]],{stroke:D.C.ver,strokeWidth:3});D.line(520,440,508,462,{stroke:D.C.ver,strokeWidth:3});D.line(520,440,538,458,{stroke:D.C.ver,strokeWidth:3});
+/* 選擇偏差 */
+D.ci(960,430,230,null,{strokeWidth:2,stroke:D.C.grey});
+let s=5;const r=()=>{s=(s*9301+49297)%233280;return s/233280;};
+for(let i=0;i<22;i++){const a=r()*6.28,d=40+r()*55;D.ci(960+Math.cos(a)*d,430+Math.sin(a)*d,12,'#c9c3b5',{strokeWidth:1});}
+D.ci(960,460,90,'ind');
+/* Simpson 示意 */
+[[1170,420],[1290,340]].forEach(([x0,y0],g)=>{for(let i=0;i<5;i++)D.ci(x0+i*22,y0+i*14+(i%2)*6,16,g?'mus':'ind');
+  D.line(x0-10,y0-6,x0+100,y0+64,{stroke:g?'#b98a12':D.C.ind,strokeWidth:2.5});});
+D.dash(1160,520,1420,330,{stroke:D.C.ver,strokeWidth:3});
+/* 生態謬誤 */
+D.ci(1560,390,110,'mus',{fillStyle:'hachure'});D.ci(1560,500,90,'grey',{fillStyle:'hachure'});
+D.arrow(1625,445,1715,445,{strokeWidth:2.5});D.ci(1755,445,24,'ver');
+</script></body></html>

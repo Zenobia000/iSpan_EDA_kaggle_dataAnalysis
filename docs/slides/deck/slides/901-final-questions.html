@@ -1,0 +1,8 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>結業三問</title><link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.q{position:absolute;top:300px;width:520px}.q h2{font-size:38px;line-height:1.35;margin:170px 0 20px}.q p{font-size:27px;line-height:1.55}.q .ch{font-size:22px;color:var(--muted);margin-top:10px}</style></head><body><div class="slide">
+<h1>結業三問：你答得出來嗎？</h1>
+<div class="q" style="left:110px"><h2>為什麼選這些特徵？</h2><p>每個特徵都有一張卡：來自哪個假設、預測當下拿得到、加進去每個 fold 都進步。</p><p class="ch">第 2、4 章</p></div>
+<div class="q" style="left:700px"><h2>怎麼證明進步不是運氣？</h2><p>同一個 fold 配對比較，每一次考試都要贏；大幅進步先做擾動測試，排除洩漏。</p><p class="ch">第 3 章</p></div>
+<div class="q" style="left:1290px"><h2>換一批資料，能重現嗎？</h2><p>前處理包在 Pipeline 裡、每次比較都有實驗紀錄、保留集只看一次。</p><p class="ch">第 5、6 章</p></div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');D.sq(110,320,130,'ind');D.ci(765,385,140,'ver');D.tri(1360,400,150,'mus');</script></body></html>

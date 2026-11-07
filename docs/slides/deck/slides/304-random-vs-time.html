@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>隨機切分 vs 時間切分</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+.m{position:absolute;font-size:22px;color:var(--muted);width:90px;text-align:center}
+.cap{position:absolute;left:110px;font-size:32px;width:200px;line-height:1.35}
+.side{position:absolute;left:1510px;width:310px;font-size:26px;line-height:1.5}
+.tag{position:absolute;font-size:24px;background:var(--paper);padding:0 6px}
+</style></head><body><div class="slide">
+<h1>隨機切分，讓未來跑進訓練集</h1><p class="lead">醫院要預測<b>下個月</b>出院病人的再入院風險。同一年的資料，兩種切法（月份分配為示意）：</p>
+<div id="ms"></div>
+<div class="cap ver" style="top:420px">隨機切分</div>
+<div class="cap ind" style="top:740px">時間切分</div>
+<div class="tag ver" style="left:1190px;top:345px">12 月流感爆發</div>
+<div class="tag" style="left:860px;top:610px">拿「未來」去猜「過去」</div>
+<div class="side" style="top:395px">模型學到「冬天再入院率高」，剛好拿來猜 3 月——猜得很準。<br><b>上線時，它不可能事先知道下一次流感。</b></div>
+<div class="side" style="top:720px">每一個驗證月，模型只看得到它之前的資料——和上線時的處境一樣。</div>
+<div class="tag" style="left:930px;top:850px">→ 時間只往一個方向</div>
+<div class="read"><em>怎麼讀：</em>看圓形（驗證）的位置：上排它散在方形（訓練）中間，下排它永遠在方形的右邊。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const X0=330,W=96,S=56;
+const ms=document.getElementById('ms');
+for(let m=1;m<=12;m++){const d=document.createElement('div');d.className='m';d.style.left=(X0+(m-1)*W-17)+'px';d.style.top='300px';d.textContent=m+' 月';ms.appendChild(d);}
+const sq=(m,y)=>D.sq(X0+(m-1)*W,y,S,'ind',{strokeWidth:1.8,hachureGap:6});
+const ci=(m,y)=>D.ci(X0+(m-1)*W+S/2,y+S/2,S+8,'ver',{strokeWidth:2});
+// 隨機
+const val=[3,6,9];
+for(let m=1;m<=12;m++){ if(val.includes(m)) ci(m,420); else sq(m,420); }
+D.rect(X0+11*W-8,412,S+16,S+16,null,{stroke:D.C.ver,strokeWidth:3});
+D.curve([[X0+11*W+S/2,490],[X0+7*W,600],[X0+2*W+S/2,490]],{stroke:D.C.ver,strokeWidth:2.6});
+D.arrow(X0+2*W+S/2+40,520,X0+2*W+S/2+6,492,{stroke:D.C.ver,strokeWidth:2.6});
+D.cross(825,628,16);
+// 時間
+for(let m=1;m<=12;m++){ if(m>=10) ci(m,740); else sq(m,740); }
+D.dash(X0+9*W-20,700,X0+9*W-20,830,{stroke:D.C.ink,strokeWidth:2.4});
+D.arrow(X0,870,X0+12*W-30,870,{strokeWidth:2.2});
+D.line(1480,360,1480,920,{stroke:D.C.grey,strokeWidth:1.4});
+</script></body></html>

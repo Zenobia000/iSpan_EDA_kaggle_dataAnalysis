@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>兩種基準模型</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.card{position:absolute;top:610px;width:470px}.card h2{font-size:36px}.card p{font-size:26px;line-height:1.5;color:var(--muted);margin-top:6px}
+.q{position:absolute;width:470px;text-align:center;font-size:32px;top:812px}.v{position:absolute;font-size:26px;text-align:center;width:120px}</style></head><body><div class="slide">
+  <h1>沒有基準，分數沒有意義</h1><p class="lead">基準有兩種，各自回答一個不同的問題。</p>
+  <div class="card" style="left:130px"><h2>不學習的基準</h2><p>每個品項都給相同分數（等於整體缺貨率）</p></div>
+  <div class="card" style="left:680px"><h2 class="mus">簡單規則</h2><p>業務現在就在用的：「昨天庫存最低的 20 個」</p></div>
+  <div class="q" style="left:130px">「做模型值得嗎？」</div>
+  <div class="q" style="left:680px">「我們的努力值得嗎？」</div>
+  <div class="abs" style="left:1290px;top:300px;font-size:32px">PR-AUC 0.25，算好嗎？</div>
+  <div class="v" style="left:1290px;top:830px">基準</div><div class="v" style="left:1420px;top:830px">模型</div>
+  <div class="v" style="left:1580px;top:830px">基準</div><div class="v" style="left:1710px;top:830px">模型</div>
+  <div class="v" style="left:1290px;top:520px">0.22</div><div class="v" style="left:1420px;top:480px">0.25</div>
+  <div class="v" style="left:1580px;top:735px">0.03</div><div class="v" style="left:1710px;top:480px">0.25</div>
+  <div class="abs lbl ver" style="left:1300px;top:380px;width:260px">只多 0.03</div>
+  <div class="abs lbl ind" style="left:1590px;top:380px;width:240px">巨大的進步</div>
+  <div class="read"><em>怎麼讀：</em>右邊同一個 0.25，換一個基準，意義完全不同。模型至少要明顯贏過「庫存最低」規則，才有理由取代它。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+/* 不學習：全部一樣高 */
+for(let i=0;i<8;i++)D.rect(140+i*56,470,38,100,'grey',{fillStyle:'solid',strokeWidth:1.5});
+D.line(130,570,600,570);
+/* 規則：依昨天庫存排序，最低的幾個被挑中 */
+[150,60,180,40,120,30,170,90].forEach((h,i)=>D.rect(690+i*56,570-h,38,h,h<=60?'#e8b53a':'#d9d3c5',{fillStyle:'solid',strokeWidth:1.5}));
+D.line(680,570,1150,570);
+D.rect(130,795,470,80,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:3});D.rect(680,795,470,80,'#f7e7c0',{fillStyle:'solid',stroke:'#b98a12',strokeWidth:3});
+D.line(1230,300,1230,900,{stroke:D.C.grey,strokeWidth:1.5});
+/* 0.25 的兩種情境：高度依實際數值 */
+const B=820,k=1200;
+D.rect(1310,B-0.22*k,80,0.22*k,'grey',{fillStyle:'solid'});D.rect(1440,B-0.25*k,80,0.25*k,'ind',{fillStyle:'solid'});
+D.rect(1600,B-0.03*k,80,0.03*k,'grey',{fillStyle:'solid'});D.rect(1730,B-0.25*k,80,0.25*k,'ind',{fillStyle:'solid'});
+D.line(1290,B,1830,B);
+</script></body></html>

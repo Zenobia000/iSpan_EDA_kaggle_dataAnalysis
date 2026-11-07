@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>過擬合差距</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+.ax{position:absolute;font-size:24px;color:var(--muted)}
+.ln{position:absolute;font-size:26px}
+.sy{position:absolute;font-size:24px;color:var(--muted);border:2px dashed var(--grey);padding:2px 12px}
+.bv{position:absolute;font-size:24px;width:90px;text-align:center}
+.gh{position:absolute;font-size:32px;width:360px;text-align:center}
+.gx{position:absolute;font-size:26px;width:360px;text-align:center;line-height:1.45}
+</style></head><body><div class="slide">
+<h1>過擬合差距：學規律，還是背答案？</h1><p class="lead">過擬合差距＝訓練分數 − 驗證分數。差距大，代表模型把訓練資料的雜訊也背了下來。</p>
+<div class="sy" style="left:860px;top:310px">示意</div>
+<div class="ax" style="left:110px;top:300px">分數</div><div class="ax" style="left:700px;top:880px">模型越來越複雜 →</div>
+<div class="ln ind" style="left:820px;top:378px">訓練</div><div class="ln ver" style="left:820px;top:712px">驗證</div>
+<div class="ln" style="left:600px;top:540px;background:var(--paper)">差距</div>
+<div class="bv" style="left:1085px;top:649px">0.35</div><div class="bv" style="left:1195px;top:664px">0.32</div>
+<div class="bv" style="left:1435px;top:424px">0.80</div><div class="bv" style="left:1545px;top:674px">0.30</div>
+<div class="gh ind" style="left:1050px;top:870px">健康：差距 0.03</div>
+<div class="gh ver" style="left:1400px;top:870px">背答案：差距 0.50</div>
+<div class="ax" style="left:1090px;top:330px;width:700px"><span class="ind">靛藍＝訓練分數</span>　<span class="ver">朱紅＝驗證分數</span></div>
+<div class="read"><em>怎麼讀：</em>左圖兩條線分開的地方就是背答案的開始；換模型時，驗證分數只高一點、差距卻大很多，這個進步通常不穩定。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+D.line(180,330,180,860,{strokeWidth:2});D.line(180,860,960,860,{strokeWidth:2});
+D.curve([[200,780],[350,640],[500,520],[650,440],[800,400]],{stroke:D.C.ind,strokeWidth:3.5,roughness:0.6});
+D.curve([[200,800],[350,690],[460,650],[600,690],[800,730]],{stroke:D.C.ver,strokeWidth:3.5,roughness:0.6});
+D.dash(650,445,650,685,{stroke:D.C.ink,strokeWidth:2});
+// 右：差距柱
+const base=860,k=500,bar=(x,v,sq)=>{const h=v*k;sq?D.rect(x,base-h,70,h,'ind',{strokeWidth:1.8}):D.rect(x,base-h,70,h,'ver',{strokeWidth:1.8,fillStyle:'solid'});};
+bar(1095,0.35,1);bar(1205,0.32,0);bar(1445,0.80,1);bar(1555,0.30,0);
+D.line(1070,base,1310,base);D.line(1420,base,1660,base);
+D.rect(1415,base-0.80*k,250,0.50*k,null,{stroke:D.C.ver,strokeWidth:2.4,strokeLineDash:[8,6]});
+</script></body></html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>多層防線</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.nm{position:absolute;top:625px;width:290px;text-align:center;font-size:30px}
+.ok,.no{position:absolute;width:290px;text-align:center;font-size:24px;line-height:1.4}
+.ok{top:690px;color:var(--ind)}.no{top:790px;color:var(--ver)}
+.rk{position:absolute;left:110px;font-size:24px;color:var(--muted)}</style></head><body><div class="slide">
+<h1>規範制度化：疊好幾層防線</h1><p class="lead">口頭提醒靠「記得」，不可靠；把規則變成會自動執行的機制，每一層擋不同的錯。</p>
+<div class="abs lbl ver" style="left:110px;top:300px">錯誤</div><div class="abs note" style="left:1720px;top:270px">示意</div>
+<div class="rk" style="top:690px">擋得住</div><div class="rk" style="top:790px">擋不住</div>
+<div id="t"></div>
+<div class="read"><em>怎麼讀：</em>錯誤由左往右穿過起司的洞，每一層攔下一部分；最後一層沒有洞——必須是人，因為只有人能判斷業務目標合不合理。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const L=[['書面規範','預設的錯誤行為','遺忘或誤解'],['權限控制','越界的操作<br>（讀答案、改原始資料）','邏輯上的錯誤'],['自動測試','已知類型的錯誤<br>（擾動測試等）','驗證設計本身的錯誤'],['獨立審查','不穩健的增益、<br>可疑的大幅進步','業務目標本身錯了'],['人類裁決','以上所有的<br>漏網之魚','—']];
+const C=[420,730,1040,1350,1660];let h='';
+L.forEach(([n,a,b],i)=>{const c=C[i],last=i===4;
+ h+=`<div class="nm ${last?'ind':''}" style="left:${c-145}px">${n}</div><div class="ok" style="left:${c-145}px">${a}</div><div class="no" style="left:${c-145}px">${b}</div>`;
+ if(last){D.rect(c-35,300,70,300,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:3.5});}
+ else{D.rect(c-28,300,56,300,'#f7e7c0',{fillStyle:'solid',stroke:D.C.mus,strokeWidth:2.5});
+  [[340,22],[450,34],[540,26],[390+i*30,18]].forEach(([y,d])=>D.ci(c,y,d,'#f3efe6',{fillStyle:'solid',stroke:'#c8961a',strokeWidth:1.6}));}
+ // errors approaching this layer: 5-i dots; one stuck at the wall
+ const cnt=5-i,x0=c-150;for(let k=0;k<cnt;k++)D.ci(x0+(k%3)*30,425+Math.floor(k/3)*34+(k%2)*8,22,'ver');
+ D.ci(c-48,505,22,'ver');D.cross(c-48,505,12,{strokeWidth:2,stroke:D.C.ink});});
+D.dash(240,450,1620,450,{stroke:D.C.ver,strokeWidth:1.6});
+document.getElementById('t').innerHTML=h;</script></body></html>

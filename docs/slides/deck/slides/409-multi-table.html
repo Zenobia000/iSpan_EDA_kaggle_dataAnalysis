@@ -1,0 +1,27 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>多表：先聚合再合併</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.it{position:absolute;left:110px;width:200px;text-align:center;font-size:26px}
+.f{position:absolute;left:540px;width:470px;font-size:24px;line-height:1.35}.f span{font-size:28px;display:block}
+.bx{position:absolute;top:745px;width:790px;font-size:26px;line-height:1.5}</style></head><body><div class="slide">
+<h1>多表：一對多，先聚合再合併</h1><p class="lead">明細表一列一個商品；先把它收成「一筆訂單一列」，才能和訂單表對上。</p>
+<div class="abs lbl mut" style="left:110px;top:290px">明細表</div>
+<div class="it" style="top:347px">商品 A</div><div class="it" style="top:447px">商品 B</div><div class="it" style="top:547px">商品 C</div>
+<div class="abs lbl ind" style="left:540px;top:290px">聚合到訂單層級</div>
+<div class="f" style="top:340px"><span>次數</span>這筆訂單有幾個商品</div>
+<div class="f" style="top:420px"><span>加總、平均、最大值</span>總重量、平均單價、最貴商品價格</div>
+<div class="f" style="top:500px"><span>不重複數</span>買了幾種不同的品類</div>
+<div class="f" style="top:580px"><span>主要項目</span>最貴的那個商品的品類</div>
+<div class="abs" style="left:1150px;top:555px;width:200px;text-align:center;font-size:28px">訂單表<br><span class="note">一對一合併</span></div>
+<div class="abs note ver" style="left:1440px;top:420px;width:380px">直接合併：1 筆訂單變 3 列，訂單金額被算 3 次</div>
+<div class="bx" style="left:145px"><span class="ind">文字</span>：先做便宜的——字數、備註有沒有「送禮」；需要再上 TF-IDF、embedding。<br><span class="ver">結帳時不存在的「退貨原因說明」，絕對不能用。</span></div>
+<div class="bx" style="left:1015px"><span class="ind">地理</span>：倉庫到顧客的距離、是否同縣市、區域過去的退貨率（要時點正確）；郵遞區號當高基數類別。</div>
+<div class="read"><em>怎麼讀：</em>三個商品方塊先收進一張藍卡，再和訂單表一對一合併；右上的叉是跳過聚合的後果。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+[340,440,540].forEach(y=>{D.rect(110,y,200,62,null);D.line(312,y+31,520,470,{stroke:D.C.ind});});
+D.rect(520,330,500,330,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:3});
+D.arrow(1030,470,1150,470,{strokeWidth:2.6});
+D.sq(1180,400,140,'ind',{strokeWidth:2.6});
+D.cross(1520,370,26);
+D.rect(120,725,830,190,'#f7e7c0',{fillStyle:'solid',stroke:D.C.mus,strokeWidth:2.5});
+D.rect(990,725,830,190,'#f7e7c0',{fillStyle:'solid',stroke:D.C.mus,strokeWidth:2.5});</script></body></html>

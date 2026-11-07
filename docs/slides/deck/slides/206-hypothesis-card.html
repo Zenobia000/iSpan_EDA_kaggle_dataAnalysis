@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>假設卡範例</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>#card{position:absolute;left:140px;top:295px;width:950px;border-collapse:collapse}
+#card td{font-size:28px;line-height:1.45;padding:16px 10px;vertical-align:top;border-bottom:2px dashed #cfc7b4}#card tr:last-child td{border-bottom:none}
+#card td:first-child{width:235px;white-space:nowrap;color:var(--muted)}.s{position:absolute;font-size:24px;text-align:center;width:150px}</style></head><body><div class="slide">
+  <h1>EDA 的產出是假設卡</h1><p class="lead">每張卡記錄一個假設從預期到結論的完整過程；被推翻的也要留下。</p>
+  <table id="card">
+    <tr><td>假設</td><td>月付金額越高，越容易退訂</td></tr>
+    <tr><td>預期</td><td>高價方案退訂率約是低價的 1.5 倍</td></tr>
+    <tr><td>分組結果</td><td>高價 8.1%（n=120,000）vs 低價 5.2%（n=380,000），<span class="ind">1.56 倍</span></td></tr>
+    <tr><td>分層結果</td><td>控制「是否有年約」後，倍數降為 <b>1.2 倍</b></td></tr>
+    <tr><td>競爭解釋</td><td>高價方案的會員比較常是「為了某部劇才加入」</td></tr>
+    <tr><td>結論</td><td>支持，但影響比預期小</td></tr>
+    <tr><td>T0 可用的特徵</td><td>月付金額、是否有年約</td></tr></table>
+  <div class="abs" style="left:1230px;top:290px;font-size:30px">高價 ÷ 低價 的倍數</div>
+  <div class="s" style="left:1225px;top:445px">1.5</div><div class="s" style="left:1415px;top:430px">1.56</div><div class="s" style="left:1605px;top:505px">1.2</div>
+  <div class="s" style="left:1225px;top:830px">預期</div><div class="s" style="left:1415px;top:830px">分組</div><div class="s" style="left:1605px;top:830px">分層後</div>
+  <div class="abs lbl mut" style="left:1748px;top:570px;width:110px">1 倍<br>沒差別</div>
+  <div class="read"><em>怎麼讀：</em>右邊三根柱子：分組結果幾乎命中預期，但控制年約後縮到 1.2 倍——結論是「支持，但影響比預期小」。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+D.rect(110,280,1010,620,'#f7e7c0',{fillStyle:'solid',stroke:'#b98a12',strokeWidth:3});
+const B=820,k=220;
+D.rect(1250,B-1.5*k,100,1.5*k,null,{strokeWidth:2.5,strokeLineDash:[8,8]});
+D.rect(1440,B-1.56*k,100,1.56*k,'ind',{fillStyle:'solid'});
+D.rect(1630,B-1.2*k,100,1.2*k,'ver',{fillStyle:'solid'});
+D.line(1220,B,1760,B);
+D.dash(1220,B-k,1740,B-k,{stroke:D.C.grey,strokeWidth:2});
+</script></body></html>

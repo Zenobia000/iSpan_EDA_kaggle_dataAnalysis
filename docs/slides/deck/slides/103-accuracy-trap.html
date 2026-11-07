@@ -1,0 +1,27 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>準確率的陷阱</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.big{font-size:72px;line-height:1}.t{position:absolute;font-size:28px;line-height:1.5}</style></head><body><div class="slide">
+  <h1>準確率 97%，一個都沒抓到</h1><p class="lead">少見事件裡，「全部猜不會發生」就能拿高分。</p>
+  <div class="abs lbl" style="left:110px;top:300px">每天 1,000 個品項，其中 <b>30 個</b>會缺貨（3%）</div>
+  <div class="t" style="left:1110px;top:300px">「全部猜不缺貨」的模型</div>
+  <div class="abs" style="left:1110px;top:350px"><span class="big">97%</span><span style="font-size:30px"> 準確率</span></div>
+  <div class="abs ver" style="left:1500px;top:350px"><span class="big">0</span><span style="font-size:30px"> 個抓到</span></div>
+  <div class="t" style="left:1110px;top:530px">店長一天只處理 20 項 → 只看<span class="ind">排在最前面的 20 個</span></div>
+  <div class="abs lbl mut" style="left:1110px;top:660px">模型排出的前 20 名：中 8 個</div>
+  <div class="t" style="left:1110px;top:740px;width:700px"><span class="ind">Precision@20</span> = 8 ÷ 20 = 40%<br><span class="ind">Lift</span> = 40% ÷ 3% ≈ <b>13 倍</b>　<span class="mut" style="font-size:24px">比亂挑好 13 倍</span></div>
+  <div class="read"><em>怎麼讀：</em>左邊 1,000 格裡只有 30 格朱紅；右下 20 格是模型挑的前 20 名，中了 8 格。指標要量的是右下那一排。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+/* 1,000 格：40 × 25 */
+const red=new Set();let s=7;while(red.size<30){s=(s*9301+49297)%233280;red.add(Math.floor(s/233280*1000));}
+const g=document.createElementNS('http://www.w3.org/2000/svg','g');document.getElementById('r').appendChild(g);
+for(let i=0;i<1000;i++){const c=i%40,r=Math.floor(i/40),x=110+c*23,y=355+r*21;
+  const e=document.createElementNS('http://www.w3.org/2000/svg','rect');
+  e.setAttribute('x',x);e.setAttribute('y',y);e.setAttribute('width',18);e.setAttribute('height',16);
+  e.setAttribute('fill',red.has(i)?D.C.ver:'#d9d3c5');g.appendChild(e);}
+D.rect(100,345,940,545,null,{strokeWidth:2});
+D.cross(1700,395,26);
+D.line(1110,480,1810,480,{stroke:D.C.grey});
+/* 前 20 名：8 個命中 */
+for(let i=0;i<20;i++){const x=1110+i*34;D.rect(x,620,26,26,[0,1,3,4,7,10,13,17].includes(i)?D.C.ver:'#d9d3c5',{fillStyle:'solid',strokeWidth:1.2,roughness:0.6});}
+</script></body></html>

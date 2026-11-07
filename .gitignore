@@ -12,3 +12,6 @@ knowledge/.obsidian/plugins/
 knowledge/.trash/
 submissions/*
 !submissions/README.md
+
+# 投影片截圖（可用 docs/slides/deck/shoot.sh 重建）
+docs/slides/deck/shots/

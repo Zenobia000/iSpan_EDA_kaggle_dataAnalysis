@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>依決策型態選指標</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.col{position:absolute;top:580px;width:390px}.col h2{font-size:34px;line-height:1.3}.col .s{font-size:24px;color:var(--muted)}
+.col .u{font-size:28px;line-height:1.4;margin-top:22px}.col .u i{font-style:normal;font-size:24px;display:block;color:var(--ind)}
+.col .x{font-size:26px;margin-top:16px;color:var(--muted)}.col .x i{font-style:normal;color:var(--ver)}</style></head><body><div class="slide">
+  <h1>指標要反映決策</h1><p class="lead">先看決策長哪一種，再挑指標。主指標只能有一個，而且要事先決定。</p>
+  <div class="col" style="left:110px"><h2>挑出前 K 名處理</h2><div class="s">少見事件（缺貨、詐騙）</div>
+    <div class="u"><i>用</i>PR-AUC、Precision@K、Lift</div><div class="x"><i>不要用</i>　準確率</div></div>
+  <div class="col" style="left:540px"><h2>需要可信的機率</h2><div class="s">定價、保險</div>
+    <div class="u"><i>用</i>Log loss、校準曲線</div><div class="x"><i>不要用</i>　只看 AUC</div></div>
+  <div class="col" style="left:970px"><h2>預測數量</h2><div class="s">備貨、排班</div>
+    <div class="u"><i>用</i>MAE、WAPE</div><div class="x"><i>不要用</i>　只看 R²</div></div>
+  <div class="col" style="left:1400px"><h2>錯一邊代價特別高</h2><div class="s">漏診</div>
+    <div class="u"><i>用</i>指定召回率下的精確率、成本加權指標</div><div class="x"><i>不要用</i>　對稱的指標</div></div>
+  <div class="abs lbl ver" style="left:330px;top:318px">前 K</div>
+  <div class="abs lbl mut" style="left:880px;top:300px;width:80px">機率</div>
+  <div class="abs lbl mut" style="left:620px;top:510px">實際發生率</div>
+  <div class="abs lbl ver" style="left:1250px;top:380px;width:120px">差了<br>幾件</div>
+  <div class="abs lbl ver" style="left:1430px;top:335px">漏掉一個</div>
+  <div class="abs lbl mut" style="left:1680px;top:330px">誤報一個</div>
+  <div class="read"><em>怎麼讀：</em>缺貨預警屬第一種：主指標 PR-AUC 當裁判；向店長報告用 Precision@20、Lift@20。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+/* 1 排序清單，前 K 名 */
+[300,270,240,215,190,165,140,115].forEach((w,i)=>D.rect(120,320+i*26,w,18,i<3?D.C.ver:'#d9d3c5',{fillStyle:'solid',strokeWidth:1.2,roughness:0.7}));
+D.line(310,318,320,318,{stroke:D.C.ver});D.line(320,318,320,394,{stroke:D.C.ver,strokeWidth:3});D.line(310,394,320,394,{stroke:D.C.ver});
+/* 2 校準：預測機率 ≈ 實際比例 */
+D.line(600,500,860,500);D.line(600,500,600,300);
+D.dash(600,500,860,300,{stroke:D.C.grey});
+[[640,465],[690,430],[740,395],[790,355],[835,325]].forEach(([x,y])=>D.ci(x,y,26,'ind'));
+/* 3 數量：預測 vs 實際 */
+[[1000,150,120],[1080,200,170],[1160,110,170]].forEach(([x,a,p],i)=>{D.rect(x,500-a,30,a,'ind',{fillStyle:'solid'});D.rect(x+34,500-p,30,p,null,{strokeWidth:2});});
+D.line(980,500,1240,500);
+D.line(1194,330,1240,330,{stroke:D.C.ver,strokeWidth:2});D.line(1194,390,1240,390,{stroke:D.C.ver,strokeWidth:2});D.line(1235,330,1235,390,{stroke:D.C.ver,strokeWidth:3});
+/* 4 不對稱代價：蹺蹺板 */
+D.tri(1600,480,70,'ink');
+D.line(1420,478,1780,402,{strokeWidth:4});
+D.sq(1440,380,90,'ver',{fillStyle:'solid'});
+D.sq(1720,375,30,'grey',{fillStyle:'solid'});
+</script></body></html>

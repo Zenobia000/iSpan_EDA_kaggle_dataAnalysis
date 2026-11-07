@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>平滑：小樣本拉回平均</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.bv{position:absolute;width:140px;text-align:center;font-size:30px}
+.bl{position:absolute;width:140px;text-align:center;font-size:22px;color:var(--muted);top:830px}
+.gl{position:absolute;width:420px;text-align:center;font-size:26px;top:872px}
+#f{position:absolute;left:1270px;top:300px;width:540px;padding:22px 26px;font-size:26px;line-height:1.5}
+.s{position:absolute;left:1270px;width:540px;font-size:26px;line-height:1.5}</style></head><body><div class="slide">
+<h1>平滑：樣本少，就別太相信它</h1><p class="lead">賣過 2 次、退了 1 次，退貨率 50%——很可能只是運氣。</p>
+<div class="bv mut" style="left:290px;top:340px">50%</div><div class="bv ind" style="left:450px;top:628px">16.7%</div>
+<div class="bv mut" style="left:750px;top:513px">30%</div><div class="bv ind" style="left:910px;top:513px">29.8%</div>
+<div class="bl" style="left:290px">原始</div><div class="bl" style="left:450px">平滑後</div><div class="bl" style="left:750px">原始</div><div class="bl" style="left:910px">平滑後</div>
+<div class="gl" style="left:230px">X 冷門：2 筆退 1 筆</div><div class="gl" style="left:690px">Y 熱門：1,000 筆退 300 筆</div>
+<div class="abs lbl ver" style="left:1090px;top:700px">整體 10%</div>
+<div class="abs lbl ver" style="left:80px;top:520px;width:150px;text-align:right">被大幅<br>拉回平均</div>
+<div id="f">平滑後 =<br>（該類退貨數 + m × 整體退貨率）<br>÷（該類訂單數 + m）</div>
+<div class="s" style="top:500px">m = 10：先假設每一類都有 10 筆「平均水準」的虛擬訂單。</div>
+<div class="s" style="top:610px">X：(1 + 10×0.1) ÷ 12 = <span class="ind">16.7%</span><br>Y：(300 + 1) ÷ 1,010 = <span class="ind">29.8%</span></div>
+<div class="s" style="top:730px;font-size:30px">資料越多，<br>越相信它自己的數字。</div>
+<div class="read"><em>怎麼讀：</em>比較兩組「灰柱 → 藍柱」的落差：冷門商品從 50% 掉到虛線附近，熱門商品幾乎不動——平滑只修正樣本少的那一類。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');const B=820,k=520/60;
+const bar=(x,v,c,o)=>D.rect(x,B-v*k,140,v*k,c,o);
+bar(290,50,'grey');bar(450,16.7,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:3});
+bar(750,30,'grey');bar(910,29.8,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:3});
+D.line(240,B,1100,B,{strokeWidth:2.4});
+D.dash(240,B-10*k,1080,B-10*k,{stroke:D.C.ver,strokeWidth:2.4});
+D.curve([[300,B-50*k+10],[250,560],[320,700],[440,B-16.7*k+20]],{stroke:D.C.ver,strokeWidth:2.6});
+D.line(440,B-16.7*k+20,418,B-16.7*k+4,{stroke:D.C.ver,strokeWidth:2.6});D.line(440,B-16.7*k+20,416,B-16.7*k+28,{stroke:D.C.ver,strokeWidth:2.6});
+D.rect(1260,292,560,180,'#f7e7c0',{fillStyle:'solid',stroke:D.C.mus,strokeWidth:3});</script></body></html>

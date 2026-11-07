@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>時間切分</title>
+<link rel="stylesheet" href="_base.css">
+<script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script>
+<style>
+h1{position:absolute;left:110px;top:80px}
+#sub{position:absolute;left:110px;top:185px;font-size:30px}
+.row{position:absolute;left:110px;font-size:30px}
+.lab{position:absolute;font-size:26px}
+#read{position:absolute;left:110px;top:930px;width:1700px;font-size:28px}
+</style></head><body><div class="slide">
+<h1>時間切分：用過去預測未來</h1>
+<p id="sub" class="dim">擴張視窗：訓練每次都從第 1 個月開始，一次比一次多一個月。</p>
+<div class="row" style="top:338px">Fold 1</div><div class="row" style="top:468px">Fold 2</div>
+<div class="row" style="top:598px">Fold 3</div><div class="row y" style="top:728px">保留集</div>
+<div class="lab c" style="left:620px;top:300px">訓練 1–12 月</div>
+<div class="lab c" style="left:660px;top:430px">訓練 1–13 月</div>
+<div class="lab c" style="left:700px;top:560px">訓練 1–14 月</div>
+<div class="lab y" style="left:1290px;top:262px">驗證 13 月</div>
+<div class="lab y" style="left:1375px;top:392px">驗證 14 月</div>
+<div class="lab y" style="left:1425px;top:522px">驗證 15 月</div>
+<div class="lab p" style="left:1590px;top:650px">16–18 月・最後只看一次</div>
+<div class="lab dim" style="left:290px;top:860px">第 1 個月</div><div class="lab dim" style="left:1700px;top:860px">第 18 個月</div>
+<div id="read" class="dim">怎麼讀：驗證點永遠在訓練條的<span class="y">右邊</span>（未來），而保留集排在所有驗證之後——它代表真正的未來。</div>
+</div>
+<svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>
+const rc=rough.svg(document.getElementById('r')),s=document.getElementById('r'),add=n=>s.appendChild(n);
+const chalk='#f2efe6',X0=290,W=85,o={roughness:2,bowing:1.2,strokeWidth:2.4};
+const bar=(y,n)=>add(rc.rectangle(X0,y,n*W,56,Object.assign({},o,{stroke:'#8fd8cc',fill:'#8fd8cc',fillStyle:'hachure',hachureGap:12,fillWeight:2})));
+const val=(y,m)=>add(rc.circle(X0+(m-0.5)*W,y+28,62,Object.assign({},o,{stroke:'#f4d35e',fill:'#f4d35e',fillStyle:'zigzag',hachureGap:8})));
+[[330,12,13],[460,13,14],[590,14,15]].forEach(([y,n,m])=>{bar(y,n);val(y,m);});
+add(rc.rectangle(X0+15*W,720,3*W,56,Object.assign({},o,{stroke:'#f5a3b5',fill:'#f5a3b5',fillStyle:'cross-hatch',hachureGap:12})));
+add(rc.line(X0,830,X0+18*W,830,Object.assign({},o,{stroke:chalk})));
+add(rc.line(X0+18*W,830,X0+18*W-24,816,Object.assign({},o,{stroke:chalk})));add(rc.line(X0+18*W,830,X0+18*W-24,844,Object.assign({},o,{stroke:chalk})));
+for(let m=0;m<=18;m++) add(rc.line(X0+m*W,822,X0+m*W,838,Object.assign({},o,{stroke:chalk,strokeWidth:1.6})));
+add(rc.line(X0+15*W,300,X0+15*W,800,Object.assign({},o,{stroke:'#f5a3b5',strokeLineDash:[10,12]})));
+</script></body></html>

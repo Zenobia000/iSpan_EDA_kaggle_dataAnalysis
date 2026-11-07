@@ -1,0 +1,27 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>第 5 章 模型選擇</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+#left{position:absolute;left:110px;top:100px;width:820px}
+#left .ch{font-size:44px;color:var(--ver)}
+#left h1{margin-top:6px}
+#right{position:absolute;left:1010px;top:120px;width:800px}
+#right h2{margin-bottom:14px}
+#right li{font-size:30px;line-height:1.5;margin:14px 0}
+#case{position:absolute;left:1010px;top:655px;width:800px;padding:22px 34px;font-size:26px;line-height:1.55}
+#case .t{font-size:30px;margin-bottom:6px}
+</style></head><body><div class="slide">
+<div id="left"><div class="ch">第 5 章</div><h1 class="xl">模型選擇<br>與評估</h1>
+<p class="lead">模型是畫龍點睛：<b>先有基準，再談升級。</b><br>在表格資料上，換模型帶來的進步，<br>通常小於一個好特徵。</p></div>
+<div id="right"><h2>學習目標</h2><ul class="dots">
+<li>說明為什麼一定要從基準開始，並建立兩種基準</li>
+<li>用直覺說明線性、決策樹、隨機森林、梯度提升樹、表格基礎模型怎麼運作</li>
+<li>依資料規模、特徵型態、解釋需求與部署限制選模型</li>
+<li>設計公平比較，用過擬合差距與校準檢查可用性</li></ul></div>
+<div id="case"><div class="t">本章案例：銀行信用卡審核</div>
+審核當下（T0）預測申請人 12 個月內會不會違約。<br>約 <span class="ind">8,000 筆</span>歷史申請、<span class="ind">30 個欄位</span>；<br>主管機關要求<b>每一筆拒絕都要能說明理由</b>。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+D.ci(430,800,330,'ver',{fillStyle:'hachure',strokeWidth:2.6});
+D.ci(760,900,100,'ind',{fillStyle:'hachure'});
+D.rect(1000,640,820,290,'#f7e7c0',{fillStyle:'solid',stroke:D.C.ink,strokeWidth:2.5});
+</script></body></html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>擾動測試</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+.st{position:absolute;top:600px;width:300px}
+.st .n{font-size:30px}
+.st .x{font-size:24px;line-height:1.5;color:var(--muted);margin-top:6px}
+.lb{position:absolute;font-size:22px;color:var(--muted)}
+.fx{position:absolute;left:782px;top:400px;width:136px;text-align:center;font-size:28px}
+#logic{position:absolute;left:150px;top:830px;width:1620px;font-size:28px;line-height:1.5}
+</style></head><body><div class="slide">
+<h1>擾動測試：故意竄改未來</h1><p class="lead">合法的特徵只用過去——未來怎麼改，它都不該變。變了，就是偷看了未來。</p>
+<div class="lb" style="left:150px;top:310px">過去</div><div class="lb" style="left:290px;top:310px">未來</div>
+<div class="fx">重算<br>特徵</div>
+<div class="lb" style="left:1100px;top:310px">竄改前</div><div class="lb" style="left:1230px;top:310px">竄改後</div>
+<div class="st" style="left:120px"><div class="n">1 選切點</div><div class="x">切點之後視為「未來」</div></div>
+<div class="st" style="left:460px"><div class="n">2 竄改未來</div><div class="x">打亂數值，或把事件<b>只往更晚</b>移</div></div>
+<div class="st" style="left:780px"><div class="n">3 重算</div><div class="x">重新計算所有特徵</div></div>
+<div class="st" style="left:1100px"><div class="n">4 比對過去列</div><div class="x">切點之前的特徵值必須<b>完全一樣</b></div></div>
+<div class="st" style="left:1480px"><div class="n">5 驗證測試本身</div><div class="x">寫一個故意洩漏的特徵，確認抓得到</div></div>
+<div id="logic">像懷疑學生偷看答案卷，就把答案卷偷偷換掉——他的答案跟著變，就證明他有偷看。<br><span class="note">第 2 步若把事件往前移，未來會跑進過去，連合法特徵也會變，造成誤判。</span></div>
+<div class="read"><em>怎麼讀：</em>由左往右五步；重點在第 4 步的等號——切點之前的值一個都不能動。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const cut=(x)=>D.line(x,350,x,560,{stroke:D.C.ver,strokeWidth:4});
+// 1
+[0,1,2].forEach(k=>D.sq(140,370+k*60,40,'ind',{strokeWidth:1.4}));[0,1,2].forEach(k=>D.ci(320,390+k*60,42,'grey'));cut(250);
+// 2
+[0,1,2].forEach(k=>D.sq(480,370+k*60,40,'ind',{strokeWidth:1.4}));cut(570);
+[[620,410],[680,520],[650,460]].forEach(([x,y])=>D.ci(x,y,42,'ver'));
+D.arrow(610,370,710,370,{stroke:D.C.ver,strokeWidth:2.6});
+// 3
+D.rect(775,385,150,110,'#f7e7c0',{fillStyle:'solid',strokeWidth:2.4});
+D.arrow(730,440,770,440);D.arrow(930,440,1000,440);
+// 4
+[0,1,2].forEach(k=>{D.sq(1110,370+k*60,40,'ind',{strokeWidth:1.4});D.sq(1240,370+k*60,40,'ind',{strokeWidth:1.4});
+  D.line(1172,385+k*60,1208,385+k*60,{strokeWidth:2.6});D.line(1172,397+k*60,1208,397+k*60,{strokeWidth:2.6});});
+// 5
+D.tri(1560,460,140,'mus',{strokeWidth:2});D.ci(1700,450,90,null,{stroke:D.C.ind,strokeWidth:3});
+D.line(1675,450,1695,475,{stroke:D.C.ind,strokeWidth:4});D.line(1695,475,1730,420,{stroke:D.C.ind,strokeWidth:4});
+D.line(110,800,1810,800,{stroke:D.C.grey,strokeWidth:1.4});
+</script></body></html>

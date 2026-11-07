@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>成本結構的轉移</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.bl{position:absolute;width:120px;text-align:center;font-size:24px}
+.tk{position:absolute;top:745px;width:300px;text-align:center;font-size:26px;line-height:1.35}
+.cc{position:absolute;width:100px;text-align:center;font-size:28px}</style></head><body><div class="slide">
+<h1>成本結構的轉移</h1><p class="lead">做出來變便宜了；定義、判斷、承擔的成本沒有變，甚至更高。</p>
+<div class="abs lbl" style="left:1530px;top:268px">過去</div><div class="abs lbl" style="left:1700px;top:268px">AI 時代</div>
+<div id="t"></div>
+<div class="abs" style="left:110px;top:860px;font-size:30px">瓶頸從「做得出來」移到「判斷得出來」——人的時間移到</div>
+<div class="cc" style="left:1250px;top:862px">定義</div><div class="cc" style="left:1430px;top:862px">驗收</div><div class="cc" style="left:1610px;top:862px">裁決</div>
+<div class="read"><em>怎麼讀：</em>每組左灰右彩：前兩組（執行）整根縮下去，後三組（判斷與責任）留在高處——要看的結果變多，判斷的負擔反而變重。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');const B=730,U=105;
+const T=[['寫分析程式',3,1,'高','低'],['跑大量實驗',3,1,'高','低'],['定義問題<br>與成功標準',3,3,'高','仍然高'],['判斷結果<br>是否可信',2,3,'中','更高'],['承擔決策後果',3,3,'高','仍然高']];
+let h='';
+T.forEach(([n,p,a,lp,la],i)=>{const c=300+i*320;
+ D.rect(c-110,B-p*U,100,p*U,'grey',{strokeWidth:2});
+ const col=a===1?'#d9e1ee':'#f7d6cf',st=a===1?D.C.ind:D.C.ver;
+ D.rect(c+10,B-a*U,100,a*U,col,{fillStyle:'solid',stroke:st,strokeWidth:3});
+ h+=`<div class="bl mut" style="left:${c-120}px;top:${B-p*U-38}px">${lp}</div><div class="bl ${a===1?'ind':'ver'}" style="left:${c}px;top:${B-a*U-38}px">${la}</div>`;
+ h+=`<div class="tk" style="left:${c-150}px">${n}</div>`;
+ if(i===3)D.arrow(c+130,B-2*U,c+130,B-3*U+10,{stroke:D.C.ver,strokeWidth:3});});
+document.getElementById('t').innerHTML=h;
+D.line(150,B,1780,B,{strokeWidth:2.4});
+D.rect(1490,270,30,30,'grey');D.rect(1660,270,30,30,'#f7d6cf',{fillStyle:'solid',stroke:D.C.ver,strokeWidth:2.5});
+D.arrow(920,880,1235,880,{stroke:D.C.ind,strokeWidth:2.4});D.arrow(1352,882,1426,882);D.arrow(1532,882,1606,882);[1300,1480,1660].forEach(x=>D.ci(x,882,100,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:3}));</script></body></html>

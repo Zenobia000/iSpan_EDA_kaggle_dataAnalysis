@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>群組 K-fold</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+.cap{position:absolute;font-size:32px}
+.zone{position:absolute;font-size:26px;color:var(--muted)}
+.tk{position:absolute;width:110px;height:56px;line-height:56px;text-align:center;font-size:24px}
+.res{position:absolute;font-size:28px;line-height:1.5;width:760px}
+</style></head><body><div class="slide">
+<h1>新的對象：群組 K-fold</h1><p class="lead">王先生住院 5 次，資料裡就有 5 列。隨機切分會把同一個人拆到兩邊。</p>
+<div class="cap ver" style="left:110px;top:310px">錯誤：隨機切分</div>
+<div class="cap ind" style="left:1010px;top:310px">正確：同一人整組放同一邊</div>
+<div class="zone" style="left:150px;top:385px">訓練</div><div class="zone" style="left:650px;top:385px">驗證</div>
+<div class="zone" style="left:1050px;top:385px">訓練</div><div class="zone" style="left:1550px;top:385px">驗證</div>
+<!-- 左：王 1-3 訓練、王 4-5 驗證 -->
+<div class="tk" style="left:200px;top:460px">王 第1次</div><div class="tk" style="left:200px;top:550px">王 第2次</div><div class="tk" style="left:200px;top:640px">王 第3次</div>
+<div class="tk" style="left:640px;top:510px">王 第4次</div><div class="tk" style="left:640px;top:600px">王 第5次</div>
+<!-- 右：王 1-5 訓練、李 1-3 驗證 -->
+<div class="tk" style="left:1060px;top:440px">王 第1次</div><div class="tk" style="left:1200px;top:440px">王 第2次</div>
+<div class="tk" style="left:1060px;top:530px">王 第3次</div><div class="tk" style="left:1200px;top:530px">王 第4次</div>
+<div class="tk" style="left:1060px;top:620px">王 第5次</div>
+<div class="tk" style="left:1540px;top:465px">李 第1次</div><div class="tk" style="left:1540px;top:555px">李 第2次</div><div class="tk" style="left:1540px;top:645px">李 第3次</div>
+<div class="res" style="left:110px;top:790px">模型在驗證時其實在<b>「認人」</b>：72 歲、糖尿病、常再入院——它見過。分數虛高，上線遇到新病人就掉下來。</div>
+<div class="res" style="left:1010px;top:790px">驗證集裡每一位，模型都沒見過——正好模擬上線遇到新病人。<br><span class="note">群組＝病人 ID／客戶 ID／門市 ID／機台 ID</span></div>
+<div class="read"><em>怎麼讀：</em>看顏色有沒有跨過中線。切分的單位，是上線時「新出現」的那個東西。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const tk=(x,y,c,s)=>D.rect(x,y,110,56,c,{fillStyle:'solid',stroke:s,strokeWidth:2.4});
+const W='#d9e1ee',L='#f7e7c0';
+// 左
+D.rect(140,420,330,330,null,{strokeWidth:2.6});D.ci(695,590,330,null,{strokeWidth:2.6});
+[460,550,640].forEach(y=>tk(200,y,W,D.C.ind));[510,600].forEach(y=>tk(640,y,W,D.C.ind));
+D.line(255,700,695,660,{stroke:D.C.ver,strokeWidth:2.4,strokeLineDash:[8,8]});
+D.cross(870,450,30);
+D.line(910,330,910,940,{stroke:D.C.grey,strokeWidth:1.6});
+// 右
+D.rect(1040,420,330,330,null,{strokeWidth:2.6});D.ci(1595,590,330,null,{strokeWidth:2.6});
+[[1060,440],[1200,440],[1060,530],[1200,530],[1060,620]].forEach(([x,y])=>tk(x,y,W,D.C.ind));
+[465,555,645].forEach(y=>tk(1540,y,L,D.C.mus));
+</script></body></html>
