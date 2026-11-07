@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>好特徵三條件</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.gt{position:absolute;width:360px;text-align:center;font-size:32px}
+.gs{position:absolute;width:360px;text-align:center;font-size:26px;line-height:1.45}
+.gx{position:absolute;width:330px;text-align:center;font-size:24px;line-height:1.45;color:var(--ver)}</style></head><body><div class="slide">
+<h1>好特徵要過三道關</h1><p class="lead">寫不出理由的特徵，就不要做：先寫特徵卡（定義＋理由），再寫程式。</p>
+<div class="abs lbl mut" style="left:110px;top:330px">想到的特徵</div>
+<div class="gt" style="left:420px;top:300px">有來源假設</div><div class="gt" style="left:820px;top:300px">T0 拿得到</div><div class="gt" style="left:1220px;top:300px">邊際有增益</div>
+<div class="gs" style="left:420px;top:575px">說得出「我為什麼<br>覺得它有用」</div>
+<div class="gs" style="left:820px;top:575px">預測當下<br>這個值已經存在</div>
+<div class="gs" style="left:1220px;top:575px">加進既有組合後，<br>真的有穩健的進步</div>
+<div class="gx" style="left:435px;top:732px">沒過：盲目嘗試，<br>增益很可能是巧合</div>
+<div class="gx" style="left:835px;top:732px">沒過：資料洩漏，<br>驗證漂亮、上線崩盤</div>
+<div class="gx" style="left:1235px;top:732px">沒過：系統變複雜，<br>卻沒有價值</div>
+<div class="abs lbl" style="left:1600px;top:560px;width:220px;text-align:center">留下的特徵</div>
+<div class="read"><em>怎麼讀：</em>左邊一堆想法由左往右過關，每一道關往下掉的，都對應一種上線後的代價；能走到最右邊的只剩少數。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+for(let i=0;i<3;i++)for(let j=0;j<3;j++)D.sq(115+j*64,385+i*64,48,'grey',{strokeWidth:1.6});
+D.arrow(320,470,515,470);D.arrow(685,470,910,470);D.arrow(1090,470,1315,470);D.arrow(1485,470,1640,470);
+D.sq(525,395,150,'ind',{strokeWidth:2.8});
+D.tri(1000,488,175,'mus',{strokeWidth:2.8});
+D.ci(1400,470,160,'ver',{strokeWidth:2.8});
+D.sq(1650,410,120,'ind',{fillStyle:'solid',strokeWidth:3});
+[600,1000,1400].forEach(x=>{D.dash(x,665,x,715,{stroke:D.C.ver});D.rect(x-170,722,340,110,'#f7d6cf',{fillStyle:'solid',stroke:D.C.ver,strokeWidth:2.5});});</script></body></html>

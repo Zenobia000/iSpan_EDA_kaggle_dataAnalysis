@@ -1,0 +1,28 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>第 1 章小結</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>#pts{position:absolute;left:110px;top:270px;width:900px}#pts li{margin:20px 0}
+.c{position:absolute;width:200px;height:110px;padding:12px 14px;font-size:22px;line-height:1.35}</style></head><body><div class="slide">
+  <h1>第 1 章小結</h1>
+  <ul class="dots" id="pts">
+    <li>先有決策，才有任務：九個問題的規格表把需求變成預測任務</li>
+    <li>T0 由決策時間決定；資訊能不能用，看「被觀察到」的時間</li>
+    <li>指標反映決策；少見事件不用準確率；主指標只有一個、事先決定</li>
+    <li>沒有基準的分數沒有意義；停止條件在看到結果前寫好</li>
+    <li>用 MECE 議題樹拆到可驗證的小問題，再排優先順序</li></ul>
+  <div class="abs lbl mut" style="left:1140px;top:270px">任務規格表</div>
+  <div class="c" style="left:1140px;top:320px">誰會用？<br>門市店長</div>
+  <div class="c" style="left:1360px;top:320px">何時用？<br>每天 8 點前</div>
+  <div class="c" style="left:1580px;top:320px">什麼決定？<br>緊急調貨</div>
+  <div class="c" style="left:1140px;top:450px">能處理幾件？<br>約 20 項</div>
+  <div class="c" style="left:1360px;top:450px">T0<br>每天 08:00</div>
+  <div class="c" style="left:1580px;top:450px">分析單位<br>門市×品項×天</div>
+  <div class="c" style="left:1140px;top:580px">目標<br>3 天內缺貨</div>
+  <div class="c" style="left:1360px;top:580px">主指標<br>Precision@20</div>
+  <div class="c" style="left:1580px;top:580px">基準<br>庫存最低 20 個</div>
+  <div class="next">下一章：探索式資料分析</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+for(let k=0;k<9;k++){const x=1140+(k%3)*220,y=320+Math.floor(k/3)*130;
+  if(k<4)D.rect(x,y,200,110,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:2.5});
+  else D.rect(x,y,200,110,'#f7e7c0',{fillStyle:'solid',stroke:'#b98a12',strokeWidth:2.5});}
+</script></body></html>

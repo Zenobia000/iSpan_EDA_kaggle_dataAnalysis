@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>序列特徵四種</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.col{position:absolute;top:575px;width:400px}
+.col h2{font-size:34px}.col .w{font-size:26px;line-height:1.45;margin-top:6px}
+.col .e{font-size:24px;line-height:1.45;color:var(--muted);margin-top:10px}
+.col .k{font-size:24px;line-height:1.45;color:var(--ver);margin-top:10px}
+.t0{position:absolute;top:290px;font-size:22px;color:var(--ver)}</style></head><body><div class="slide">
+<h1>序列資料的四種歷史特徵</h1><p class="lead">同一串過去的紀錄，四種「回頭看」的方式；每一種都只能看 T0 左邊。</p>
+<div class="abs note" style="left:1720px;top:250px">示意</div>
+<div class="t0" style="left:432px">T0</div><div class="t0" style="left:862px">T0</div><div class="t0" style="left:1292px">T0</div><div class="t0" style="left:1722px">T0</div>
+<div class="col" style="left:110px"><h2>落後值（lag）</h2><div class="w">往前看第 k 期的值</div><div class="e">例：上週同一天的銷量</div><div class="k">k 必須 ≥ 預測距離：要預測 7 天後，就不能用昨天</div></div>
+<div class="col" style="left:540px"><h2>滾動統計</h2><div class="w">過去一段時間的<br>平均、次數、最大值</div><div class="e">例：過去 30 天的平均消費</div><div class="k">視窗只含 T0 之前，不含當天</div></div>
+<div class="col" style="left:970px"><h2>累計統計</h2><div class="w">從頭到現在的累計</div><div class="e">例：到目前為止的退貨率</div><div class="k">用比率，不用次數（避免漂移）</div></div>
+<div class="col" style="left:1400px"><h2>變化量</h2><div class="w">近期和長期比較</div><div class="e">例：近 30 天消費 ÷ 近 365 天月平均</div><div class="k" style="color:var(--ind)">用來抓「最近變了」</div></div>
+<div class="read"><em>怎麼讀：</em>四張小圖都是同一串紀錄，有顏色的柱子是這個特徵實際用到的部分；朱紅線右邊的，一根都不准碰。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const v=[5,7,4,6,8,5,9,6,7,8],base=530,bw=26,step=34;
+const panel=(x0,pick,extra)=>{v.forEach((h,i)=>{const c=pick(i);D.rect(x0+i*step,base-h*18,bw,h*18,c||'#d8d3c7',{fillStyle:c?'solid':'hachure',stroke:c?D.C.ink:D.C.grey,strokeWidth:c?2:1.4,hachureGap:6});});
+ D.line(x0-10,base,x0+400,base,{strokeWidth:2});D.line(x0+345,320,x0+345,base+15,{stroke:D.C.ver,strokeWidth:3.5});
+ D.rect(x0+355,base-120,40,120,null,{stroke:D.C.ver,strokeWidth:1.4,strokeLineDash:[6,6]});D.cross(x0+375,base-60,12,{strokeWidth:2.5});extra&&extra(x0);};
+panel(110,i=>i===3?D.C.mus:null,x0=>D.curve([[x0+3*step+13,base-6*18-12],[x0+200,330],[x0+335,345]],{stroke:'#c8961a',strokeWidth:2.4}));
+panel(540,i=>i>=5?D.C.ind:null,x0=>{D.line(x0+5*step,base+20,x0+9*step+bw,base+20,{stroke:D.C.ind,strokeWidth:3});});
+panel(970,()=>D.C.ind,x0=>{D.line(x0,base+20,x0+9*step+bw,base+20,{stroke:D.C.ind,strokeWidth:3});});
+panel(1400,i=>i>=7?D.C.ver:D.C.mus,x0=>{D.line(x0+7*step,base+16,x0+9*step+bw,base+16,{stroke:D.C.ver,strokeWidth:3});D.line(x0,base+28,x0+9*step+bw,base+28,{stroke:'#c8961a',strokeWidth:3});});</script></body></html>

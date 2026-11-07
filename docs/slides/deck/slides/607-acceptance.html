@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>驗收三問與可驗收指令</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.q{position:absolute;left:230px;width:650px}.q .t{font-size:28px}.q .b{font-size:24px;color:var(--ver);margin-top:4px}.q .e{font-size:24px;color:var(--muted)}
+.vg{position:absolute;left:1030px;font-size:26px;color:var(--ver)}
+.cl{position:absolute;left:975px;width:830px;padding:12px 20px;font-size:24px;line-height:1.45}
+.hd{position:absolute;top:290px;font-size:30px}
+#pre{position:absolute;left:150px;top:842px;width:1650px;font-size:26px}</style></head><body><div class="slide">
+<h1>驗收思維：面對「進步了」</h1><p class="lead">沒有預期，看到任何結果都會覺得「嗯，合理」——等於幫 AI 蓋章。</p>
+<div class="hd" style="left:110px">固定問三個問題</div><div class="hd" style="left:975px">下可驗收的指令</div>
+<div class="q" style="top:355px"><div class="t">預測那一刻，這些值存在嗎？</div><div class="b">擋：使用未來資訊</div><div class="e">「距今天數」的「今天」是哪一天？</div></div>
+<div class="q" style="top:505px"><div class="t">每一次考試都進步嗎？</div><div class="b">擋：只看平均</div><div class="e">三個月份是不是都進步？</div></div>
+<div class="q" style="top:655px"><div class="t">這個結論會改變什麼決定？</div><div class="b">擋：有統計意義、沒業務意義</div><div class="e">就算準了，客服的挽留做法會不同嗎？</div></div>
+<div class="vg" style="top:350px">「幫我做探索分析」</div>
+<div class="cl" style="top:395px">驗證「最近 30 天沒來店的會員流失率較高」，我預期約 2 倍，請依會員等級分層，並附每組樣本數</div>
+<div class="vg" style="top:515px">「幫我提升分數」</div>
+<div class="cl" style="top:560px">做「會員過去 90 天的來店次數」特徵，和目前最佳組合做同 fold 配對比較</div>
+<div class="vg" style="top:680px">「這樣有洩漏嗎？」</div>
+<div class="cl" style="top:725px">對這組特徵做擾動測試，附上測試輸出</div>
+<div id="pre"><span class="mus">先寫預期，再看結果：</span>開工前寫下「最近 30 天沒來店的會員，流失率大約是其他人的 2 倍」；不符時才會停下來問為什麼。</div>
+<div class="read"><em>怎麼讀：</em>左邊三個圓是每次聽到「進步了」都要問的；右邊紅字是模糊指令，藍框是改寫後可驗收的版本。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+[400,550,700].forEach(y=>D.ci(165,y,90,'ver',{fillStyle:'solid'}));
+[365,530,695].forEach(y=>D.cross(1000,y,11,{strokeWidth:3}));
+[[390,100],[555,100],[720,58]].forEach(([y,h])=>D.rect(970,y,840,h,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:2.5}));
+D.rect(130,828,1690,80,'#f7e7c0',{fillStyle:'solid',stroke:D.C.mus,strokeWidth:2.5});</script></body></html>

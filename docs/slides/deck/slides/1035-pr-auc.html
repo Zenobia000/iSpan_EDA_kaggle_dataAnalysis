@@ -1,0 +1,46 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>PR-AUC 是什麼</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+.cap{position:absolute;font-size:28px}
+.stat{position:absolute;font-size:26px;line-height:1.5}
+.ax{position:absolute;font-size:22px;color:var(--muted)}
+.axq{position:absolute;font-size:22px;line-height:1.4;color:var(--muted)}
+.pt{position:absolute;font-size:24px;line-height:1.35}
+</style></head><body><div class="slide">
+<h1>PR-AUC：門檻一變，曲線多一點</h1>
+<p class="lead">精確率–召回率曲線下的面積：在每一種門檻下，能不能同時「多抓正例」又「少誤報」。越高越好。</p>
+
+<div class="cap" style="left:110px;top:290px">100 筆資料，5 筆是正例（<span class="ver">紅珠</span>）</div>
+<div class="cap" style="left:110px;top:360px">門檻高：挑出 4 顆</div>
+<div class="stat" style="left:560px;top:400px">中 3 顆<br>精確率 <b>75%</b>　召回率 <span class="ind">60%</span></div>
+<div class="cap" style="left:110px;top:560px">門檻低：挑出 20 顆</div>
+<div class="stat" style="left:560px;top:610px">5 顆全中<br>精確率 <b>25%</b>　召回率 <span class="ind">100%</span></div>
+<div class="note" style="left:110px;top:790px;position:absolute;width:820px">心法：像在一袋珠子裡找紅珠。多撿幾顆，可能找齊紅珠，也可能把更多白珠撿進來。</div>
+
+<div class="axq" style="left:1100px;top:252px;width:640px"><span style="color:var(--ink)">精確率</span>：判為正例的，猜對幾成？</div>
+<div class="ax" style="left:1660px;top:880px">召回率</div>
+<div class="axq" style="left:1440px;top:910px;width:400px;text-align:right">真正的正例，抓到幾成？</div>
+<div class="ax" style="left:1040px;top:845px">0</div><div class="ax" style="left:1755px;top:870px">100%</div>
+<div class="pt" style="left:1520px;top:395px">門檻高<br>(60%, 75%)</div>
+<div class="pt" style="left:1560px;top:745px">門檻低 (100%, 25%)</div>
+<div class="pt ver" style="left:1110px;top:775px;font-size:22px">隨機基準＝正例占比 5%</div>
+<div class="pt" style="left:1250px;top:610px;font-size:30px">面積＝PR-AUC</div>
+<div class="ax" style="left:1790px;top:300px">示意</div>
+
+<div class="read"><em>口訣：</em>門檻一變，曲線多一點；隨機基準看正例占比（5%，不是準確率的 95%）；比較模型，要在同一份驗證集上比面積。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+/* 珠子：門檻高挑 4 顆（3 紅 1 白），門檻低挑 20 顆（5 紅 15 白） */
+const bead=(x,y,red)=>D.ci(x,y,34,red?'ver':'#ffffff',{fillStyle:'solid',strokeWidth:1.8});
+[1,1,1,0].forEach((r,i)=>bead(140+i*52,440,r));
+for(let i=0;i<20;i++){const r=[0,3,7,12,16].includes(i);bead(135+(i%10)*39,640+Math.floor(i/10)*46,r);}
+D.line(530,370,530,520,{stroke:D.C.grey});D.line(530,570,530,730,{stroke:D.C.grey});
+/* PR 曲線：x=召回率 0–100% → 1080–1780；y=精確率 0–100% → 860–300 */
+const X=r=>1080+r*7, Y=p=>860-p*5.6;
+D.poly([[X(0),Y(100)],[X(20),Y(100)],[X(40),Y(88)],[X(60),Y(75)],[X(80),Y(52)],[X(100),Y(25)],[X(100),Y(0)],[X(0),Y(0)]],'#f7e7c0',{fillStyle:'hachure',fill:'#e8b53a',hachureGap:9,stroke:'none'});
+D.curve([[X(0),Y(100)],[X(20),Y(100)],[X(40),Y(88)],[X(60),Y(75)],[X(80),Y(52)],[X(100),Y(25)]],{stroke:D.C.ind,strokeWidth:3.5});
+D.arrow(X(0),Y(0),X(100)+40,Y(0));D.arrow(X(0),Y(0),X(0),Y(100)-40);
+D.dash(X(0),Y(5),X(100),Y(5),{stroke:D.C.ver,strokeWidth:2.5});
+D.ci(X(60),Y(75),30,'ver');D.ci(X(100),Y(25),30,'ver');
+D.dash(X(60),Y(75),X(60),Y(0),{stroke:D.C.grey,strokeWidth:1.5});D.dash(X(0),Y(75),X(60),Y(75),{stroke:D.C.grey,strokeWidth:1.5});
+</script></body></html>

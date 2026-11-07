@@ -1,0 +1,14 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>大總結</title><link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.c{position:absolute;top:560px;width:400px}.c h2{font-size:40px;margin-bottom:10px}.c p{font-size:26px;line-height:1.5}.c .ch{font-size:22px;color:var(--muted);margin-top:8px}
+#six{position:absolute;left:110px;top:900px;width:1700px;font-size:30px;padding:22px 30px}</style></head><body><div class="slide">
+<h1>大總結：大道至簡</h1><p class="lead">四步依序走；最後一步，交給人來判斷。</p>
+<div class="c" style="left:110px"><h2 class="ind">問題定對</h2><p>任務由決策決定；<br>EDA 為了做決定而看資料</p><p class="ch">第 1、2 章</p></div>
+<div class="c" style="left:540px"><h2 class="ver">切分做對</h2><p>驗證要模擬上線那一刻：<br>預測那一刻，這個值存在嗎？</p><p class="ch">第 3 章</p></div>
+<div class="c" style="left:970px"><h2 class="mus">特徵講得出理由</h2><p>來源假設、T0 拿得到、<br>邊際真的有增益</p><p class="ch">第 4 章</p></div>
+<div class="c" style="left:1400px"><h2>模型最後才挑</h2><p>先有基準，再談升級；<br>換模型的進步常小於一個好特徵</p><p class="ch">第 5 章</p></div>
+<div id="six">第 6 章：AI 讓實驗變便宜——<b>判斷哪個結果可信</b>，是人最有價值的工作。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+D.sq(190,330,170,'ind');D.ci(705,415,180,'ver');D.tri(1135,430,190,'mus');D.dia(1565,415,180,'ink');
+[[380,415,520,415],[810,415,950,415],[1245,415,1390,415]].forEach(a=>D.arrow(...a));
+D.rect(110,890,1700,90,'#f7e7c0',{fillStyle:'solid',strokeWidth:2.5});</script></body></html>

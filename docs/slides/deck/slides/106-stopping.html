@@ -1,0 +1,34 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>五種停止條件</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.col{position:absolute;top:560px;width:320px}.col h2{font-size:34px}.col .c{font-size:30px;line-height:1.35;margin-top:10px;color:var(--ind)}
+.col .w{font-size:24px;line-height:1.5;color:var(--muted);margin-top:14px}.s{position:absolute;font-size:22px;color:var(--muted)}</style></head><body><div class="slide">
+  <h1>停止條件：開始之前就寫好</h1><p class="lead">看到結果之後才決定要不要停，人很難不被結果影響。</p>
+  <div class="col" style="left:110px"><h2>實驗上限</h2><div class="c">最多 30 次</div><div class="w">試越多次，越容易碰巧試出假的進步</div></div>
+  <div class="col" style="left:455px"><h2>最小有意義增益</h2><div class="c">PR-AUC 進步少於 0.005 不算數</div><div class="w">同一模型換種子跑三次，差距就有 0.005</div></div>
+  <div class="col" style="left:800px"><h2>連續無進展</h2><div class="c">連續 2 輪</div><div class="w">目前的方向已經走到極限</div></div>
+  <div class="col" style="left:1145px"><h2>截止日</h2><div class="c">季底前上線</div><div class="w">業務決策不會無限等待</div></div>
+  <div class="col" style="left:1490px"><h2>提交門檻</h2><div class="c">Lift@20 至少 5 倍，且贏過「庫存最低」規則</div><div class="w">沒達標就不該上線，即使時間到了</div></div>
+  <div class="s" style="left:610px;top:330px">0.253</div><div class="s" style="left:610px;top:394px">0.250</div><div class="s" style="left:610px;top:430px">0.248</div>
+  <div class="s" style="left:470px;top:478px">雜訊帶</div>
+  <div class="s" style="left:1000px;top:330px">2 輪</div>
+  <div class="s" style="left:1300px;top:515px">季底</div>
+  <div class="s" style="left:1700px;top:415px">5 倍</div>
+  <div class="read"><em>怎麼讀：</em>五個圖示是五道關卡，任何一道觸發就停；最後一道「提交門檻」決定的是能不能上線，不是做到哪天。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+/* 1：30 個實驗 */
+for(let i=0;i<30;i++)D.rect(120+(i%6)*44,320+Math.floor(i/6)*40,32,30,'ind',{fillStyle:'solid',strokeWidth:1.2,roughness:0.8});
+/* 2：雜訊帶 */
+D.rect(465,330,130,130,'#f7e7c0',{fillStyle:'solid',stroke:'#b98a12',strokeWidth:2});
+[[500,345],[540,409],[575,445]].forEach(([x,y])=>D.ci(x,y,22,'ind'));
+/* 3：先升後平 */
+D.line(810,500,870,500);D.line(870,500,870,440);D.line(870,440,930,440);D.line(930,440,930,380);D.line(930,380,1090,380,{stroke:D.C.ver,strokeWidth:4});
+D.line(1010,370,1010,390,{stroke:D.C.ver,strokeWidth:3});
+/* 4：日曆 */
+D.rect(1150,320,240,190,null,{strokeWidth:2.5});D.rect(1150,320,240,40,'ink',{fillStyle:'solid'});
+for(let r=0;r<3;r++)for(let c=0;c<5;c++){const x=1162+c*46,y=372+r*42;D.rect(x,y,36,32,(r===2&&c===4)?D.C.ver:'#e2ddd1',{fillStyle:'solid',strokeWidth:1,roughness:0.6});}
+/* 5：門檻 */
+D.dash(1490,420,1700,420,{stroke:D.C.ver,strokeWidth:3});
+D.rect(1540,350,70,160,'ind',{fillStyle:'hachure'});D.line(1490,510,1700,510);
+D.tri(1660,475,50,'mus');
+</script></body></html>

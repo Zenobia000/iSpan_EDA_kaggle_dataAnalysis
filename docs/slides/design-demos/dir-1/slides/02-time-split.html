@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>時間切分</title>
+<link rel="stylesheet" href="_base.css">
+<script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script>
+<style>
+#def{position:absolute;left:120px;top:220px;width:1680px;font-size:34px}
+.row{position:absolute;left:120px;font-size:32px;font-weight:700}
+.m{position:absolute;font-size:22px;color:#4a5878;width:72px;text-align:center}
+#legend{position:absolute;left:120px;top:935px;display:flex;gap:56px;font-size:28px;align-items:center}
+.key{display:inline-block;width:46px;height:30px;vertical-align:middle;margin-right:12px;border:2px solid #1d2b4f;border-radius:4px}
+#read{position:absolute;left:1040px;top:910px;width:780px;font-size:28px;line-height:1.5}
+.note{position:absolute;font-size:28px;color:#d6336c;font-weight:700}
+</style></head><body><div class="slide">
+<h1>時間切分：<span class="hl">用過去預測未來</span></h1>
+<p id="def">擴張視窗：每一次驗證，訓練資料都從起點開始，而且<b>比上一次多一個月</b>。</p>
+<div class="row" style="top:395px">Fold 1</div>
+<div class="row" style="top:505px">Fold 2</div>
+<div class="row" style="top:615px">Fold 3</div>
+<div class="row" style="top:725px">保留集</div>
+<div id="months"></div>
+<div class="m" style="left:200px;top:862px;width:120px;text-align:left">時間</div>
+<div class="note" style="left:1140px;top:300px">訓練越來越長 ↘</div>
+<div class="note" style="left:1520px;top:812px">最後才看一次</div>
+<div id="legend">
+ <span><span class="key" style="background:#7fa7e0"></span>訓練</span>
+ <span><span class="key" style="background:#ffe45c"></span>驗證</span>
+ <span><span class="key" style="background:#ffb3c7"></span>保留集</span>
+ <span><span class="key" style="background:transparent;border-style:dashed"></span>還沒發生</span>
+</div>
+<div id="read"><b>怎麼讀：</b>每一列由左往右都是「早 → 晚」，模型只看得到驗證月份<b>之前</b>的資料——和上線那一刻一樣。</div>
+</div>
+<svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>
+const rc=rough.svg(document.getElementById('r')), s=document.getElementById('r'), ink='#1d2b4f';
+const add=n=>s.appendChild(n);
+const X0=330, W=80, rows=[{t:390,tr:12,v:13},{t:500,tr:13,v:14},{t:610,tr:14,v:15},{t:720,h:[16,17,18]}];
+const months=document.getElementById('months');
+for(let m=1;m<=18;m++){const d=document.createElement('div');d.className='m';d.style.left=(X0+(m-1)*W+4)+'px';d.style.top='340px';d.textContent=m;months.appendChild(d)}
+const cell=(m,y,opt)=>add(rc.rectangle(X0+(m-1)*W+6,y,W-12,64,Object.assign({stroke:ink,strokeWidth:1.8,roughness:1.3},opt)));
+rows.forEach(r=>{
+ for(let m=1;m<=18;m++){
+  if(r.h){ if(r.h.includes(m)) cell(m,r.t,{fill:'#ff8fab',fillStyle:'cross-hatch',hachureGap:10}); else cell(m,r.t,{strokeLineDash:[6,8],stroke:'#9aa6c0'}); continue;}
+  if(m<=r.tr) cell(m,r.t,{fill:'#7fa7e0',fillStyle:'hachure',hachureGap:9});
+  else if(m===r.v) cell(m,r.t,{fill:'#ffe45c',fillStyle:'solid',strokeWidth:2.6});
+  else cell(m,r.t,{strokeLineDash:[6,8],stroke:'#9aa6c0'});
+ }});
+// time arrow
+add(rc.line(X0,880,X0+18*W,880,{stroke:ink,strokeWidth:2.4}));
+add(rc.line(X0+18*W,880,X0+18*W-22,868,{stroke:ink,strokeWidth:2.4}));add(rc.line(X0+18*W,880,X0+18*W-22,892,{stroke:ink,strokeWidth:2.4}));
+// circle holdout
+add(rc.ellipse(X0+16*W,752,3*W+40,110,{stroke:'#d6336c',strokeWidth:2.6,roughness:2}));
+</script></body></html>

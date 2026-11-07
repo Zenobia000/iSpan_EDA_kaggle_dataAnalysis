@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>五種模型的思考方式</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+.c{position:absolute;top:640px;width:320px;text-align:center}
+.c .k{font-size:38px}
+.c .m{font-size:26px;color:var(--muted);margin-top:4px}
+.c .a{font-size:24px;line-height:1.5;margin-top:12px}
+.sm{position:absolute;font-size:22px;color:var(--muted);text-align:center}
+</style></head><body><div class="slide">
+<h1>每種模型，用不同方式思考</h1><p class="lead">不談數學，只看直覺：它把欄位變成預測的方法。</p>
+<div class="c" style="left:110px"><div class="k">加權總和</div><div class="m">線性／邏輯迴歸</div><div class="a">像評分表，每項幾分、加起來<br><span class="ind">容易解釋</span></div></div>
+<div class="c" style="left:450px"><div class="k">是非題</div><div class="m">決策樹</div><div class="a">像醫生問診流程圖<br><span class="ver">一棵樹不穩定</span></div></div>
+<div class="c" style="left:790px"><div class="k">投票</div><div class="m">隨機森林</div><div class="a">問 500 位專家取多數<br><span class="ind">穩、少調參</span></div></div>
+<div class="c" style="left:1130px"><div class="k">接力修正</div><div class="m">梯度提升樹</div><div class="a">作文一稿一稿改<br><span class="ind">表格資料的預設強者</span></div></div>
+<div class="c" style="left:1470px"><div class="k">預訓練通才</div><div class="m">表格基礎模型</div><div class="a">做過上百萬題的考生<br><span class="ind">小資料免調參</span></div></div>
+<div class="sm" style="left:120px;top:545px;width:300px">各欄位×權重 → 分數</div>
+<div class="sm" style="left:460px;top:322px;width:200px">負債收入比 &gt; 0.4？</div>
+<div class="sm" style="left:1150px;top:545px;width:280px">第一稿 → 第二稿 → 第三稿</div>
+<div class="read"><em>怎麼讀：</em>每格上方的圖就是那個模型的「動作」；記住五個詞——加權總和、是非題、投票、接力修正、預訓練通才。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+// 1 加權總和：三根小柱 + 一根總和柱
+[[150,60],[195,100],[240,40]].forEach(([x,h])=>D.rect(x,520-h,32,h,'ind',{strokeWidth:1.4}));
+D.line(290,470,320,470,{strokeWidth:3});D.line(290,482,320,482,{strokeWidth:3});
+D.rect(340,320,50,200,'ind',{fillStyle:'solid',strokeWidth:1.6});
+D.line(140,520,400,520);
+// 2 是非題：菱形樹
+D.dia(540,400,80,'#f7e7c0',{fillStyle:'solid'});D.line(500,400,470,470);D.line(580,400,640,450);
+D.dia(640,470,60,'#f7e7c0',{fillStyle:'solid'});D.line(610,470,590,530);D.line(670,470,700,530);
+D.sq(450,475,40,'grey',{fillStyle:'solid',strokeWidth:1.2});D.sq(572,530,36,'grey',{fillStyle:'solid',strokeWidth:1.2});D.sq(684,530,36,'ver',{fillStyle:'solid',strokeWidth:1.2});
+// 3 投票：很多小方塊投進一個圓
+for(let r=0;r<3;r++)for(let c=0;c<4;c++)D.sq(830+c*42,330+r*42,30,'ind',{fillStyle:'solid',strokeWidth:1.1});
+D.arrow(970,480,990,505,{strokeWidth:2});
+D.ci(1040,520,90,'mus',{strokeWidth:2});
+// 4 接力：三根逐漸變短的「錯誤」柱 + 箭頭
+[[1170,160],[1270,90],[1370,40]].forEach(([x,h],i)=>{D.rect(x,520-h,50,h,'ver',{strokeWidth:1.6});if(i<2)D.arrow(x+60,450,x+90,450,{strokeWidth:2});});
+D.line(1150,520,1440,520);
+// 5 預訓練：大量小格 → 大圓 → 新表
+for(let r=0;r<4;r++)for(let c=0;c<4;c++)D.rect(1490+c*24,350+r*24,18,18,'grey',{fillStyle:'solid',strokeWidth:0.8});
+D.arrow(1600,400,1640,400,{strokeWidth:2});D.ci(1710,400,110,'ind',{strokeWidth:2});
+D.arrow(1710,465,1710,500,{strokeWidth:2});D.rect(1660,505,100,40,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:2});
+[450,790,1130,1470].forEach(x=>D.line(x-10,320,x-10,880,{stroke:D.C.grey,strokeWidth:1.2}));
+</script></body></html>

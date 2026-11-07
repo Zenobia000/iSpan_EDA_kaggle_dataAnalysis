@@ -1,0 +1,23 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>第 6 章小結</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>#k{position:absolute;left:110px;top:270px;width:960px}#k li{font-size:28px;line-height:1.5;margin:14px 0}
+.tk{position:absolute;top:760px;width:130px;text-align:center;font-size:22px;line-height:1.3}</style></head><body><div class="slide">
+<h1>第 6 章小結</h1>
+<ul class="dots" id="k">
+<li>AI 讓執行成本趨近於零；定義問題、判斷證據、承擔決策的成本不變——人的時間移到定義、驗收、裁決</li>
+<li>最危險的是「合理但錯誤」：程式能跑、分數漂亮，但前提錯了</li>
+<li>規範要制度化成多層防線，最後一層必須是人</li>
+<li>開始前、每輪結束、交付時，是三個由人決定的閘門</li>
+<li>紀錄是人與 AI 共享的記憶；先寫預期、固定三問、下可驗收的指令</li></ul>
+<div class="abs lbl mut" style="left:1180px;top:300px">過去</div><div class="abs lbl mut" style="left:1330px;top:300px">AI 時代</div>
+<div id="t"></div>
+<div class="next">下一章：大總結</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');const B=740,U=110;
+const T=[['寫程式',3,1],['跑實驗',3,1],['定義問題',3,3],['判斷可信',2,3],['承擔決策',3,3]];let h='';
+T.forEach(([n,p,a],i)=>{const c=1200+i*130;D.rect(c-50,B-p*U,45,p*U,'grey',{strokeWidth:1.8});
+ D.rect(c+5,B-a*U,45,a*U,a===1?'#d9e1ee':'#f7d6cf',{fillStyle:'solid',stroke:a===1?D.C.ind:D.C.ver,strokeWidth:2.5});
+ h+=`<div class="tk" style="left:${c-65}px">${n}</div>`;});
+D.line(1130,B,1800,B,{strokeWidth:2});
+D.rect(1150,305,22,22,'grey');D.rect(1300,305,22,22,'#f7d6cf',{fillStyle:'solid',stroke:D.C.ver,strokeWidth:2});
+document.getElementById('t').innerHTML=h;</script></body></html>

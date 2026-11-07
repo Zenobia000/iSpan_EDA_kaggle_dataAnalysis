@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>考試比喻：三份資料</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+.col{position:absolute;width:360px;text-align:center;top:620px}
+.col .ex{font-size:30px;color:var(--muted)}
+.col .nm{font-size:44px;margin-top:4px}
+.col .use{font-size:26px;color:var(--muted);margin-top:4px}
+.cnt{position:absolute;width:360px;text-align:center;top:850px;font-size:30px}
+.rowlbl{position:absolute;left:110px;font-size:26px;color:var(--muted);width:150px}
+#why{position:absolute;left:1500px;top:330px;width:330px;padding:26px 28px;font-size:26px;line-height:1.55}
+#why .t{font-size:30px;margin-bottom:8px}
+</style></head><body><div class="slide">
+<h1>三份資料，就像準備考試</h1><p class="lead">練習、模擬、正式上場——用途不同，能看的次數也不同。</p>
+<div class="col" style="left:180px"><div class="ex">課本與習題</div><div class="nm ind">訓練集</div><div class="use">模型拿來學</div></div>
+<div class="col" style="left:620px"><div class="ex">模擬考</div><div class="nm ver">驗證集</div><div class="use">比較做法、挑最好的</div></div>
+<div class="col" style="left:1060px"><div class="ex">正式考試</div><div class="nm mus">保留集</div><div class="use">最後估計上線表現</div></div>
+<div class="rowlbl" style="top:855px">可以看<br>幾次</div>
+<div class="cnt" style="left:180px">無限次</div><div class="cnt" style="left:620px">很多次</div><div class="cnt ver" style="left:1060px">只看一次</div>
+<div id="why"><div class="t">為什麼要三份？</div>試了 50 種做法、挑驗證分數最高的那個——這個最高分有一部分是<b>運氣</b>。<br>需要一份<b>從沒參與挑選</b>的資料，最後給誠實的分數。</div>
+<div class="read"><em>怎麼讀：</em>由左往右，能看的次數越來越少；三角形只能打開一次——看了再回頭改模型，它就變成另一份驗證集。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+D.sq(240,340,240,'ind',{strokeWidth:2.6});
+D.ci(800,460,250,'ver',{strokeWidth:2.6});
+D.tri(1240,480,270,'mus',{strokeWidth:2.6});
+// 次數刻度
+for(let i=0;i<7;i++)D.sq(222+i*30,915,18,'ind',{fillStyle:'solid',strokeWidth:1.4});
+D.line(436,924,470,924,{stroke:D.C.grey,strokeWidth:3,strokeLineDash:[4,8]});
+for(let i=0;i<4;i++)D.ci(745+i*36,924,22,'ver',{strokeWidth:1.4});
+D.tri(1240,928,30,'mus',{strokeWidth:1.6});
+D.dash(150,820,1440,820,{stroke:D.C.grey,strokeWidth:1.6});
+D.rect(1490,320,350,400,'#f7e7c0',{fillStyle:'solid',stroke:D.C.ink,strokeWidth:2.5});
+</script></body></html>

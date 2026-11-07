@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>基準與模型階梯</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+.stp{position:absolute;width:360px;padding:0 22px}
+.stp .h{font-size:32px}
+.stp .x{font-size:24px;line-height:1.45;color:var(--muted);margin-top:4px}
+.q{position:absolute;font-size:26px;line-height:1.45;width:360px}
+.up{position:absolute;font-size:24px;background:var(--paper);width:220px;text-align:center;color:var(--ver)}
+#ex{position:absolute;left:1440px;top:300px;width:380px;font-size:26px;line-height:1.5}
+.bl{position:absolute;font-size:26px;width:120px;text-align:center}
+</style></head><body><div class="slide">
+<h1>先有基準，再一階一階往上爬</h1><p class="lead">每往上一階，都必須穩健地贏過下一階，才值得它帶來的複雜度。</p>
+<div class="stp" style="left:130px;top:700px"><div class="h">① 不學習的基準</div><div class="x">永遠猜整體違約率／平均／上週同一天</div></div>
+<div class="stp" style="left:530px;top:540px"><div class="h">② 邏輯／線性迴歸</div><div class="x">只用原始欄位，不做特徵工程</div></div>
+<div class="stp" style="left:930px;top:380px"><div class="h">③ 梯度提升樹</div><div class="x">LightGBM 等</div></div>
+<div class="up" style="left:560px;top:470px;text-align:left">要贏 ①</div><div class="up" style="left:960px;top:310px;text-align:left">要贏 ②</div>
+<div class="q" style="left:130px;top:880px"><span class="ind">問：</span>這個模型值不值得做？</div>
+<div class="q" style="left:530px;top:880px"><span class="ind">問：</span>特徵工程和複雜模型值不值得做？</div>
+<div class="q" style="left:930px;top:880px"><span class="mut">之後換模型是例外，不是常態</span></div>
+<div id="ex"><span class="ind">0.32 是好是壞？</span><br>違約率 15% 時，不學習的基準 PR-AUC 約 0.15。</div>
+<div class="bl" style="left:1450px;top:860px">基準</div><div class="bl" style="left:1640px;top:860px">模型</div>
+<div class="bl" style="left:1450px;top:675px">0.15</div><div class="bl" style="left:1640px;top:518px">0.32</div>
+<div class="read"><em>怎麼讀：</em>由左下往右上。② 贏不了 ①：資料可能沒訊號，回頭查問題定義；③ 贏不了 ②：留在簡單模型。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const op={fillStyle:'solid',stroke:D.C.ind,strokeWidth:3};
+D.rect(130,680,400,180,'#d9e1ee',op);
+D.rect(530,520,400,340,'#d9e1ee',op);
+D.rect(930,360,400,500,'#d9e1ee',op);
+// 右：0.15 vs 0.32
+D.line(1440,850,1790,850);
+D.rect(1475,850-0.15*900,70,0.15*900,'grey',{strokeWidth:1.8});
+D.rect(1665,850-0.32*900,70,0.32*900,'ind',{strokeWidth:1.8});
+D.line(1410,300,1410,920,{stroke:D.C.grey,strokeWidth:1.4});
+</script></body></html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>決策→任務規格表</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.c{position:absolute;width:320px;height:170px;padding:16px 20px}.c .q{font-size:22px;color:var(--muted);line-height:1.3}.c .a{font-size:30px;line-height:1.35;margin-top:10px}
+.c .n{position:absolute;right:16px;top:12px;font-size:24px;color:var(--muted)}
+.quote{position:absolute;left:150px;top:350px;width:440px;font-size:32px;line-height:1.55}</style></head><body><div class="slide">
+  <h1>從決策倒推任務</h1><p class="lead">模糊需求說出了痛點，卻沒說要預測什麼、何時預測、預測完做什麼。</p>
+  <div class="quote">「每週都有熱門商品缺貨，客人買不到就去別家。能不能用資料提早知道哪些商品<b>快缺貨</b>？」</div>
+  <div class="abs lbl mut" style="left:290px;top:790px">區經理的需求</div>
+  <div class="abs lbl ind" style="left:780px;top:300px">決策（前 4 格）先問</div>
+  <div class="abs lbl mus" style="left:1460px;top:300px">任務（後 5 格）由決策推導</div>
+  <div class="c" style="left:780px;top:345px"><div class="q">誰會用？</div><div class="a">門市店長</div><span class="n">1</span></div>
+  <div class="c" style="left:1120px;top:345px"><div class="q">什麼時候用？</div><div class="a">每天早上 8 點補貨前</div><span class="n">2</span></div>
+  <div class="c" style="left:1460px;top:345px"><div class="q">用來做什麼決定？</div><div class="a">哪些品項要緊急調貨</div><span class="n">3</span></div>
+  <div class="c" style="left:780px;top:535px"><div class="q">一天能處理多少件？</div><div class="a">約 20 個品項</div><span class="n">4</span></div>
+  <div class="c" style="left:1120px;top:535px"><div class="q">預測時點 T0</div><div class="a">每天 08:00</div><span class="n">5</span></div>
+  <div class="c" style="left:1460px;top:535px"><div class="q">分析單位</div><div class="a">門市 × 品項 × 天</div><span class="n">6</span></div>
+  <div class="c" style="left:780px;top:725px"><div class="q">目標</div><div class="a">未來 3 天內是否缺貨（庫存降到 0）</div><span class="n">7</span></div>
+  <div class="c" style="left:1120px;top:725px"><div class="q">主指標</div><div class="a">Precision@20</div><span class="n">8</span></div>
+  <div class="c" style="left:1460px;top:725px"><div class="q">基準</div><div class="a">昨天庫存最低的 20 個品項</div><span class="n">9</span></div>
+  <div class="read"><em>怎麼讀：</em>先填靛色四格（誰、何時、做什麼決定、能處理幾件），黃色五格才由它們推出來——順序反過來，題目就會被資料綁架。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const I=['#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:3}],M=['#f7e7c0',{fillStyle:'solid',stroke:'#b98a12',strokeWidth:3}];
+const xs=[780,1120,1460],ys=[345,535,725];
+for(let k=0;k<9;k++){const x=xs[k%3],y=ys[Math.floor(k/3)],s=k<4?I:M;D.rect(x,y,320,170,s[0],s[1]);}
+/* 對話框 */
+D.rect(120,320,500,380,'#f7d6cf',{fillStyle:'solid',stroke:D.C.ver,strokeWidth:3});
+D.poly([[230,700],[300,700],[250,760]],'#f7d6cf',{stroke:D.C.ver,strokeWidth:3});
+D.ci(220,800,60,'grey');D.poly([[180,880],[260,880],[245,835],[195,835]],'grey');
+D.arrow(640,520,755,520,{strokeWidth:3});
+</script></body></html>

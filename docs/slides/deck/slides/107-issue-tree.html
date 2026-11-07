@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>議題樹與 MECE</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.n{position:absolute;display:flex;align-items:center;justify-content:center;text-align:center;font-size:28px;line-height:1.3}
+.m{position:absolute;left:1310px;width:480px}.m h2{font-size:30px;line-height:1.3}.m p{font-size:24px;line-height:1.4;color:var(--muted)}
+.k{position:absolute;font-size:22px;text-align:center}</style></head><body><div class="slide">
+  <h1>議題樹：把大問題拆到能驗證</h1><p class="lead">每個分支互不重疊、合起來沒有遺漏（MECE），每層 3–4 支。</p>
+  <div class="abs" style="left:470px;top:298px;font-size:28px">庫存 = <span class="ind">期初</span> + <span class="ind">進貨</span> − <span class="ind">銷售</span></div>
+  <div class="n" style="left:125px;top:500px;width:210px;height:200px;font-size:32px">為什麼<br>會缺貨？</div>
+  <div class="n" style="left:470px;top:380px;width:300px;height:90px">期初庫存太少</div>
+  <div class="n" style="left:470px;top:555px;width:300px;height:90px">進貨太晚或太少</div>
+  <div class="n" style="left:470px;top:730px;width:300px;height:90px">賣得比平常快</div>
+  <div class="n" style="left:880px;top:562px;width:260px;height:76px">供應商延遲</div>
+  <div class="n" style="left:880px;top:690px;width:260px;height:76px">促銷・節日</div>
+  <div class="n" style="left:880px;top:800px;width:260px;height:76px">天氣・季節</div>
+  <div class="abs lbl ind" style="left:470px;top:840px;width:330px">第一層＝算式三項：MECE</div>
+  <div class="abs lbl mut" style="left:880px;top:420px;width:300px">往下拆到「用資料就能驗證」</div>
+  <div class="abs" style="left:1310px;top:298px;font-size:30px">三種拆法</div>
+  <div class="m" style="top:370px"><h2 class="ind">公式拆解（本案例）</h2><p>目標可以寫成算式</p></div>
+  <div class="m" style="top:560px"><h2>流程拆解</h2><p>目標是一連串事件的結果</p></div>
+  <div class="m" style="top:750px"><h2>利害關係人拆解</h2><p>結果由多方行為共同決定</p></div>
+  <div class="k" style="left:1300px;top:672px;width:100px">訂貨</div><div class="k" style="left:1420px;top:672px;width:100px">配送</div>
+  <div class="k" style="left:1540px;top:672px;width:100px">上架</div><div class="k" style="left:1660px;top:672px;width:100px">銷售</div>
+  <div class="k" style="left:1560px;top:752px;width:80px">顧客</div><div class="k" style="left:1640px;top:752px;width:90px">供應商</div><div class="k" style="left:1730px;top:752px;width:80px">門市</div>
+  <div class="read"><em>怎麼讀：</em>從左邊的大問題往右，每層更具體；先驗證「影響大、T0 拿得到、驗證後能行動」的那一支，例如「促銷期間缺貨率是否比平常高」。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const I=['#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:3}];
+D.ci(230,600,250,'#f7d6cf',{fillStyle:'solid',stroke:D.C.ver,strokeWidth:3});
+[425,600,775].forEach(y=>{D.line(355,600,470,y,{strokeWidth:2});D.rect(470,y-45,300,90,I[0],I[1]);});
+D.line(770,600,880,600,{strokeWidth:2});D.line(770,775,880,728,{strokeWidth:2});D.line(770,775,880,838,{strokeWidth:2});
+[[562],[690],[800]].forEach(([y])=>D.rect(880,y,260,76,null,{strokeWidth:2}));
+D.line(452,380,452,820,{stroke:D.C.ind,strokeWidth:3});
+/* 方法卡 */
+D.rect(1290,360,520,170,I[0],I[1]);
+D.rect(1290,550,520,170,null,{strokeWidth:2});D.rect(1290,740,520,170,null,{strokeWidth:2});
+D.line(1260,300,1260,920,{stroke:D.C.grey,strokeWidth:1.5});
+/* 公式小圖 */
+D.sq(1610,400,50,'ind',{fillStyle:'solid'});D.sq(1680,400,50,'ind');D.sq(1750,400,50,'grey');
+/* 流程小圖 */
+[1350,1470,1590,1710].forEach((x,i)=>{D.sq(x-14,640,28,'ink',{fillStyle:'solid'});if(i<3)D.arrow(x+20,654,x+96,654,{strokeWidth:1.6});});
+/* 利害關係人小圖 */
+D.ci(1600,812,44,'ver');D.ci(1685,812,44,'mus');D.ci(1770,812,44,'ind');
+</script></body></html>

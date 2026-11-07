@@ -1,0 +1,15 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>先備：平均數會騙人</title><link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.cap{position:absolute;font-size:28px}</style></head><body><div class="slide">
+<h1>先備：平均數會被極端值拉走</h1><p class="lead">9 位員工月薪 4 萬、老闆月薪 400 萬。平均月薪 43.6 萬——沒有任何一位員工領到這個數字。</p>
+<div class="cap" style="left:150px;top:720px">9 位員工：4 萬</div>
+<div class="cap" style="left:1590px;top:720px">老闆：400 萬</div>
+<div class="cap ind" style="left:150px;top:400px">中位數 4 萬</div>
+<div class="cap ver" style="left:470px;top:400px">平均數 43.6 萬</div>
+<div class="read"><em>怎麼讀：</em>一個點代表一個人，橫軸是月薪。平均數（圓）被最右邊那一點拉走；中位數（方）還留在大家身邊。看資料時，兩個一起看。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');const X=v=>160+v*(1500/400);
+D.arrow(150,640,1780,640);
+for(let i=0;i<9;i++) D.ci(X(4)+((i%3)-1)*20, 610-Math.floor(i/3)*40, 30,'ind');
+D.ci(X(400),610,30,'ver');
+D.dash(X(4),460,X(4),640,{stroke:D.C.ind});D.sq(X(4)-18,445,36,'ind');
+D.dash(X(43.6),460,X(43.6),640,{stroke:D.C.ver});D.ci(X(43.6),463,40,'ver');</script></body></html>

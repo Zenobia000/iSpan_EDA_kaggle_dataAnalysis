@@ -1,0 +1,32 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>看起來完美的報告</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>#rp{position:absolute;left:150px;top:300px;width:720px}
+#rp .h{font-size:24px;color:var(--muted)}#rp .big{font-size:40px;margin-top:10px}
+#rp .ft{font-size:28px;margin-top:14px}
+.ck{position:absolute;left:200px;font-size:26px}
+.tl{position:absolute;font-size:24px;text-align:center;width:260px}
+.cmp{position:absolute;left:1240px;width:580px;font-size:26px;line-height:1.45}</style></head><body><div class="slide">
+<h1>「合理但錯誤」長什麼樣子</h1><p class="lead">程式不報錯、分數漂亮、文字通順——但結論建立在錯的前提上。</p>
+<div id="rp"><div class="h">AI 回報</div><div class="big">PR-AUC 0.21 → <span class="ind">0.38</span></div>
+<div class="ft">主要貢獻：會員最後一次來店<span class="ver">距今天數</span></div></div>
+<div class="abs lbl mut" style="left:642px;top:668px">0.21</div><div class="abs lbl ind" style="left:742px;top:600px">0.38</div>
+<div class="ck" style="top:560px">程式能執行</div><div class="ck" style="top:620px">分數大幅進步</div><div class="ck" style="top:680px">說明文字通順</div><div class="ck" style="top:740px">附了漂亮的圖</div>
+<div class="abs" style="left:1000px;top:290px;font-size:32px"><span class="ver">「今天」</span>是哪一天？</div>
+<div class="tl" style="left:970px;top:470px">預測當下<br><span class="note">三個月前的 T0</span></div>
+<div class="tl" style="left:1560px;top:470px">資料集最後一天<br><span class="note">被當成「今天」</span></div>
+<div class="abs note ver" style="left:1110px;top:345px;width:580px;text-align:center">這段＝「之後三個月都沒來」＝流失的定義</div>
+<div class="cmp" style="top:610px">程式錯誤：程式停下來，<br>你一定會發現</div>
+<div class="cmp" style="top:730px"><span class="ver">合理但錯誤：</span>一路通過，<br>直到上線後才崩盤</div>
+<div class="read"><em>怎麼讀：</em>左邊的報告每一項都打勾；右邊把那個被圈起來的詞攤開——模型等於拿答案來猜答案，而且沒有任何地方會報錯。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+D.rect(110,280,820,550,'#fbf8f1',{fillStyle:'solid',strokeWidth:2.4});
+[575,635,695,755].forEach(y=>{D.sq(155,y,26,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:2.2});D.line(158,y+13,166,y+22,{stroke:D.C.ind,strokeWidth:3});D.line(166,y+22,182,y+2,{stroke:D.C.ind,strokeWidth:3});});
+D.line(610,790,860,790);D.rect(630,790-0.21*400,70,0.21*400,'grey');D.rect(730,790-0.38*400,70,0.38*400,'ind');
+D.curve([[505,412],[530,388],[600,385],[640,408],[628,438],[560,444],[505,432],[505,412]],{stroke:D.C.ver,strokeWidth:3});
+D.curve([[642,405],[800,330],[990,315]],{stroke:D.C.ver,strokeWidth:2.4});
+D.line(1000,440,1800,440,{strokeWidth:2.2});
+D.ci(1100,440,44,'ind');D.tri(1690,446,50,'ver');
+D.line(1130,400,1660,400,{stroke:D.C.ver,strokeWidth:3});D.line(1130,390,1130,410,{stroke:D.C.ver,strokeWidth:3});D.line(1660,390,1660,410,{stroke:D.C.ver,strokeWidth:3});
+D.rect(1000,630,200,60,null,{strokeWidth:2.2});D.line(1210,615,1210,705,{stroke:D.C.ink,strokeWidth:5});
+D.arrow(1000,770,1190,770,{stroke:D.C.ver,strokeWidth:2.6});D.cross(1215,770,14);</script></body></html>

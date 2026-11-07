@@ -1,0 +1,28 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>時間差特徵</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.rn{position:absolute;left:110px;font-size:28px}
+.ev{position:absolute;width:240px;text-align:center;font-size:24px}
+.mn{position:absolute;left:1470px;width:350px;font-size:26px;line-height:1.45}
+#warn{position:absolute;left:250px;top:808px;width:1560px;font-size:26px;line-height:1.5}</style></head><body><div class="slide">
+<h1>時間差：兩個已知時點相減</h1><p class="lead">時間點本身看不出意義；兩個 <b>T0 已知</b>的時間點相減，通常最有力。</p>
+<div class="abs lbl ver" style="left:1000px;top:278px;width:220px">T0＝結帳當下</div>
+<div class="rn" style="top:305px">預約安裝日 − 結帳時間</div><div class="ev" style="left:1235px;top:410px">預約安裝日<br><span class="note">結帳時已約定</span></div>
+<div class="mn" style="top:340px">要等越久，<br>越可能反悔</div>
+<div class="rn" style="top:445px">結帳時間 − 上次購買時間</div><div class="ev" style="left:200px;top:570px">這位顧客上次購買</div>
+<div class="mn" style="top:500px">很久沒買突然下單，<br>可能是特殊需求</div>
+<div class="rn" style="top:605px">結帳時間 − 最近的大促銷日</div><div class="ev" style="left:640px;top:740px">最近的大促銷日</div>
+<div class="mn" style="top:660px">促銷前後的<br>衝動購物</div>
+<div id="warn"><span class="ver">危險：</span>「年份」「累計下單次數」會一直變大，上線時全是模型沒見過的值（分布漂移）。<br>改用比率（退貨次數 ÷ 購買次數）或「近 90 天」視窗。</div>
+<div class="read"><em>怎麼讀：</em>朱紅直線是結帳那一刻；每一列的黃色雙箭頭就是一個特徵——兩端都必須在 T0 當下已經知道。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const rows=[[380,1355],[540,320],[700,760]];
+rows.forEach(([y,ex])=>{D.line(150,y,1420,y,{stroke:D.C.grey,strokeWidth:2});
+ D.sq(ex-20,y-20,40,'ind',{fillStyle:'solid'});
+ const a=Math.min(ex,1000)+24,b=Math.max(ex,1000)-24,yy=y-34;
+ D.line(a,yy,b,yy,{stroke:'#c8961a',strokeWidth:3.5});
+ [[a,1],[b,-1]].forEach(([x,d])=>{D.line(x,yy,x+16*d,yy-10,{stroke:'#c8961a',strokeWidth:3.5});D.line(x,yy,x+16*d,yy+10,{stroke:'#c8961a',strokeWidth:3.5});});
+ D.ci(1000,y,24,'ver');});
+D.line(1000,315,1000,760,{stroke:D.C.ver,strokeWidth:4});
+D.tri(180,840,80,'mus');
+D.rect(240,795,1580,115,'#f7d6cf',{fillStyle:'solid',stroke:D.C.ver,strokeWidth:2.5});</script></body></html>

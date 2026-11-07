@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>擴張視窗</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+.row{position:absolute;left:110px;font-size:30px}
+.m{position:absolute;font-size:22px;color:var(--muted);width:62px;text-align:center}
+.k{position:absolute;left:1690px;font-size:34px}
+</style></head><body><div class="slide">
+<h1>時間切分：用過去預測未來</h1>
+<p class="lead">擴張視窗——每一次驗證，訓練都從起點開始，而且比上一次多一個月。</p>
+<div class="row" style="top:398px">Fold 1</div><div class="row" style="top:508px">Fold 2</div>
+<div class="row" style="top:618px">Fold 3</div><div class="row" style="top:728px">保留集</div>
+<div id="months"></div>
+<div class="k" style="top:342px">訓練</div><div class="k" style="top:532px">驗證</div><div class="k" style="top:722px">保留集<br><span class="mut" style="font-size:24px">只看一次</span></div>
+<div class="read"><em>形狀即概念：</em>方形是訓練、圓形是驗證、三角形是保留集。每一列由左往右是時間，圓形永遠在方形的右邊——模型只能用過去預測未來。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const X0=270,W=70,sz=50;
+const box=document.getElementById('months');
+for(let m=1;m<=18;m++){const d=document.createElement('div');d.className='m';d.style.left=(X0+(m-1)*W-6)+'px';d.style.top='345px';d.textContent=m;box.appendChild(d)}
+const sq=(x,y)=>D.sq(x,y,sz,'ind',{strokeWidth:1.6,hachureGap:6});
+const ci=(x,y)=>D.ci(x+sz/2,y+sz/2,sz+8,'ver',{strokeWidth:2});
+const tri=(x,y)=>D.poly([[x+sz/2,y-4],[x+sz+4,y+sz],[x-4,y+sz]],'mus',{strokeWidth:2});
+const dot=(x,y)=>D.ci(x+sz/2,y+sz/2,8,'grey',{stroke:D.C.grey});
+[[395,12,13],[505,13,14],[615,14,15]].forEach(([y,tr,v])=>{for(let m=1;m<=18;m++){const x=X0+(m-1)*W; if(m<=tr) sq(x,y); else if(m===v) ci(x,y); else dot(x,y);}});
+for(let m=1;m<=18;m++){const x=X0+(m-1)*W; if(m>=16) tri(x,725); else dot(x,725);}
+// 圖例：大形狀
+D.sq(1560,320,100,'ind',{strokeWidth:2.4});
+D.ci(1610,560,110,'ver',{strokeWidth:2.4});
+D.poly([[1610,700],[1668,800],[1552,800]],'mus',{strokeWidth:2.4});
+D.arrow(X0-10,840,X0+18*W-10,840,{strokeWidth:2.2});
+</script></body></html>

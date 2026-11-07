@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>對抗驗證</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+.lb{position:absolute;font-size:26px;text-align:center}
+.tk{position:absolute;font-size:30px;width:120px;text-align:center}
+.z{position:absolute;top:760px;width:380px;font-size:26px;line-height:1.5}
+.z .h{font-size:32px}
+#bonus{position:absolute;left:1340px;top:300px;width:480px;padding:24px 28px;font-size:26px;line-height:1.5}
+#bonus .t{font-size:30px;margin-bottom:6px}
+</style></head><body><div class="slide">
+<h1>對抗驗證：兩期資料長得一樣嗎？</h1><p class="lead">訓練一個「分辨器」，猜一筆資料來自訓練期還是上線期。分得越準，漂移越大。</p>
+<div class="lb" style="left:110px;top:322px;width:170px;text-align:left">訓練期<br><span class="ind">標成 0</span></div>
+<div class="lb" style="left:110px;top:472px;width:170px;text-align:left">上線期<br><span class="mus">標成 1</span></div>
+<div class="lb" style="left:670px;top:400px;width:180px">分辨器</div>
+<div class="lb" style="left:900px;top:395px;width:300px;font-size:30px;text-align:left">分得多準？<br>看 AUC</div>
+<div class="tk" style="left:270px;top:690px">0.5</div><div class="tk" style="left:1110px;top:690px">1</div>
+<div class="z" style="left:180px"><div class="h ind">約 0.5：分不出來</div>兩期很像，驗證分數大致可信</div>
+<div class="z" style="left:620px"><div class="h mus">0.6–0.8：有些差異</div>檢查是哪些欄位造成的</div>
+<div class="z" style="left:1060px;width:420px"><div class="h ver">接近 1：一猜就中</div>驗證可能高估上線表現，要找出原因</div>
+<div id="bonus"><div class="t">附帶好處</div>分辨器最依賴的欄位，就是最會隨時間改變的欄位——例如「資料建立日期」「累計就診次數」。<br><span class="ind">改成比率，或改用近期時間窗。</span></div>
+<div class="read"><em>怎麼讀：</em>上半是做法（0 和 1 丟給分辨器），下半是刻度尺：指針越往右，驗證分數越不能代表上線。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+// 訓練期方塊、上線期三角
+for(let c=0;c<5;c++)D.sq(290+c*58,330,44,'ind',{strokeWidth:1.4});
+for(let c=0;c<5;c++)D.tri(312+c*58,505,48,'mus',{strokeWidth:1.4});
+D.arrow(590,352,665,400,{strokeWidth:2.4});D.arrow(590,500,665,450,{strokeWidth:2.4});
+D.dia(760,425,190,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:3});
+D.arrow(860,425,890,425,{strokeWidth:2.4});
+// 刻度尺
+const x0=330,x1=1170,X=v=>x0+(v-0.5)/0.5*(x1-x0);
+D.rect(X(0.5),640,X(0.6)-X(0.5),40,'ind',{fillStyle:'solid',strokeWidth:1.6});
+D.rect(X(0.6),640,X(0.8)-X(0.6),40,'mus',{fillStyle:'solid',strokeWidth:1.6});
+D.rect(X(0.8),640,X(1)-X(0.8),40,'ver',{fillStyle:'solid',strokeWidth:1.6});
+D.tri(X(0.95),615,34,'ink');
+D.rect(1330,290,500,330,'#f7e7c0',{fillStyle:'solid',strokeWidth:2.4});
+</script></body></html>

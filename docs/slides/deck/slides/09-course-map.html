@@ -1,0 +1,15 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>課程地圖</title><link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.st{position:absolute;width:280px;text-align:center}.st h2{font-size:34px}.st p{font-size:22px;line-height:1.45;color:var(--muted)}</style></head><body><div class="slide">
+<h1>課程地圖</h1><p class="lead">照順序走：後面的判斷，都建立在前面的定義上。</p>
+<div class="st" style="left:80px;top:610px"><h2>1 問題拆解</h2><p>任務由決策決定<br>90 分鐘</p></div>
+<div class="st" style="left:370px;top:610px"><h2>2 EDA</h2><p>為了做決定而看資料<br>90 分鐘</p></div>
+<div class="st" style="left:660px;top:610px"><h2>3 切分與洩漏</h2><p>驗證要模擬上線那一刻<br>120 分鐘</p></div>
+<div class="st" style="left:950px;top:610px"><h2>4 特徵工程</h2><p>把領域知識翻譯成訊號<br>120 分鐘</p></div>
+<div class="st" style="left:1240px;top:610px"><h2>5 模型選擇</h2><p>先有基準，再談升級<br>60 分鐘</p></div>
+<div class="st" style="left:1530px;top:610px"><h2>6 人機協作</h2><p>判斷結果是否可信<br>30 分鐘</p></div>
+<div class="read"><em>重點章：</em>第 3、4 章各 120 分鐘——切分做對、特徵講得出理由，是這門課的核心。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');const xs=[220,510,800,1090,1380,1670],sz=[90,90,150,150,70,70];
+const shp=['sq','ci','tri','sq','ci','tri'],col=['ind','ver','mus','ind','ver','mus'];
+D.line(180,480,1720,480,{strokeWidth:2});
+xs.forEach((x,i)=>{const s=sz[i];if(shp[i]==='sq')D.sq(x-s/2,480-s/2,s,col[i]);else if(shp[i]==='ci')D.ci(x,480,s,col[i]);else D.tri(x,488,s,col[i]);});</script></body></html>

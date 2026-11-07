@@ -1,0 +1,13 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>為什麼要學這堂課</title><link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>#right{position:absolute;left:1000px;top:100px;width:820px}
+.band{display:flex;align-items:center;height:84px;font-size:38px;margin-top:12px}.band i{display:inline-block;width:22px;height:84px;margin-right:30px}</style></head><body><div class="slide">
+<div class="abs lbl" style="left:150px;top:110px;font-size:30px">驗證時的分數</div>
+<div class="abs lbl" style="left:600px;top:860px;font-size:30px">上線後的表現</div>
+<div class="abs note" style="left:150px;top:960px;width:780px">同一個模型、兩個時刻，差這麼多——問題通常不在模型本身。</div>
+<div id="right"><h1>為什麼要學<br>這堂課</h1>
+<p style="margin-top:30px">你知道<b>怎麼做</b>，卻說不出<b>為什麼</b>：<br>為什麼這樣切？為什麼選這些特徵？<br>這個進步，是不是運氣？</p>
+<p class="note" style="margin:30px 0 4px">這門課補的是「為什麼」——依序四步</p>
+<div class="band"><i style="background:var(--ind)"></i>問題定對</div><div class="band"><i style="background:var(--ver)"></i>切分做對</div>
+<div class="band"><i style="background:var(--mus)"></i>特徵講得出理由</div><div class="band"><i style="background:var(--ink)"></i>模型最後才挑</div></div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');D.ci(430,470,560,'ver',{fillStyle:'hachure',strokeWidth:2.5});D.ci(780,790,120,'ind',{fillStyle:'hachure'});D.dash(570,700,730,770);</script></body></html>

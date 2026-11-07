@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>公平比較</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+.cap{position:absolute;font-size:32px}
+.mn{position:absolute;font-size:28px}
+.sc{position:absolute;font-size:44px}
+.lb{position:absolute;font-size:24px;color:var(--muted)}
+.cd{position:absolute;left:1340px;width:480px;font-size:30px}
+.cd .x{font-size:24px;color:var(--muted)}
+</style></head><body><div class="slide">
+<h1>公平比較：一次只換一樣</h1><p class="lead">「梯度提升樹 0.32，比邏輯迴歸 0.29 好」——但兩邊同時改了太多東西。</p>
+<div class="cap ver" style="left:110px;top:310px">不公平的比較</div>
+<div class="mn" style="left:130px;top:380px">梯度提升樹</div><div class="sc ver" style="left:590px;top:370px">0.32</div>
+<div class="lb" style="left:130px;top:620px">50 個特徵</div><div class="lb" style="left:410px;top:620px">調參一整天</div>
+<div class="mn" style="left:130px;top:690px">邏輯迴歸</div><div class="sc" style="left:590px;top:680px">0.29</div>
+<div class="lb" style="left:130px;top:830px">10 個原始欄位</div><div class="lb" style="left:410px;top:830px">沒有調參</div>
+<div class="lb ver" style="left:760px;top:600px;width:240px;font-size:26px">差距來自模型？特徵？調參？說不出來</div>
+<div class="cap ind" style="left:1100px;top:310px">公平比較的條件</div>
+<div class="cd" style="top:385px">相同的資料切分<div class="x">同樣幾次考試（fold）</div></div>
+<div class="cd" style="top:525px">相同的特徵<div class="x">要比模型，就只換模型</div></div>
+<div class="cd" style="top:665px">對等的調參預算<div class="x">不能一個調一天、一個用預設</div></div>
+<div class="cd" style="top:805px">同 fold 配對比較<div class="x">每一次考試都贏，不只平均高</div></div>
+<div class="read"><em>怎麼讀：</em>左邊兩列的方塊數和時鐘都不一樣，分數差無法歸因；右邊每一列左右兩個圖示一模一樣，只剩模型不同。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+// 不公平：特徵方格
+for(let r=0;r<5;r++)for(let c=0;c<10;c++)D.rect(130+c*24,435+r*34,18,26,'ind',{fillStyle:'solid',strokeWidth:0.8,roughness:0.8});
+for(let c=0;c<10;c++)D.rect(130+c*24,745,18,26,'ind',{fillStyle:'solid',strokeWidth:0.8,roughness:0.8});
+// 調參時鐘
+const clock=(cx,cy,full)=>{D.ci(cx,cy,110,null,{strokeWidth:2});if(full)D.ci(cx,cy,96,'mus',{strokeWidth:0.5});D.line(cx,cy,cx,cy-40,{strokeWidth:3});D.line(cx,cy,cx+28,cy,{strokeWidth:3});};
+clock(470,530,true);clock(470,760,false);
+D.cross(860,540,30);
+D.line(1060,300,1060,920,{stroke:D.C.grey,strokeWidth:1.4});
+// 公平：左右一樣的圖示
+const pair=(y,f)=>{f(1110,y);D.line(1215,y+18,1245,y+18,{strokeWidth:3});D.line(1215,y+30,1245,y+30,{strokeWidth:3});f(1255,y);};
+pair(395,(x,y)=>{for(let i=0;i<3;i++)D.rect(x+i*22,y,16,48,i===1?'ver':'grey',{fillStyle:'solid',strokeWidth:1});});
+pair(535,(x,y)=>{for(let i=0;i<3;i++)D.rect(x+i*22,y+8,16,32,'ind',{fillStyle:'solid',strokeWidth:1});});
+pair(675,(x,y)=>{D.ci(x+32,y+24,50,'mus',{strokeWidth:1.6});});
+pair(815,(x,y)=>{D.sq(x+10,y+4,40,'ind',{strokeWidth:1.4});});
+</script></body></html>

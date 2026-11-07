@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>目標編碼：OOF</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.ch{position:absolute;width:100px;text-align:center;font-size:24px;line-height:1.35}
+.rh{position:absolute;left:160px;width:340px;height:80px;display:flex;align-items:center;justify-content:flex-end;font-size:26px}
+.v{position:absolute;left:1150px;width:140px;height:80px;display:flex;align-items:center;font-size:30px}
+.cv{position:absolute;width:100px;height:80px;display:flex;align-items:center;justify-content:center;font-size:26px}
+.lg{position:absolute;left:1430px;font-size:24px}
+.bx{position:absolute;left:1350px;width:460px;font-size:24px;line-height:1.45}</style></head><body><div class="slide">
+<h1>目標編碼：只准用別人的答案</h1><p class="lead">把商品換成「過去的退貨率」很有力；但每一列的編碼，不能含它自己的答案。</p>
+<div id="cols"></div><div id="rows"></div>
+<div class="abs lbl mut" style="left:1150px;top:315px">編碼值</div>
+<div class="lg" style="top:358px">同商品、其他份：拿來算</div>
+<div class="lg" style="top:418px">自己：不准用</div>
+<div class="lg" style="top:478px">不同商品：不相干</div>
+<div class="bx mut" style="top:540px">分成 3 份：{1, 4}、{2, 5}、{3, 6}</div>
+<div class="bx" style="top:610px;padding:14px 20px"><span class="ver">錯誤：</span>直接算 A = 2/3 填回每一列，訂單 1 的 2/3 裡含有它自己的答案</div>
+<div class="bx" style="top:770px;padding:14px 20px"><span class="ind">驗證集與上線：</span>改用整份訓練資料算出的對照表 A = 2/3、B = 1/3</div>
+<div class="read"><em>怎麼讀：</em>每一橫列是一筆要編碼的訂單，藍格是它被允許看的答案；對角線的叉永遠空著——自己的答案不准進自己的特徵。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const P=['A','A','A','B','B','B'],Y=[1,0,1,0,0,1],V=['0.50','1.00','0.50','0.50','0.50','0.00'],X0=520,Y0=360,S=100,H=80;
+let ch='',rh='';
+P.forEach((p,j)=>{ch+=`<div class="ch" style="left:${X0+j*S}px;top:252px">訂單 ${j+1}<br><span class="${p==='A'?'ind':'mus'}">${p}</span><br>退 ${Y[j]}</div>`;});
+P.forEach((p,i)=>{rh+=`<div class="rh" style="top:${Y0+i*H}px">訂單 ${i+1}（商品 <span class="${p==='A'?'ind':'mus'}">&nbsp;${p}</span>）</div><div class="v" style="top:${Y0+i*H}px">= ${V[i]}</div>`;
+ P.forEach((q,j)=>{const x=X0+j*S,y=Y0+i*H;
+  if(i===j){D.cross(x+S/2,y+H/2,20);}
+  else if(p===q){D.rect(x+6,y+6,S-12,H-12,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:2.5});rh+=`<div class="cv" style="left:${x}px;top:${y}px">${Y[j]}</div>`;}
+  else D.ci(x+S/2,y+H/2,10,'grey',{stroke:D.C.grey});});});
+document.getElementById('cols').innerHTML=ch;document.getElementById('rows').innerHTML=rh;
+D.rect(X0,Y0,6*S,6*H,null,{stroke:D.C.grey,strokeWidth:1.5});
+D.rect(1360,352,46,40,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:2.5});D.cross(1383,432,14);D.ci(1383,492,10,'grey',{stroke:D.C.grey});
+D.rect(1350,605,460,135,'#f7d6cf',{fillStyle:'solid',stroke:D.C.ver,strokeWidth:2.5});
+D.rect(1350,765,460,120,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:2.5});</script></body></html>

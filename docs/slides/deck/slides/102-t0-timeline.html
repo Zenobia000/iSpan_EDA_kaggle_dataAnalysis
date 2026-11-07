@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>預測時點 T0 時間線</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.bx{position:absolute;text-align:center;font-size:30px;line-height:1.4}.t{position:absolute;font-size:26px;line-height:1.45}</style></head><body><div class="slide">
+  <h1>預測時點 T0：一條線切開時間</h1><p class="lead">T0 由決策時間決定。T0 左邊的資訊可以用；右邊的再相關，也不能當輸入。</p>
+  <div class="abs ver" style="left:785px;top:300px;font-size:34px">T0　每天 08:00</div>
+  <div class="abs lbl ind" style="left:300px;top:345px">可用</div>
+  <div class="abs lbl ver" style="left:900px;top:345px">T0 之後才知道 → 不能用</div>
+  <div class="bx" style="left:300px;top:418px;width:320px">前一天<br>銷量・進貨</div>
+  <div class="bx" style="left:900px;top:418px;width:320px">今天營業中<br>當日銷量</div>
+  <div class="bx" style="left:1390px;top:418px;width:300px">未來 3 天<br>是否缺貨</div>
+  <div class="abs lbl mus" style="left:1515px;top:600px">答案</div>
+  <div class="abs" style="left:150px;top:640px;font-size:32px">看<b>被觀察到</b>的時間，不是發生時間</div>
+  <div class="t" style="left:240px;top:810px;width:330px;text-align:center">月底盤點完成<br><span class="mut">（已發生）</span></div>
+  <div class="t" style="left:640px;top:810px;width:250px;text-align:center">月初做預測</div>
+  <div class="t" style="left:960px;top:810px;width:360px;text-align:center">隔週才匯入總部<br><span class="mut">（被觀察到）</span></div>
+  <div class="t" style="left:1390px;top:730px;width:420px">上個月的盤點已經發生，<br>但在 T0 還沒進系統<br>→ <b>不能用</b></div>
+  <div class="read"><em>怎麼讀：</em>檢查任何欄位，就問一句：它落在朱紅線的左邊還是右邊？「當日銷量」和答案很相關，但它在右邊。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+D.arrow(150,470,1790,470,{strokeWidth:2.5});
+D.rect(300,400,320,140,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:3});
+D.rect(900,400,320,140,'#f3efe6',{fillStyle:'solid',strokeWidth:2.5});
+D.cross(1220,400,28);
+D.ci(1540,470,230,'#f7e7c0',{fillStyle:'solid',stroke:'#b98a12',strokeWidth:3});
+/* 下排：盤點例子 */
+D.arrow(150,770,1340,770,{strokeWidth:2});
+D.sq(385,740,60,'grey');
+D.ci(1140,770,64,'ind');
+D.dash(445,740,1108,750,{stroke:D.C.ink,strokeWidth:2});
+D.line(760,290,760,900,{stroke:D.C.ver,strokeWidth:6,roughness:0.8});
+</script></body></html>

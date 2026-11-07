@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>三個人類閘門</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.g{position:absolute;width:200px;text-align:center;font-size:28px;line-height:1.35}
+.g small{display:block;font-size:22px;color:var(--muted)}
+.d{position:absolute;top:660px;font-size:24px;line-height:1.45}.d span{display:block;font-size:26px;margin-bottom:4px}
+.d .y{font-size:24px;color:var(--ver);margin-top:12px;display:block}</style></head><body><div class="slide">
+<h1>三個必須由人拍板的閘門</h1><p class="lead">AI 做到這裡必須停下來，由人決定才能繼續。</p>
+<div class="g ind" style="left:230px;top:425px">閘門 1<small>開始前</small></div>
+<div class="g" style="left:700px;top:445px">AI 執行<br>一輪實驗</div>
+<div class="g ind" style="left:1140px;top:425px">閘門 2<small>每輪結束</small></div>
+<div class="g ind" style="left:1560px;top:425px">閘門 3<small>交付時</small></div>
+<div class="abs lbl ver" style="left:840px;top:278px;width:300px;text-align:center">繼續？由人決定，不是 AI</div>
+<div class="abs lbl" style="left:1395px;top:420px">停止</div>
+<div class="d" style="left:110px;width:440px"><span>定義問題</span>支援什麼決策、預測時點、可用資訊、驗證方式、停止條件<em class="y" style="font-style:normal">定錯了，後面全部白做</em></div>
+<div class="d" style="left:640px;width:330px"><span class="mut">可重複很多輪</span>寫程式、跑實驗、畫圖都交給 AI</div>
+<div class="d" style="left:1050px;width:380px"><span>審查</span>哪些結論值得留下、下一步做什麼、要不要停<em class="y" style="font-style:normal">涉及成本、風險與優先順序的取捨</em></div>
+<div class="d" style="left:1480px;width:340px"><span>上線與否</span>要不要上線、怎麼向決策者說明限制<em class="y" style="font-style:normal">需要有人承擔後果</em></div>
+<div class="read"><em>怎麼讀：</em>三個圓是人做決定的地方，方塊是 AI 的工作；注意閘門 2 往回的箭頭——是否再跑一輪，是人拍板。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');const st={fillStyle:'solid',stroke:D.C.ind,strokeWidth:3.5};
+D.ci(330,470,200,'#d9e1ee',st);D.ci(1240,470,200,'#d9e1ee',st);D.ci(1660,470,200,'#d9e1ee',st);
+D.sq(690,360,220,'grey',{strokeWidth:2.4,fillStyle:'hachure'});D.rect(715,435,170,80,'#f3efe6',{fillStyle:'solid',stroke:'#f3efe6'});
+D.arrow(432,470,686,470,{strokeWidth:2.6});D.arrow(912,470,1138,470,{strokeWidth:2.6});D.arrow(1342,470,1558,470,{strokeWidth:2.6});
+D.curve([[1220,370],[1150,335],[960,335],[830,355]],{stroke:D.C.ver,strokeWidth:3});
+D.line(830,355,840,332,{stroke:D.C.ver,strokeWidth:3});D.line(830,355,854,350,{stroke:D.C.ver,strokeWidth:3});</script></body></html>

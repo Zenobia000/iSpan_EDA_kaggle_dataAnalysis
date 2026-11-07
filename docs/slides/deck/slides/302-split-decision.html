@@ -1,0 +1,36 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>切分方式決策樹</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+#q{position:absolute;left:810px;top:375px;width:300px;text-align:center;font-size:32px;line-height:1.4}
+.el{position:absolute;width:340px;text-align:center;font-size:26px;background:var(--paper);padding:2px 0}
+.leaf{position:absolute;width:340px;text-align:center;top:706px}
+.leaf .m{font-size:36px}
+.leaf .x{font-size:24px;color:var(--muted);margin-top:22px;line-height:1.45}
+</style></head><body><div class="slide">
+<h1>切分方式由上線情境決定</h1><p class="lead">驗證要模擬「上線時會遇到的資料」——先回答：上線時要預測的是什麼？</p>
+<div id="q">上線時<br>要預測的是…</div>
+<div class="el" style="left:170px;top:612px">沒見過的<b>新對象</b></div>
+<div class="el" style="left:590px;top:612px"><b>未來</b>發生的事件</div>
+<div class="el" style="left:1010px;top:612px"><b>未來一段時間</b>的數值</div>
+<div class="el" style="left:1420px;top:612px">和現在一樣的<b>獨立樣本</b></div>
+<div class="leaf" style="left:170px"><div class="m">群組 K-fold</div><div class="x">案例 A：新病人<br>同一人整組放一邊</div></div>
+<div class="leaf" style="left:590px"><div class="m">時間切分</div><div class="x">下個月出院的病人<br>用過去訓練、未來驗證</div></div>
+<div class="leaf" style="left:1010px"><div class="m">滾動起點回測</div><div class="x">案例 B：下週七天銷量<br>起點每週往後移</div></div>
+<div class="leaf" style="left:1420px"><div class="m">K-fold</div><div class="x">每列彼此獨立<br>才能隨機切</div></div>
+<div class="read"><em>怎麼讀：</em>從菱形出發選一條路。若同時符合兩條（例如「未來的新病人」），兩個條件都要滿足：同一人不跨兩邊，驗證時間也要在訓練之後。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+D.dia(960,425,300,'#f7e7c0',{fillStyle:'solid',strokeWidth:2.6});
+const xs=[340,760,1180,1590],col=['#d9e1ee','#d9e1ee','#d9e1ee','#e6e2d8'];
+xs.forEach((x,i)=>{D.line(960,575,x,690,{strokeWidth:2.4});
+  D.rect(x-170,690,340,80,col[i],{fillStyle:'solid',stroke:i<3?D.C.ind:D.C.grey,strokeWidth:3});});
+// 小圖示
+// 群組：同色一串
+[0,1,2].forEach(k=>D.ci(290+k*50,900,30,'ind',{strokeWidth:1.4}));
+// 時間：方塊在左，圓在右
+[0,1,2].forEach(k=>D.sq(690+k*36,886,26,'ind',{fillStyle:'solid',strokeWidth:1.2}));D.ci(818,899,30,'ver',{strokeWidth:1.4});
+// 滾動起點：三條階梯
+[0,1,2].forEach(k=>{D.line(1100,880+k*16,1150+k*30,880+k*16,{stroke:D.C.ind,strokeWidth:4});D.line(1150+k*30,880+k*16,1200+k*30,880+k*16,{stroke:D.C.ver,strokeWidth:4});});
+// K-fold：方格
+for(let r=0;r<2;r++)for(let c=0;c<5;c++)D.rect(1520+c*28,876+r*28,24,24,(c===r*2+1)?'ver':'grey',{fillStyle:'solid',strokeWidth:1});
+</script></body></html>

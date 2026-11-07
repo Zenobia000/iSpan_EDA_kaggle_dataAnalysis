@@ -1,0 +1,34 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>合理但錯誤的五種型態</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.col{position:absolute;top:530px;width:310px}
+.col h2{font-size:32px}.col .w{font-size:24px;line-height:1.45;margin-top:8px;color:var(--muted)}
+.col .e{position:absolute;top:170px;left:0;width:310px;padding:16px 18px;font-size:24px;line-height:1.45}
+.ic{position:absolute;font-size:22px;text-align:center}</style></head><body><div class="slide">
+<h1>「合理但錯誤」的五種型態</h1><p class="lead">程式不會報錯，只能靠正確的驗證設計（第 3 章）和懂業務流程（第 1 章）抓出來。</p>
+<div class="ic ver" style="left:350px;top:300px;width:60px">T0</div>
+<div class="ic mut" style="left:740px;top:300px;width:60px">示意</div>
+<div class="ic" style="left:808px;top:388px;width:100px">優惠券</div><div class="ic" style="left:1010px;top:388px;width:100px">不流失</div>
+<div class="ic ver" style="left:930px;top:330px;width:60px;font-size:30px">？</div>
+<div class="ic mut" style="left:1145px;top:470px;width:310px">時間順序被打亂</div>
+<div class="ic" style="left:1560px;top:388px;width:150px">同一份資料</div>
+<div class="col" style="left:110px"><h2>使用未來資訊</h2><div class="w">特徵用到預測當下<br>還不知道的事</div><div class="e">例：用資料集最後一天計算「距今天數」</div></div>
+<div class="col" style="left:455px"><h2>只看平均</h2><div class="w">平均進步，<br>只在某一次考試有效</div><div class="e">例：三個月中只有一個月進步很多</div></div>
+<div class="col" style="left:800px"><h2>相關當因果</h2><div class="w">把預測力強的變數，<br>當成可介入的原因</div><div class="e">例：常用優惠券的人不流失 → 多發優惠券就能留人？</div></div>
+<div class="col" style="left:1145px"><h2>錯誤的驗證設計</h2><div class="w">驗證方式沒有<br>模擬上線情境</div><div class="e">例：預測未來，卻用隨機切分</div></div>
+<div class="col" style="left:1490px"><h2>自我說服</h2><div class="w">用同一份資料發現模式，<br>又用它證明模式</div><div class="e">例：在全部資料上挑出最好的特徵，再用同一份驗證</div></div>
+<div class="read"><em>怎麼讀：</em>五張小圖各是一種錯法，下方紅框是小林案例裡可能長的樣子；它們的共同點是「看起來都很合理」。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+[110,455,800,1145,1490].forEach(x=>D.rect(x,700,310,150,'#f7d6cf',{fillStyle:'solid',stroke:D.C.ver,strokeWidth:2.5}));
+// 1 future
+D.line(120,430,410,430,{stroke:D.C.grey,strokeWidth:2});D.line(380,340,380,470,{stroke:D.C.ver,strokeWidth:3.5});
+D.sq(150,412,36,'ind',{fillStyle:'solid'});D.sq(220,412,36,'ind',{fillStyle:'solid'});D.ci(380,430,26,'ver');
+D.tri(440,436,40,'mus');D.curve([[440,404],[420,370],[400,380]],{stroke:D.C.ver,strokeWidth:2.6});
+// 2 average
+D.line(480,480,750,480);[[500,50],[590,50],[680,150]].forEach(([x,h])=>D.rect(x,480-h,60,h,'ind',{fillStyle:x===680?'solid':'hachure'}));D.dash(480,397,750,397,{stroke:D.C.ver,strokeWidth:2.4});
+// 3 causation
+D.ci(858,400,120,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:2.5});D.ci(1060,400,120,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:2.5});D.dash(920,400,995,400,{stroke:D.C.ver,strokeWidth:2.6});D.line(995,400,980,390,{stroke:D.C.ver,strokeWidth:2.6});D.line(995,400,980,410,{stroke:D.C.ver,strokeWidth:2.6});
+// 4 random split
+['ind','ver','ind','ind','ver','ind','ver'].forEach((c,i)=>{const x=1160+i*40;c==='ind'?D.sq(x,380,32,'ind'):D.ci(x+16,396,34,'ver');});D.arrow(1160,445,1440,445,{strokeWidth:1.8});
+// 5 self
+D.sq(1560,330,150,'#e3dfd4',{fillStyle:'solid',strokeWidth:2.4});D.curve([[1712,355],[1775,330],[1800,400],[1770,465],[1712,450]],{stroke:D.C.ver,strokeWidth:2.6});D.line(1712,450,1729,438,{stroke:D.C.ver,strokeWidth:2.6});D.line(1712,450,1731,462,{stroke:D.C.ver,strokeWidth:2.6});</script></body></html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>資料型態 × 處理方式</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.hd{position:absolute;top:288px;text-align:center;font-size:26px}
+.rl{position:absolute;left:110px;width:180px;height:74px;display:flex;align-items:center;font-size:30px}
+.c{position:absolute;height:74px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:22px;line-height:1.3;padding:0 14px}</style></head><body><div class="slide">
+<h1>資料型態 × 處理方式</h1><p class="lead">先找到欄位屬於哪一列，往右看該做什麼；有三角的，做完一定查洩漏。</p>
+<div id="m"></div>
+<div class="read"><em>怎麼讀：</em>每一列是一種資料型態，有色格是主要做法；歷史、多表與目標編碼是最有力也最容易出錯的地方。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const cols=[[300,350,'形狀轉換','#d9e1ee',D.C.ind],[660,370,'編碼','#f7e7c0',D.C.mus],[1040,330,'組合・差值','#f7d6cf',D.C.ver],[1380,330,'聚合','#e3dfd4',D.C.ink],[1690,160,'洩漏風險']];
+const rows=[
+ ['數值',['補值＋旗標、log、<br>截尾、標準化','','比率、差值',''],0],
+ ['類別',['','one-hot；高基數用次數、<br>OOF 目標編碼＋平滑','',''],1],
+ ['時間',['','拆分量、週期 sin / cos','時間差（最有力）',''],0],
+ ['歷史',['','','','落後、滾動、累計、變化量<br>（時點正確）'],1],
+ ['多表',['','','','先聚合到訂單層級<br>再合併'],0],
+ ['文字',['','字數、關鍵字<br>→ TF-IDF、embedding','',''],1],
+ ['地理',['','郵遞區號＝高基數類別','距離、是否同縣市','區域退貨率<br>（時點正確）'],1]];
+const Y0=335,H=82;let h='';
+cols.forEach(([x,w,t])=>h+=`<div class="hd" style="left:${x}px;width:${w}px">${t}</div>`);
+D.line(110,Y0-6,1820,Y0-6,{strokeWidth:2.4});
+rows.forEach(([n,cs,risk],i)=>{const y=Y0+i*H;h+=`<div class="rl" style="top:${y+2}px">${n}</div>`;
+ cs.forEach((t,j)=>{const [x,w,,f,s]=cols[j];
+  if(t){D.rect(x+5,y+5,w-10,H-10,f,{fillStyle:'solid',stroke:s,strokeWidth:2.2,roughness:1});h+=`<div class="c" style="left:${x+5}px;top:${y+5}px;width:${w-10}px">${t}</div>`;}
+  else D.ci(x+w/2,y+H/2,10,'grey',{stroke:D.C.grey});});
+ if(risk)D.tri(1770,y+H/2+4,46,'mus');else D.ci(1770,y+H/2,10,'grey',{stroke:D.C.grey});});
+document.getElementById('m').innerHTML=h;</script></body></html>

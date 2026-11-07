@@ -1,0 +1,21 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>第 1 章 問題分析與拆解</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.ch{font-size:40px;color:var(--ind)}#goals{position:absolute;left:1010px;top:110px;width:800px}#goals li{margin:18px 0}
+.case{position:absolute;left:150px;top:888px;width:1640px;font-size:30px;line-height:1.5}</style></head><body><div class="slide">
+  <div class="abs ch" style="left:110px;top:100px">第 1 章</div>
+  <h1 class="abs xl" style="left:110px;top:150px">問題分析與拆解</h1>
+  <p class="abs lead" style="left:110px;top:300px;width:780px;margin:0">預測任務由<b>決策</b>決定，不是由資料決定。先問「誰、在什麼時候、要做什麼決定」，再看資料。</p>
+  <div id="goals"><h2>學習目標</h2><ul class="dots" style="margin-top:20px">
+    <li>把模糊的商業需求，轉成完整的預測任務規格</li>
+    <li>說明預測時點 T0，並依決策時點推導它</li>
+    <li>選出符合決策的主指標與基準模型，說得出理由</li>
+    <li>事先訂好停止條件</li>
+    <li>用 MECE 把問題拆成可以驗證的小問題</li></ul></div>
+  <div class="case"><span class="mus">本章案例</span>　連鎖超市 200 間門市的缺貨預警：「能不能用資料提早知道哪些商品快缺貨？」</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+D.sq(150,500,330,'ind',{strokeWidth:2.5});
+D.sq(530,690,120,'ind',{fillStyle:'solid',fill:'#d9e1ee',stroke:D.C.ind,strokeWidth:3});
+D.dash(480,700,530,740);
+D.rect(110,860,1700,110,'#f7e7c0',{fillStyle:'solid',stroke:'#b98a12',strokeWidth:3});
+</script></body></html>

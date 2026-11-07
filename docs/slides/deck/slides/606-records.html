@@ -1,0 +1,22 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>三種紀錄</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.col{position:absolute;top:580px;width:440px;text-align:center}
+.col h2{font-size:34px}.col .w{font-size:24px;line-height:1.45;margin-top:8px}
+.col .u{font-size:24px;line-height:1.45;margin-top:8px;color:var(--ind)}
+#why{position:absolute;left:150px;top:808px;width:1640px;font-size:26px;line-height:1.5}</style></head><body><div class="slide">
+<h1>記錄即記憶</h1><p class="lead">AI 沒有跨對話的記憶，人會忘、團隊會換人——唯一可靠的記憶，是寫下來的紀錄。</p>
+<div class="col" style="left:180px"><h2>過程日誌</h2><div class="w">每次做了什麼、結果、結論，<br><span class="ver">包含失敗與卡關</span></div><div class="u">避免重做、重踩坑</div></div>
+<div class="col" style="left:740px"><h2>實驗紀錄</h2><div class="w">特徵、模型、參數、<br>每次考試的分數</div><div class="u">報告裡每個數字都能追溯</div></div>
+<div class="col" style="left:1300px"><h2>沉澱的結論</h2><div class="w">經過人類審查、<br>確定值得留下的發現</div><div class="u">下一輪與新成員的起點</div></div>
+<div class="abs lbl ind" style="left:1160px;top:375px;width:140px;text-align:center">人類審查</div>
+<div id="why"><span class="ver">為什麼失敗也要記：</span>第二週小林開新對話，AI 又興沖沖提議試「最後一次來店距今天數」——上週已經證明它是洩漏。「這條路不通，原因是 ___」常比成功的結果更省時間。</div>
+<div class="read"><em>怎麼讀：</em>由左往右越收越少：日誌記下一切（含紅色的失敗），實驗紀錄留下可追溯的數字，最後只有經過人類審查的結論變成那個圓。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+D.rect(290,290,220,260,'#fbf8f1',{fillStyle:'solid',strokeWidth:2.4});
+[0,1,2,3,4,5,6].forEach(i=>{const bad=i===2||i===5;D.line(315,325+i*30,bad?440:485-(i%3)*25,325+i*30,{stroke:bad?D.C.ver:D.C.grey,strokeWidth:bad?4:2.4});});
+D.arrow(540,420,820,420,{strokeWidth:2.4});
+for(let r=0;r<5;r++)for(let c=0;c<4;c++)D.rect(850+c*55,310+r*46,55,46,r===0?'#d9e1ee':null,r===0?{fillStyle:'solid',stroke:D.C.ind,strokeWidth:2}:{strokeWidth:1.6,stroke:D.C.ink});
+D.arrow(1100,420,1380,420,{strokeWidth:2.4});
+D.ci(1520,420,160,'ind',{strokeWidth:3});
+D.rect(130,795,1680,120,'#f7d6cf',{fillStyle:'solid',stroke:D.C.ver,strokeWidth:2.5});</script></body></html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>第 6 章 人機協作</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>#l{position:absolute;left:110px;top:110px;width:860px}#l .ch{font-size:44px;color:var(--ind)}
+#g{position:absolute;left:1040px;top:130px;width:780px}#g h2{margin-bottom:18px}
+#case{position:absolute;left:1040px;top:720px;width:770px;padding:26px 34px;font-size:28px;line-height:1.55}
+#case .k{font-size:24px;color:var(--muted);display:block;margin-bottom:6px}</style></head><body><div class="slide">
+<div id="l"><div class="ch">第 6 章</div><h1 class="xl" style="margin-top:6px">人機協作的<br>資料科學</h1>
+<p class="lead">AI 讓實驗變便宜，所以<b>判斷哪個結果可信</b>，<br>成為人類最有價值的能力。</p></div>
+<div id="g"><h2>學習目標</h2><ul class="dots">
+<li>說明 AI 如何改變成本結構，人的時間該移到哪裡</li>
+<li>辨識「合理但錯誤」的失敗模式，說出它為何危險</li>
+<li>劃分人與 AI 的責任，指出必須由人決定的時點</li>
+<li>用驗收思維審查 AI 產出的分析結論</li></ul></div>
+<div id="case"><span class="k">本章案例</span>分析師小林請 AI 預測下個月會流失的會員。AI 一個下午跑了 <b>40 個實驗</b>，回報 PR-AUC 從 0.21 提升到 0.38——能相信嗎？</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+D.tri(400,830,340,'mus',{strokeWidth:3});
+D.tri(680,920,120,'ver',{fillStyle:'hachure'});
+D.rect(1030,710,790,230,'#f7e7c0',{fillStyle:'solid',stroke:D.C.mus,strokeWidth:3});</script></body></html>

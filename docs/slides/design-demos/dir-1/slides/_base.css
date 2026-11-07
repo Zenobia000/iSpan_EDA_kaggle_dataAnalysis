@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Huninn&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden}
+body{font-family:"Huninn","Noto Sans CJK TC",sans-serif;color:#1d2b4f;
+ background-color:#fbfaf5;
+ background-image:linear-gradient(#dfe6f0 1px,transparent 1px),linear-gradient(90deg,#dfe6f0 1px,transparent 1px);
+ background-size:40px 40px;}
+.slide{position:relative;width:1920px;height:1080px;padding:90px 120px}
+h1{font-size:96px;font-weight:400;line-height:1.1;letter-spacing:2px}
+.hl{background:linear-gradient(transparent 52%,#ffe45c 52%,#ffe45c 92%,transparent 92%);padding:0 6px}
+.pink{background:linear-gradient(transparent 55%,#ffb3c7 55%,#ffb3c7 92%,transparent 92%);padding:0 4px}
+p,li{font-size:34px;line-height:1.55}
+.small{font-size:26px;color:#4a5878}
+svg.rough{position:absolute;inset:0;pointer-events:none}

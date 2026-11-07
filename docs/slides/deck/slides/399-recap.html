@@ -1,0 +1,27 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>第 3 章小結</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>
+#pts{position:absolute;left:110px;top:270px;width:860px}
+#pts li{font-size:30px;line-height:1.5;margin:18px 0}
+.cap{position:absolute;font-size:26px}
+</style></head><body><div class="slide">
+<h1>第 3 章小結</h1>
+<ul class="dots" id="pts">
+<li>訓練集用來學、驗證集用來挑、保留集只在最後看一次</li>
+<li>切分方式由上線情境決定：新對象用群組、未來事件用時間、未來一段數值用滾動起點回測，並和季節性樸素預測比</li>
+<li>判斷進步用同 fold 配對比較，每一次都進步才算穩健</li>
+<li>穩健不等於合法：五種洩漏都要防，擾動測試抓計算過程裡的洩漏</li>
+<li>世界會變：用對抗驗證檢查訓練期與上線期是否一致</li></ul>
+<div class="cap ver" style="left:1090px;top:330px">隨機切分</div>
+<div class="cap ind" style="left:1090px;top:560px">時間切分</div>
+<div class="cap mut" style="left:1090px;top:740px">驗證（圓）永遠在訓練（方）的右邊</div>
+<div class="next">下一章：特徵工程</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+const X0=1090,W=60,S=40;
+[[380,[3,6,9]],[610,[10,11,12]]].forEach(([y,val])=>{for(let m=1;m<=12;m++){const x=X0+(m-1)*W;
+  if(val.includes(m))D.ci(x+S/2,y+S/2,S+6,'ver',{strokeWidth:1.6});else D.sq(x,y,S,'ind',{strokeWidth:1.4,hachureGap:5});}});
+D.curve([[X0+11*W+S/2,435],[X0+7*W,500],[X0+2*W+S/2,435]],{stroke:D.C.ver,strokeWidth:2.4});
+D.cross(X0+7*W,505,14);
+D.arrow(X0,690,X0+12*W-20,690,{strokeWidth:2});
+</script></body></html>

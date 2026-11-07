@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>數值欄位：比率與差值</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.b{position:absolute;width:280px;height:90px;display:flex;align-items:center;justify-content:center;font-size:28px;text-align:center}
+.op{position:absolute;width:60px;text-align:center;font-size:44px}
+.m{position:absolute;left:1160px;width:660px;font-size:28px;line-height:1.4}
+.cd{position:absolute;width:262px;top:752px;text-align:center}.cd .p{font-size:28px}.cd .f{font-size:24px;line-height:1.4;margin-top:6px}.cd .u{font-size:22px;color:var(--muted);margin-top:6px}</style></head><body><div class="slide">
+<h1>數值欄位：組合起來才有意義</h1><p class="lead">把業務上真正在意的關係，直接算給模型看——比率與差值常比原始欄位更有力。</p>
+<div class="b" style="left:110px;top:290px">運費</div><div class="op" style="left:400px;top:300px">÷</div><div class="b" style="left:470px;top:290px">訂單金額</div>
+<div class="m" style="top:285px">是否為了湊免運而亂買<br><span class="note">運費 300 元說明不了什麼；占訂單金額 30% 就很可疑</span></div>
+<div class="b" style="left:110px;top:425px">商品價格</div><div class="op" style="left:400px;top:435px">÷</div><div class="b" style="left:470px;top:425px">同類平均價格</div>
+<div class="m" style="top:448px">是否買了特別貴的款式</div>
+<div class="b" style="left:110px;top:560px">預約安裝日</div><div class="op" style="left:400px;top:570px">−</div><div class="b" style="left:470px;top:560px">結帳時間</div>
+<div class="m" style="top:583px">等待越久，越可能改變心意</div>
+<div class="abs lbl mut" style="left:110px;top:700px">數值欄位的六種問題與做法</div>
+<div class="cd" style="left:119px"><div class="p">缺失</div><div class="f">補中位數<br>＋缺失旗標</div><div class="u">全部模型</div></div>
+<div class="cd" style="left:405px"><div class="p">偏態長尾</div><div class="f">log(1 + 金額)<br>200,000 → 12.2</div><div class="u">線性、神經網路</div></div>
+<div class="cd" style="left:691px"><div class="p">尺度不同</div><div class="f">標準化</div><div class="u">線性、神經網路、KNN</div></div>
+<div class="cd" style="left:977px"><div class="p">極端值</div><div class="f">先查是不是錯誤<br>真實的再截尾</div><div class="u">線性</div></div>
+<div class="cd" style="left:1263px"><div class="p">非線性</div><div class="f">分箱、樣條</div><div class="u">線性</div></div>
+<div class="cd" style="left:1549px"><div class="p ver">單獨無意義</div><div class="f">比率、差值<br>（上方三例）</div><div class="u">全部模型</div></div>
+<div class="read"><em>怎麼讀：</em>上方每一列「兩個方塊合成一個圓」——兩個原始欄位，合成一個有業務意義的訊號；下方六格是數值欄位的檢查清單。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+[290,425,560].forEach(y=>{D.rect(110,y,280,90,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:2.5});D.rect(470,y,280,90,'#d9e1ee',{fillStyle:'solid',stroke:D.C.ind,strokeWidth:2.5});
+ D.arrow(770,y+45,960,y+45);D.ci(1040,y+45,80,'ver');});
+for(let i=0;i<6;i++){const last=i===5;D.rect(110+i*286,742,270,170,last?'#f7d6cf':'#f7e7c0',{fillStyle:'solid',stroke:last?D.C.ver:D.C.mus,strokeWidth:2.5});}</script></body></html>

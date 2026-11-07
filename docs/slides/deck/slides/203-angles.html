@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>5W1H 切角</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>.c{position:absolute;width:320px;height:250px;padding:18px 22px}.c h2{font-size:40px;line-height:1.1}.c h2 span{font-size:26px;color:var(--muted);margin-left:10px}
+.c p{font-size:26px;line-height:1.45;margin-top:14px}
+.k{position:absolute;left:1340px;width:470px}.k h2{font-size:32px;line-height:1.3}.k p{font-size:24px;line-height:1.4;color:var(--muted)}</style></head><body><div class="slide">
+  <h1>切角：從哪些角度分組比較</h1><p class="lead">先從第 1 章議題樹的葉節點挑，再用 5W1H 補漏。</p>
+  <div class="c" style="left:110px;top:300px"><h2>Who<span>是誰？</span></h2><p>新會員 vs 老會員、年齡層、是否家庭方案</p></div>
+  <div class="c" style="left:450px;top:300px"><h2>What<span>用什麼？</span></h2><p>方案類型、常看的內容類別</p></div>
+  <div class="c" style="left:790px;top:300px"><h2>Where<span>在哪裡？</span></h2><p>地區、主要使用的裝置</p></div>
+  <div class="c" style="left:110px;top:570px"><h2>When<span>何時？</span></h2><p>加入的月份、距離上次觀看幾天</p></div>
+  <div class="c" style="left:450px;top:570px"><h2>How<span>怎麼用？</span></h2><p>付款方式、是否自動續約</p></div>
+  <div class="c" style="left:790px;top:570px"><h2>How much<span></span></h2><p>月付金額、每週觀看時數</p></div>
+  <div class="abs" style="left:1260px;top:300px;font-size:32px">好切角的四個條件</div>
+  <div class="k" style="top:375px"><h2>有預期</h2><p>跑之前寫得出「A 組比 B 組高」</p></div>
+  <div class="k" style="top:500px"><h2>樣本夠</h2><p>每組至少數百筆，否則比例亂跳</p></div>
+  <div class="k" style="top:625px"><h2>可行動</h2><p>結果會改變特徵設計或業務作法</p></div>
+  <div class="k" style="top:750px"><h2 class="ver">T0 拿得到</h2><p>拿不到的只能理解原因，要標「T0 不可得」</p></div>
+  <div class="read"><em>怎麼讀：</em>左邊六格產生候選切角，右邊四關負責篩掉；四關都過的切角，才值得跑一次分組比較。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+[[110,300],[450,300],[790,300],[110,570],[450,570],[790,570]].forEach(([x,y],i)=>D.rect(x,y,320,250,i<3?'#d9e1ee':'#f7e7c0',{fillStyle:'solid',stroke:i<3?D.C.ind:'#b98a12',strokeWidth:3}));
+D.arrow(1130,570,1220,570,{strokeWidth:3});
+[400,525,650].forEach(y=>D.sq(1262,y,44,'ind',{fillStyle:'solid'}));
+D.tri(1284,800,52,'mus');
+</script></body></html>

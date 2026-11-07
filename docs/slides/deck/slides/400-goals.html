@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>第 4 章 特徵工程</title>
+<link rel="stylesheet" href="../assets/base.css"><script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script><script src="../assets/draw.js"></script>
+<style>#l{position:absolute;left:110px;top:110px;width:820px}#l .ch{font-size:44px;color:var(--ind)}
+#g{position:absolute;left:1040px;top:130px;width:780px}#g h2{margin-bottom:18px}
+#case{position:absolute;left:1040px;top:760px;width:770px;padding:26px 34px;font-size:28px;line-height:1.55}
+#case .k{font-size:24px;color:var(--muted);display:block;margin-bottom:6px}</style></head><body><div class="slide">
+<div id="l"><div class="ch">第 4 章</div><h1 class="xl" style="margin-top:6px">特徵工程</h1>
+<p class="lead">特徵＝把<b>領域知識翻譯</b>成模型看得懂的訊號。<br>好特徵講得出：來自哪個假設、<br>預測當下拿得到、加進去真的有進步。</p></div>
+<div id="g"><h2>學習目標</h2><ul class="dots">
+<li>說明為什麼表格資料上，特徵工程常比換模型有效</li>
+<li>依資料型態與模型種類選擇處理方式，並說出理由</li>
+<li>用時點正確的方式計算歷史統計特徵，不偷看未來</li>
+<li>用消融實驗與邊際價值判斷特徵值不值得留下</li></ul></div>
+<div id="case"><span class="k">本章案例</span>家電零售商：在顧客<b>結帳的當下</b>，預測這筆訂單 30 天內會不會被退貨。</div>
+</div><svg class="rough" id="r" width="1920" height="1080"></svg>
+<script>const D=Draw('r');
+D.sq(250,560,360,'ind',{strokeWidth:3});
+D.sq(660,800,120,'mus',{fillStyle:'solid'});
+D.rect(1030,750,790,200,'#f7e7c0',{fillStyle:'solid',stroke:D.C.mus,strokeWidth:3});</script></body></html>
