@@ -62,16 +62,26 @@ source .venv/bin/activate      # Windows：.venv\Scripts\activate
 
 ### 3. 設定 Kaggle API 金鑰
 
-1. 登入 Kaggle → 右上角頭像 → **Settings** → **API** → **Create New Token**，瀏覽器會下載 `kaggle.json`
-2. 把它放到固定位置：
+1. 登入 Kaggle → 右上角頭像 → **Settings** → **API** → **Create New Token**，畫面會顯示一串 `KGAT_` 開頭的 token（只顯示一次，先複製起來）
+2. 把它存到固定位置（把 `KGAT_xxx` 換成你的 token）：
 
 ```bash
-mkdir -p ~/.kaggle
-mv ~/Downloads/kaggle.json ~/.kaggle/
-chmod 600 ~/.kaggle/kaggle.json   # 只有自己能讀，否則 kaggle 會警告
+mkdir -p ~/.kaggle && chmod 700 ~/.kaggle
+printf '%s' 'KGAT_xxx' > ~/.kaggle/access_token
+chmod 600 ~/.kaggle/access_token   # 只有自己能讀
 ```
 
-Windows 放在 `C:\Users\<你的帳號>\.kaggle\kaggle.json`。這個檔案是你的密碼，**不要提交到 git、不要傳給別人**。
+3. 確認認證成功（會列出 9 個 CSV 檔名）：
+
+```bash
+kaggle datasets files olistbr/brazilian-ecommerce
+```
+
+Windows 存成 `C:\Users\<你的帳號>\.kaggle\access_token`（純文字、只有 token 一行）。不想存檔也可以每次開終端機設環境變數：`export KAGGLE_API_TOKEN=KGAT_xxx`（PowerShell：`$env:KAGGLE_API_TOKEN="KGAT_xxx"`）。
+
+**舊帳號已經有 `kaggle.json`？** 放在 `~/.kaggle/kaggle.json` 並 `chmod 600` 也能用，不必換。
+
+token 等同你的密碼：**不要提交到 git、不要貼到聊天室或給 AI 看**。外流了就回 Kaggle Settings → API 撤銷，再產生新的。
 
 ### 4. 下載資料
 
@@ -83,7 +93,7 @@ python scripts/download_data.py
 
 | 錯誤訊息 | 原因與處理 |
 |---|---|
-| `Kaggle 認證失敗` | `~/.kaggle/kaggle.json` 不存在或路徑錯，回到步驟 3 |
+| `Kaggle 認證失敗` | `~/.kaggle/access_token`（或 `kaggle.json`）不存在、路徑錯或 token 已撤銷，回到步驟 3 |
 | `請先 uv sync 安裝 kaggle 套件` | 沒啟用環境或沒跑 `uv sync`，回到步驟 2 |
 | `下載後仍缺：[...]` | 下載中斷，刪掉 `data/raw/` 裡的檔案重跑 |
 
@@ -112,6 +122,8 @@ python scripts/make_holdout.py   # 產生 data/holdout/labels.csv（2018-06～08
 jupyter lab notebooks/M1_problem_framing.ipynb   # 第一堂課
 claude                                            # 或 codex；在 repo 根目錄、同一個已啟用環境的終端機開啟
 ```
+
+**用 VS Code 開 notebook**：右上角 kernel 要選專案的 `.venv`（**Select Kernel → Python Environments → `.venv`**）。如果跳出「requires the ipykernel package… `pip install ipykernel --user`」，代表選到了系統 Python，**不要照它的指令裝**，改選 `.venv` 即可（`uv sync` 已裝好 ipykernel）。
 
 AI 會自動讀到 `AGENTS.md` 的規範，以及 `knowledge/brief.md`（任務定義，已核准）。第一句可以對它說：「用 data-card 帶我看一遍資料」。
 

@@ -1,6 +1,6 @@
 """下載 Olist Brazilian E-Commerce 資料集到 data/raw/。
 
-前置：~/.kaggle/kaggle.json（Kaggle → Settings → API → Create New Token）。
+前置：~/.kaggle/access_token（Kaggle → Settings → API → Create New Token；舊版 kaggle.json 亦可）。
 用法：uv run python scripts/download_data.py
 """
 from __future__ import annotations
@@ -39,7 +39,7 @@ def main() -> int:
     try:
         api.authenticate()
     except Exception as exc:  # noqa: BLE001 - 轉成友善訊息
-        print(f"Kaggle 認證失敗：{exc}\n請確認 ~/.kaggle/kaggle.json 存在", file=sys.stderr)
+        print(f"Kaggle 認證失敗：{exc}\n請確認 ~/.kaggle/access_token（或 kaggle.json）存在，詳見 README 步驟 3", file=sys.stderr)
         return 1
     api.dataset_download_files(DATASET, path=str(RAW_DIR), quiet=False)
     for zip_path in RAW_DIR.glob("*.zip"):

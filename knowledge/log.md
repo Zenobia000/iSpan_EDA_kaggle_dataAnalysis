@@ -165,3 +165,10 @@
 - 結論：brief.md 維持 approved，§5 內容不變
 - 坑或困難：參考實驗紀錄缺每個 fold 的分數（fold_scores），「每個月份都進步」目前無法從紀錄重算
 - 下一步：下載資料、由人類切 holdout，再用真實資料跑 M1–M5 notebooks 與 scripts/reproduce_reference_runs.py，補齊 fold_scores 後打 tag olist-course-v2
+
+## R5-07 · 2026-11-08 · 下載資料：Kaggle 新版 token 與 README 設定說明
+- 做了什麼：Kaggle「Create New Token」現在給 `KGAT_` 開頭的 token（不再下載 kaggle.json），存成 `~/.kaggle/access_token` 後以 `scripts/download_data.py` 下載資料；同步更新 README 步驟 3、步驟 7（VS Code kernel）、syllabus 與腳本錯誤訊息
+- 結果：kaggle CLI 2.2.5 認證成功，data/raw/ 9 個 CSV 齊全（約 126 MB），git 未追蹤
+- 結論：README 主流程改為 access_token，保留 kaggle.json 舊寫法說明
+- 坑或困難：VS Code 預設選到系統 Python，提示用 `pip install --user ipykernel`，照做會污染系統環境；正解是改選 `.venv` kernel
+- 下一步：由人類切 holdout（scripts/make_holdout.py），再用真實資料跑 M1–M5 notebooks

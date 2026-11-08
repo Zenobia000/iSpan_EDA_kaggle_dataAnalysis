@@ -55,7 +55,7 @@ Leaderboard 名次**不計分**。計分看的是實驗可信度：有 log、有
 
 ## 課前準備
 
-- Kaggle 帳號與 API token（`~/.kaggle/kaggle.json`）
+- Kaggle 帳號與 API token（`~/.kaggle/access_token`，設定方式見 README 步驟 3）
 - Python 3.10+ 與 [uv](https://docs.astral.sh/uv/)
 - Claude Code 或 Codex CLI，擇一即可
 - 會用 pandas 的 groupby / merge，用過 scikit-learn 的 fit / predict
