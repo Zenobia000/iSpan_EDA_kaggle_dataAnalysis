@@ -47,6 +47,8 @@ uv run jupyter lab notebooks/M1_problem_framing.ipynb
 
 ## 專案結構
 
+與 `main` 空模板骨架的逐資料夾對照，見 [`docs/folder_structure.md`](docs/folder_structure.md)。
+
 ```
 AGENTS.md                 # 課程鐵律（Claude Code 與 Codex 共用的單一真相源）
 CLAUDE.md                 # @AGENTS.md + Claude 專屬說明（subagents / hooks）
