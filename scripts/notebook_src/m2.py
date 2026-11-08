@@ -8,7 +8,7 @@ CELLS = [
 原則：**先寫預期，再跑程式。** 沒有預期的圖表不畫。
 
 本單元產出：3 張以上假設卡（至少 1 張被推翻或證據不足），以及 Lab1：相關 ≠ 因果。
-""" + AI_TIP.format(skill="hypothesis-eda", agent="eda-analyst")),
+""" + AI_TIP.format(skill="hypothesis-eda", agent="eda-agent")),
     ("code", SETUP),
     ("code", """
 from olist_course.data.build_base import build_eda_table

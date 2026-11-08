@@ -9,7 +9,7 @@ CELLS = [
 - Lab3：刻意製造資料洩漏 → 觀察分數暴漲 → 用測試抓出來 → 修正
 - Permutation Importance：哪些特徵真的有用
 - Adversarial Validation：訓練期與上線期的分布偏移
-""" + AI_TIP.format(skill="leakage-audit", agent="validation-auditor")),
+""" + AI_TIP.format(skill="leakage-audit", agent="validation-agent")),
     ("code", SETUP),
     ("code", """
 from olist_course.data.dataset import drop_features, load_dataset

@@ -1,6 +1,6 @@
 """講師端：重跑知識庫範例筆記引用的所有實驗，寫入 experiments/reference_log.jsonl（固定 run_id）。
 
-knowledge/50_Runs/EXP-*.md 的 run_ids 都指向這裡；tests/test_knowledge_vault.py 會檢查。
+knowledge/log.md 與 findings.md 引用的 run_id 都指向這裡（experiments/reference_log.jsonl）。
 holdout 計分需要先執行 scripts/make_holdout.py（講師端）。
 用法：uv run python scripts/reproduce_reference_runs.py   （約 3–5 分鐘）
 """

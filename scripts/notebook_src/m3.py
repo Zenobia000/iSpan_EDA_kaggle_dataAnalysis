@@ -8,10 +8,10 @@ CELLS = [
 流程：**假設（M2）→ feature card → notebook 原型 → ablation 驗證 → 升級進 `features/` + 測試**
 
 本單元產出：
-- 3–5 張特徵群組卡（寫在 `knowledge/40_Features/`，一個群組一張）
+- 3–5 張特徵群組卡（寫在 `knowledge/log.md`，一個群組一段）
 - 1 個在 notebook 原型、並升級進 pipeline 的新特徵群組
 - Lab2：增加特徵一定會提升模型嗎？
-""" + AI_TIP.format(skill="feature-card", agent="feature-engineer")),
+""" + AI_TIP.format(skill="feature-card", agent="feature-agent")),
     ("code", SETUP),
     ("code", """
 from olist_course.data.dataset import add_features, load_dataset, load_tables_cached
@@ -174,7 +174,7 @@ stepwise[["n_features", "gain_vs_base", "paired_gain_std", "folds_improved", "ro
 從你的 feature card 中挑一個，在 notebook 用 `add_features` 原型驗證，直到 `robust_gain=True`。
 方向提示：品類層級的歷史差評率（point-in-time）、顧客與賣家是否同城、承諾天數相對同路線歷史中位數的比值。
 
-有 robust 增益之後，交給 `feature-engineer` subagent（或 Codex 依 feature-card skill）：
+有 robust 增益之後，交給 `feature-agent` subagent（或 Codex 依 feature-card skill）：
 1. 新增 `src/olist_course/features/<your_group>.py`，`build(base, tables)` 回傳新欄位
 2. 在 `registry.py` 登記群組，並加 `FEATURE_SETS["all_safe+<your_group>"]`
 3. `uv run pytest tests/test_leakage.py` 必須通過 —— 擾動測試會自動涵蓋新群組

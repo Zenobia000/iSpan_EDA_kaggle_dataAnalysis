@@ -38,6 +38,20 @@ flowchart LR
 | [05 模型選擇與評估](textbook/05_model_selection.md) | [05 實驗紀錄與模型比較](practice/05_experiments.md) |
 | [06 人機協作的資料科學](textbook/06_human_ai_collaboration.md) | [06 每輪審查與交付](practice/06_review_and_delivery.md) |
 
+## 範例專案教材：Olist Kaggle 實戰（`olist/`，只在 `course/olist` 分支）
+
+把上面兩層套到一個真實資料集上的 15 小時課程：
+
+| 檔案 | 內容 |
+|---|---|
+| [`olist/syllabus.md`](olist/syllabus.md) | 課綱：M1–M5 模組、時數、產出、對應 skill |
+| [`olist/instructor_guide.md`](olist/instructor_guide.md) | 講師手冊 |
+| [`olist/labs/`](olist/labs/) | 4 份 Lab |
+| [`olist/playbook.md`](olist/playbook.md) | 從這個專案沉澱出的跨專案方法 |
+| [`olist/folder_structure.md`](olist/folder_structure.md) | 模板資料夾 → Olist 實際內容對照 |
+
+範例成果報告在 `reports/report.md`（M5 解答，課前不要發給學員）。
+
 ## 規則
 
 - 教科書裡出現工具名稱，只限通用函式庫（pandas、scikit-learn、LightGBM 等），不提本模板的任何元件

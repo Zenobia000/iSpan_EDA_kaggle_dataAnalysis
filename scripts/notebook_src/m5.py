@@ -12,7 +12,7 @@ CELLS = [
 4. `submissions/<你的名字>.csv` → 講師計分（holdout 2018-06~08）
 5. Lab ABC：AI Only vs Human Guided vs Validated AI
 6. 成果報告（report-writer skill）
-""" + AI_TIP.format(skill="error-analysis", agent="model-runner")),
+""" + AI_TIP.format(skill="error-analysis", agent="model-agent")),
     ("code", SETUP),
     ("code", """
 from dataclasses import replace
@@ -94,9 +94,9 @@ pd.read_csv(path).head()
 |---|---|---|
 | A — AI Only | 只給任務與資料，讓 AI 自主找特徵與模型 | 「提升 PR-AUC，自己決定特徵」 |
 | B — Human Guided | 學員依 M2 假設卡指定特徵，AI 只負責實作 | 「依這三張 feature card 實作」 |
-| C — Validated AI | B + 每個新特徵都要過 leakage-audit 與 validation-auditor | 「實作後交給 validation-auditor 審查」 |
+| C — Validated AI | B + 每個新特徵都要過 leakage-audit 與 validation-agent | 「實作後交給 validation-agent 審查」 |
 
-詳細流程：`docs/labs/lab_abc_ai_comparison.md`。把結果填入下表：
+詳細流程：`docs/olist/labs/lab_abc_ai_comparison.md`。把結果填入下表：
 """),
     ("code", """
 log = read_log()

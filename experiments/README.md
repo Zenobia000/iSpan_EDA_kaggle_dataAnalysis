@@ -18,6 +18,13 @@
 | `train_mean` | 建議 | 訓練分數，用來看過擬合 |
 | `note` | 建議 | 對應的 `knowledge/log.md` 段落（例：R2-03） |
 
+## 本專案（Olist）的實作
+
+- 寫入程式：`src/olist_course/tracking.py` 的 `run_experiment()`，一律經由它產生要報告的分數；`round_="R3"` 指定輪次
+- 除了上表的合約欄位，另外保留 `pr_auc_mean`、`p_at_k_mean`、`lift_at_k_mean`、`overfit_gap` 等課程用欄位
+- `reference_log.jsonl`：講師參考跑分（run_id `REF-xxx`），`knowledge/log.md` 與 `findings.md` 的數字都對得到它；
+  由 `scripts/reproduce_reference_runs.py` 產生。舊紀錄只補了能推導的合約欄位，`fold_scores` 要重跑該腳本才會有
+
 ## 規則
 
 - 一律追加，不改寫、不刪除舊紀錄（錯的實驗也是紀錄）

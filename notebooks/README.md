@@ -15,6 +15,12 @@
 
 升級的方式見 `src/README.md`。沒升級的程式碼**不能**用來產生報告中的最終數字。
 
+## 本專案（Olist 課程）的例外
+
+`M1_*` … `M5_*` 與 `solutions/` 是**課程教材**，不是拋棄式探索：它們由 `scripts/notebook_src/m*.py` 產生，
+要修改請改原始檔，再執行 `uv run python scripts/build_notebooks.py`（`tests/test_notebooks_in_sync.py` 會檢查兩邊一致）。
+學員自己的探索仍依上面的命名規則另開新檔。
+
 ## 規則
 
 - notebook 開頭第一個 cell 寫：這個 notebook 要回答什麼問題（對應 `knowledge/log.md` 的段落）

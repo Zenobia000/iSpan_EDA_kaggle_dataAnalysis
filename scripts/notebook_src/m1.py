@@ -12,7 +12,7 @@ CELLS = [
 1. 分析問題定義書（決策情境、T0、目標、指標、驗證設計）
 2. Data Card 重點：粒度、join 風險、哪些欄位在 T0 之後才出現
 3. 兩個 baseline 分數（Dummy、raw LGBM）
-""" + AI_TIP.format(skill="problem-framing", agent="eda-analyst")),
+""" + AI_TIP.format(skill="define-boundaries", agent="eda-agent")),
     ("code", SETUP),
     ("md", "## 1. 讀資料：9 張表、各自的粒度"),
     ("code", """
@@ -111,7 +111,7 @@ compare([replace(r_dummy, name="dummy"), r_raw], baseline="dummy")[
     ["model", "n_features", "pr_auc_mean", "pr_auc_std", "p_at_k_mean", "lift_at_k_mean", "folds_improved"]
 ]
 """),
-    ("md", "### 練習 4：寫出你的分析問題定義書（用 problem-framing skill 的模板）"),
+    ("md", "### 練習 4：寫出你的分析問題定義書（用 define-boundaries skill 的 brief 模板）"),
     ("ans", """
 1. 決策情境：客服每天開工前，從前一天新訂單挑出前 5% 高風險訂單主動聯繫
 2. T0：下單當下（`order_purchase_timestamp`）

@@ -18,4 +18,5 @@
 
 | 檔案 / 表 | 來源（URL、系統、負責人） | 取得日期 | 授權 / 限制 | 下載方式 |
 |---|---|---|---|---|
-| | | | | |
+| `raw/olist_*_dataset.csv` 等 9 張表 | Kaggle [olistbr/brazilian-ecommerce](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) | 執行下載腳本當天 | CC BY-NC-SA 4.0（非商業） | `uv run python scripts/download_data.py`（需要 `~/.kaggle/kaggle.json`） |
+| `holdout/`（2018-06~08 的答案） | 由 `raw/` 切出 | 講師上課前 | 只有講師可以讀 | `uv run python scripts/make_holdout.py`（講師端） |

@@ -15,3 +15,7 @@ submissions/*
 
 # 投影片截圖（可用 docs/slides/deck/shoot.sh 重建）
 docs/slides/deck/shots/
+
+# Olist 課程：講師計分輸出、coverage
+leaderboard.md
+.coverage
