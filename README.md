@@ -7,6 +7,17 @@
 **任務**：在顧客**下單當下**，預測這筆 Olist 訂單會不會拿到 1–2 星差評，讓客服每天主動關懷風險最高的 5%。
 完整定義見 [`knowledge/brief.md`](knowledge/brief.md)（已核准），課綱見 [`docs/olist/syllabus.md`](docs/olist/syllabus.md)。
 
+## 第一次來？先看資料導覽
+
+[**Olist 資料導覽**](docs/olist/data_intro.html)：給初學者的互動網頁，5 分鐘看懂資料內容與任務目標。
+
+- 訂單從下單到評價的時間線，以及最重要的規則：只能用下單當下（T0）已知的資訊
+- 九張表的關係圖，點任一張表看它是什麼、能不能用
+- 哪些欄位可以用、資料怎麼依時間切分、動手前要知道的坑
+
+怎麼打開：clone 之後用瀏覽器開 `docs/olist/data_intro.html`；或不用下載，直接看[線上預覽](https://htmlpreview.github.io/?https://github.com/Zenobia000/iSpan_EDA_kaggle_dataAnalysis/blob/course/olist/docs/olist/data_intro.html)（GitHub 本身只會顯示 HTML 原始碼）。
+文字版細節在 [`knowledge/data.md`](knowledge/data.md)（資料）與 [`knowledge/brief.md`](knowledge/brief.md)（任務）。
+
 ## 這個分支和 `main` 的關係
 
 `main` 是**空模板**：資料夾分層、說明文件、知識文件模板、agents/skills/hooks。
@@ -21,7 +32,7 @@ git diff --stat main..course/olist   # 只會看到「長出來的內容」
 
 ## 快速開始
 
-第一次接觸這份資料，先用瀏覽器打開 [`docs/olist/data_intro.html`](docs/olist/data_intro.html)，5 分鐘看懂資料內容與任務目標。
+還沒看過的話，先看上面的[資料導覽](docs/olist/data_intro.html)。
 
 ### 0. 事前準備
 
@@ -108,7 +119,7 @@ AI 會自動讀到 `AGENTS.md` 的規範，以及 `knowledge/brief.md`（任務�
 
 | 模組 | 時數 | 核心問題 | Notebook | Skill | 知識文件 |
 |---|---|---|---|---|---|
-| M1 | 2h | 下單那一秒，我們知道什麼？ | `M1_problem_framing` | define-boundaries、data-card | `brief.md`、`data.md` |
+| M1 | 2h | 下單那一秒，我們知道什麼？ | `M1_problem_framing`（課前先看[資料導覽](docs/olist/data_intro.html)） | define-boundaries、data-card | `brief.md`、`data.md` |
 | M2 | 3h | 相關性代表因果嗎？ | `M2_hypothesis_eda` | hypothesis-eda | `log.md` R2 |
 | M3 | 4h | 增加特徵一定更好嗎？ | `M3_feature_lab` | feature-card、leakage-audit、promote-to-src | `log.md` R3 |
 | M4 | 3h | 分數變高，模型真的變好了嗎？ | `M4_validation_ablation` | experiment-protocol、leakage-audit | `log.md` R4 |
