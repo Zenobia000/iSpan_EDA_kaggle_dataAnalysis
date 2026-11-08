@@ -8,6 +8,17 @@
 
 程式碼由 AI 在對話中產生；被證明有價值的，才放進 `src/`。
 
+## 範例專案：Olist Kaggle 實戰（上課參考）
+
+想看這個模板「填滿之後」長什麼樣子，請切到分支 **`course/olist`**：一個完整的 Olist 差評預測課程，含 pipeline、M1–M5 notebooks、課綱、已填好的知識庫與講師範例報告。
+
+```bash
+git switch course/olist        # 範例分支（可能持續修訂）
+git switch -d olist-course-v1  # 固定版本（上課以此為準，不會變動）
+```
+
+> 範例分支只供參考，不要合併回 `main`。
+
 ---
 
 ## 使用步驟
