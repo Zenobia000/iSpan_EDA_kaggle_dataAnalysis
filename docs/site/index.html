@@ -321,6 +321,80 @@ footer ul{list-style:none;padding:0;margin:0}
 .iter-note{border:1px dashed var(--lapis);padding:10px 14px;background:#f8efd6;color:#140f08}
 .stagebar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:22px 0 0;padding-top:14px;border-top:1px solid var(--rule)}
 .stagebar .pos{font:600 15px var(--serif)}
+/* ---------- org chart ---------- */
+.org{margin-top:22px;position:relative}
+.org-tier{display:flex;justify-content:center}
+.slab{width:min(640px,100%);text-align:center;padding:18px 22px 20px;border:2px solid var(--ink);position:relative}
+.slab.human{background:#f2d8cc;border-color:var(--carnelian);box-shadow:0 0 0 4px #f8efd6,0 0 0 6px var(--carnelian)}
+.slab.ai{background:#d9e2ee;border-color:var(--lapis);box-shadow:0 0 0 4px #f8efd6,0 0 0 6px var(--lapis)}
+.slab-k{margin-bottom:4px}
+.slab-t{font:900 30px/1.3 var(--serif);letter-spacing:.06em;color:#140f08}
+.slab-d{font-size:15px;color:#3a2f1e;margin-top:6px;max-width:34em;margin-left:auto;margin-right:auto}
+.slab-skills{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 14px;margin-top:14px}
+.org-gate{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 0;position:relative;min-height:70px}
+.org-gate::before{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:3px solid var(--ink)}
+.org-gate .gate-lbl{position:relative;background:var(--papyrus);font-size:13px;color:var(--carnelian);font-weight:700;padding:0 6px}
+.org-gate .sk{position:relative}
+.org-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:34px;position:relative}
+.org-cols::before{content:"";position:absolute;top:-18px;left:calc((100% - 54px)/8 - 1.5px);right:calc((100% - 54px)/8 - 1.5px);border-top:3px solid var(--ink)}
+.org-cols::after{content:"";position:absolute;top:-34px;left:50%;height:16px;border-left:3px solid var(--ink)}
+.pillar{border:2px solid var(--ink);background:#f8efd6;display:flex;flex-direction:column;position:relative}
+.pillar::before{content:"";position:absolute;top:-20px;left:50%;height:18px;border-left:3px solid var(--ink)}
+.pillar .cap{padding:12px 14px 10px;border-bottom:2px solid var(--ink);background:#d9e2ee}
+.pillar.val .cap{background:#d5e6d6}
+.pillar .cap .who{font:900 22px/1.25 var(--serif);color:#140f08}
+.pillar .cap .cart{font-size:13px;margin-top:6px}
+.pillar .cap .ro{display:inline-block;font-size:12.5px;font-weight:700;color:var(--malachite);border:1.5px solid var(--malachite);padding:0 6px;margin-left:6px;vertical-align:2px}
+.pillar .shaft{padding:14px;display:flex;flex-direction:column;gap:10px;flex:1}
+.pillar .shaft .sk{align-self:flex-start}
+.pillar .rules{border-top:1px solid var(--rule);padding:10px 14px 12px;font-size:14px;color:#3a2f1e}
+.pillar .rules b{color:#140f08}
+.pillar .rules .no{color:var(--carnelian);font-weight:700}
+.sk{font:600 15px var(--sans);color:#140f08;background:#fffaf0;border:2px solid #140f08;border-radius:.7em;padding:6px 16px 6px 12px;min-height:40px;cursor:pointer;position:relative;text-align:left;display:inline-flex;flex-direction:column;gap:1px}
+.sk::after{content:"";position:absolute;right:-2px;top:-2px;bottom:-2px;width:6px;background:#140f08;border-radius:0 .7em .7em 0}
+.sk small{font:500 12.5px var(--sans);color:#3a2f1e}
+.sk.alt{border-style:dashed;background:transparent}
+.sk.alt::after{background:transparent;border:2px dashed #140f08;border-left:none;width:4px}
+.sk:hover{background:#efe0b8}
+.sk[aria-pressed="true"]{background:var(--ochre)}
+.sk:focus-visible{outline:3px solid var(--lapis);outline-offset:2px}
+.org-base{margin-top:22px;border:2px solid var(--ink);background:repeating-linear-gradient(90deg,#e3d1a1 0 18px,#ead8a9 18px 36px);padding:14px 18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;position:relative}
+.org-base::before{content:"";position:absolute;top:-24px;left:calc((100% - 54px)/8 - 1.5px);right:calc((100% - 54px)/8 - 1.5px);height:22px;border-left:3px dotted var(--ink);border-right:3px dotted var(--ink)}
+.org-base .bt{font:900 19px var(--serif);color:#140f08}
+.org-base .bd{font-size:14.5px;color:#3a2f1e;flex:1;min-width:14em}
+.org-detail{margin-top:22px;border:2px solid var(--ink);background:#f8efd6;padding:18px 22px}
+.org-detail h4{margin:0 0 4px;font:900 22px var(--serif)}
+.org-detail .meta{font-size:14px;color:#3a2f1e;margin-bottom:10px}
+.org-detail .grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 28px}
+.org-detail h5{margin:10px 0 2px;font:700 15px var(--serif)}
+.fulltables{margin-top:26px}
+@media (max-width:900px){
+  .org-cols{grid-template-columns:1fr 1fr}
+  .org-cols::before,.org-cols::after,.pillar::before,.org-base::before{display:none}
+  .org-detail .grid{grid-template-columns:1fr}
+  .slab-t{font-size:24px}
+}
+@media (max-width:560px){.org-cols{grid-template-columns:1fr}}
+/* ---------- cross links ---------- */
+.pagemap{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:2px solid var(--ink);margin:18px auto 0;background:#f8efd6}
+.pagemap a{display:block;padding:8px 12px;text-decoration:none;color:#3a2f1e;border-left:1px solid var(--rule);font-size:13.5px;line-height:1.4}
+.pagemap a:first-child{border-left:none}
+.pagemap a b{display:block;font:700 15px var(--serif);color:#140f08}
+.pagemap a.on{background:var(--ochre);color:#140f08}
+.pagemap a:hover{background:#efe0b8}
+.pagemap a.on:hover{background:var(--ochre)}
+.node .goto{display:block}
+.goto{display:inline-block;margin-top:8px;font-size:14px;font-weight:600;color:var(--lapis)}
+.stn{display:inline-block;font:700 12.5px var(--sans);color:#140f08;background:#f8efd6;border:1.5px solid #140f08;padding:0 6px;margin-left:6px;vertical-align:2px}
+.seealso{font-size:14px;margin:6px 0 0;color:#3a2f1e}
+.seealso a{font-weight:600}
+.who-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin:10px 0 0;padding:10px 14px;border:1px solid var(--rule);background:#f8efd6;font-size:14.5px}
+.who-row .lbl{font-weight:700}
+.who-row a.cart{text-decoration:none;color:#140f08}
+.bridge{margin:26px 0 0;padding:14px 18px;border:2px solid var(--ink);background:#f8efd6;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.bridge p{margin:0}
+.ag-line{font-size:14px;color:#3a2f1e;margin-top:6px}
+@media (max-width:760px){.pagemap{grid-template-columns:1fr 1fr}.pagemap a{border-left:none;border-top:1px solid var(--rule)}}
 /* ---------- pages ---------- */
 main > [data-hidden]{display:none!important}
 .pager{display:flex;justify-content:space-between;gap:12px;margin:8px auto 40px;padding-top:18px;border-top:3px double var(--ink)}
@@ -342,7 +416,7 @@ main > [data-hidden]{display:none!important}
     <nav aria-label="主選單">
       <a href="#overview" data-nav="overview">總覽</a>
       <a href="#stages" data-nav="stages">操作流程</a>
-      <a href="#matrix" data-nav="matrix">Skill 矩陣</a>
+      <a href="#matrix" data-nav="matrix">組織與 Skill</a>
       <a href="#folders" data-nav="folders">資料夾</a>
       <a href="#glossary" data-nav="glossary">術語</a>
     </nav>
@@ -353,6 +427,7 @@ main > [data-hidden]{display:none!important}
 
 <!-- ===================== HERO ===================== -->
 <div class="frieze"></div>
+<div class="wrap" id="pagemapWrap"><nav class="pagemap" id="pagemap" aria-label="五頁的關係"></nav></div>
 <section class="hero" id="overview" data-page="overview">
   <div class="wrap hero-grid">
    <div>
@@ -367,8 +442,8 @@ main > [data-hidden]{display:none!important}
    <aside class="remember" aria-labelledby="rem-h">
     <h2 id="rem-h">新手只要記兩件事</h2>
     <ol>
-     <li><span class="rn">1</span><div><strong>親自核准 brief.md</strong><span class="d">把 <code>status</code> 改成 <code>approved</code>，AI 才會開始建模。<a href="#step-3">看第 1 站</a></span></div></li>
-     <li><span class="rn">2</span><div><strong>每輪結束說「round-review」</strong><span class="d">AI 整理證據、給一個建議；留什麼、下一步由你決定。<a href="#step-6">看第 6 站</a></span></div></li>
+     <li><span class="rn">1</span><div><strong>閘門①　親自核准 brief.md</strong><span class="d">把 <code>status</code> 改成 <code>approved</code>，AI 才會開始建模。<a href="#step-3">看第 1 站</a></span></div></li>
+     <li><span class="rn">2</span><div><strong>閘門②　每輪結束說「round-review」</strong><span class="d">AI 整理證據、給一個建議；留什麼、下一步由你決定。<a href="#step-6">看第 6 站</a></span></div></li>
     </ol>
    </aside>
   </div>
@@ -385,48 +460,56 @@ main > [data-hidden]{display:none!important}
         <p class="what">在終端機裡和你對話、能讀寫檔案與執行程式的 AI（Claude Code、Codex）。</p>
         <p class="like">比喻：一位勤快、會寫程式，但會犯「合理錯誤」的助理。</p>
         <details class="more"><summary><span class="lbl-open">細節</span><span class="lbl-close">收合</span></summary><div class="inner"><ul><li>兩種都可用；Claude Code 另有 subagent 與 hook</li><li>在 repo 根目錄開啟，它會自動讀到 <code>AGENTS.md</code></li></ul></div></details>
+        <p class="seealso">在哪裡用到：<a href="#matrix">組織圖：AI 助手（主對話）</a></p>
       </article>
       <article class="term" id="t-agents">
         <h4><svg class="glyph" viewBox="0 0 26 26" aria-hidden="true"><rect x="5" y="3" width="16" height="20" fill="none" stroke="#1f1a12" stroke-width="2"/><path d="M8.5 9h9M8.5 13h9M8.5 17h6" stroke="#1f1a12" stroke-width="1.6"/></svg>AGENTS.md</h4>
         <p class="what">專案最上層的規則文件，AI 每次開工都先讀。</p>
         <p class="like">比喻：新進員工的工作守則。</p>
         <details class="more"><summary><span class="lbl-open">細節</span><span class="lbl-close">收合</span></summary><div class="inner"><ul><li>十條鐵律：邊界歸人類、只用預測當下可得的資訊、不讀 holdout、不改原始資料、一次只改一項、每個比較都留紀錄……</li><li>Claude Code 與 Codex 共用；<code>CLAUDE.md</code> 只是引用它，再補 Claude 專屬設定</li><li>擋不住：AI 忘記或誤解規則</li></ul></div></details>
+        <p class="seealso">在哪裡用到：<a href="#folders" data-open-folder="AGENTS.md">資料夾：AGENTS.md</a></p>
       </article>
       <article class="term" id="t-skill">
         <h4><svg class="glyph" viewBox="0 0 26 26" aria-hidden="true"><rect x="2.5" y="7" width="21" height="12" rx="6" fill="none" stroke="#1f1a12" stroke-width="2"/><path d="M21 9v8" stroke="#1f1a12" stroke-width="2"/><path d="M7 13h9" stroke="#1f4e8c" stroke-width="2"/></svg>Skill 技能</h4>
         <p class="what">一份標準作業程序：某類工作的步驟與驗收標準。</p>
         <p class="like">比喻：一張料理食譜，誰來做都是同樣的品質。</p>
         <details class="more"><summary><span class="lbl-open">細節</span><span class="lbl-close">收合</span></summary><div class="inner"><ul><li>共 11 個，放在 <code>.claude/skills/</code>，複本在 <code>.agents/skills/</code> 給 Codex</li><li>用法：「用 <span class="cart">data-card</span> 整理資料」</li><li>完整清單見 <a href="#matrix">Skill 矩陣</a></li></ul></div></details>
+        <p class="seealso">在哪裡用到：<a href="#matrix">組織圖：誰帶哪些 skill</a></p>
       </article>
       <article class="term" id="t-subagent">
         <h4><svg class="glyph" viewBox="0 0 26 26" aria-hidden="true"><circle cx="9" cy="10" r="4" fill="none" stroke="#1f4e8c" stroke-width="2"/><circle cx="17" cy="16" r="4" fill="none" stroke="#a3361f" stroke-width="2"/><path d="M12 12l2 2" stroke="#1f1a12" stroke-width="2"/></svg>Subagent 子代理</h4>
         <p class="what">只負責某個角色、有權限限制的 AI 分身。</p>
         <p class="like">比喻：會計與稽核分屬不同人，避免球員兼裁判。</p>
         <details class="more"><summary><span class="lbl-open">細節</span><span class="lbl-close">收合</span></summary><div class="inner"><ul><li>四個：eda-agent、feature-agent、model-agent、validation-agent</li><li><strong>validation-agent 只能讀、不能改</strong>，任務是試著推翻「模型變好了」</li><li>Claude Code 專屬；Codex 依 AGENTS.md 角色表自我約束</li></ul></div></details>
+        <p class="seealso">在哪裡用到：<a href="#matrix">組織圖：四個 subagent</a></p>
       </article>
       <article class="term" id="t-hook">
         <h4><svg class="glyph" viewBox="0 0 26 26" aria-hidden="true"><path d="M5 22V8l8-5 8 5v14" fill="none" stroke="#1f1a12" stroke-width="2"/><rect x="10" y="13" width="6" height="9" fill="none" stroke="#a3361f" stroke-width="2"/></svg>Hook 掛鉤</h4>
         <p class="what">AI 做某些動作前後，自動執行的檢查程式。</p>
         <p class="like">比喻：門禁系統，刷卡沒過，門就不開。</p>
         <details class="more"><summary><span class="lbl-open">細節</span><span class="lbl-close">收合</span></summary><div class="inner"><ul><li><code>guard_paths.py</code>：擋寫入 <code>data/raw/</code>、擋讀取 holdout 資料夾</li><li><code>post_edit_tests.py</code>：改了 <code>src/**/*.py</code> 就自動跑洩漏測試；還沒有測試檔也會擋下</li><li>另有 <code>.claude/settings.json</code> 的權限規則保護同樣的資料夾</li></ul></div></details>
+        <p class="seealso">在哪裡用到：<a href="#stage-3">第 3 站：驗證規則與防洩漏</a></p>
       </article>
       <article class="term" id="t-precommit">
         <h4><svg class="glyph" viewBox="0 0 26 26" aria-hidden="true"><rect x="4" y="4" width="18" height="18" fill="none" stroke="#1f1a12" stroke-width="2"/><path d="M8 13l3.5 3.5L18 9" stroke="#2f6b4f" stroke-width="2.4" fill="none"/></svg>pre-commit</h4>
         <p class="what">每次 git commit 前自動跑的檢查，Codex 與手動操作也適用。</p>
         <p class="like">比喻：出貨前的品管站。</p>
         <details class="more"><summary><span class="lbl-open">細節</span><span class="lbl-close">收合</span></summary><div class="inner"><ul><li>三件事：不能提交原始資料、兩份 skill 內容必須一致、<code>src/</code> 有改動就跑洩漏測試</li><li>啟用：<code>pre-commit install</code></li></ul></div></details>
+        <p class="seealso">在哪裡用到：<a href="#stage-0">第 0 站（開工時安裝）</a>、<a href="#stage-3">第 3 站</a></p>
       </article>
       <article class="term" id="t-knowledge">
         <h4><svg class="glyph" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 6h9v15H3zM14 6h9v15h-9z" fill="none" stroke="#1f1a12" stroke-width="2"/><path d="M5.5 10h4M16.5 10h4M5.5 14h4M16.5 14h4" stroke="#b8862b" stroke-width="1.6"/></svg>knowledge/</h4>
         <p class="what">人類與 AI 的共同記憶，只有四份文件。</p>
         <p class="like">比喻：研究室的實驗筆記本，換人接手也看得懂。</p>
         <details class="more"><summary><span class="lbl-open">細節</span><span class="lbl-close">收合</span></summary><div class="inner"><ul><li><code>brief.md</code> 專案定義（人類核准）</li><li><code>data.md</code> 資料說明與坑</li><li><code>log.md</code> 研究日誌（AI 每次回報自動追加，失敗也寫）</li><li><code>findings.md</code> 人類核可的結論</li></ul></div></details>
+        <p class="seealso">在哪裡用到：<a href="#folders" data-open-folder="knowledge/">資料夾：knowledge/</a>，以及每一站的產出</p>
       </article>
       <article class="term" id="t-log">
         <h4><svg class="glyph" viewBox="0 0 26 26" aria-hidden="true"><path d="M4 20h18M7 20V13M12 20V8M17 20v-9" stroke="#1f1a12" stroke-width="2"/><circle cx="12" cy="5" r="1.8" fill="#2f6b4f"/></svg>實驗紀錄</h4>
         <p class="what"><code>experiments/log.jsonl</code>：每次比較一行，只追加不修改。</p>
         <p class="like">比喻：帳本。報告裡每個數字都要對得到一筆帳。</p>
         <details class="more"><summary><span class="lbl-open">細節</span><span class="lbl-close">收合</span></summary><div class="inner"><ul><li>必填：<code>run_id</code>、git、輪次、完整特徵清單、模型與參數、<strong>每個 fold 的分數</strong></li><li>有 fold 分數，才能做同 fold 配對比較</li></ul></div></details>
+        <p class="seealso">在哪裡用到：<a href="#stage-5">第 5 站：實驗紀錄與模型比較</a></p>
       </article>
     </div>
   </div>
@@ -435,24 +518,25 @@ main > [data-hidden]{display:none!important}
 <!-- ===================== PIPELINE ===================== -->
 <section class="block" id="pipeline" data-page="overview">
   <div class="wrap">
-    <div class="sec-head"><h2>協作模型：三道閘門，一個迴圈</h2></div>
-    <p class="prose">專案切成固定階段，並設下三道<strong>人類閘門</strong>：走到這裡，AI 必須停下來交給你決定。中間的迭代可以重複很多次。點「一輪迭代」看第二層。</p>
+    <div class="sec-head"><h2>協作模型：三道閘門，一個迴圈</h2><span class="aside">這是「操作流程」第 0–6 站的鳥瞰圖</span></div>
+    <p class="prose">下一頁的<a href="#stages">操作流程</a>把專案拆成第 0–6 站；這張圖把它們收成四大段，並標出三道<strong>人類閘門</strong>：走到這裡，AI 必須停下來交給你決定。第 2–5 站合稱<strong>一輪迭代</strong>，可以重複很多次。點「一輪迭代」看第二層。</p>
 
     <div class="register" aria-label="第一層：整體流程">
       <div class="reg-label">第一層　整個專案</div>
       <div class="flow">
-        <div class="node h"><span class="n-title">① 定邊界</span><span class="n-sub">決策、預測時點 T0、可用資訊、驗證方式、停止條件</span><span class="role h">你核准 brief.md</span></div>
+        <div class="node h"><span class="n-title">開工與定邊界<span class="stn">第 0–1 站</span></span><span class="n-sub">決策、預測時點 T0、可用資訊、驗證方式、停止條件</span><span class="role h">閘門①　你核准 brief.md</span><a class="goto" href="#stage-1">看第 1 站 →</a></div>
         <div class="arrow" aria-hidden="true"><svg viewBox="0 0 30 16"><path d="M1 8h24M19 2l7 6-7 6" fill="none" stroke="#1f1a12" stroke-width="2"/></svg></div>
-        <button class="node a" id="iterBtn" aria-expanded="false" aria-controls="layer2" type="button"><span class="n-title">一輪迭代</span><span class="n-sub">假設 → 特徵 → 實驗 → 錯誤分析</span><span class="role a">AI 執行（點此展開）</span></button>
+        <button class="node a" id="iterBtn" aria-expanded="false" aria-controls="layer2" type="button"><span class="n-title">一輪迭代<span class="stn">第 2–5 站</span></span><span class="n-sub">假設 → 特徵 → 實驗 → 錯誤分析</span><span class="role a">AI 執行（點此展開第二層）</span></button>
         <div class="arrow" aria-hidden="true"><svg viewBox="0 0 30 16"><path d="M1 8h24M19 2l7 6-7 6" fill="none" stroke="#1f1a12" stroke-width="2"/></svg></div>
-        <div class="node h"><span class="n-title">② 每輪審查</span><span class="n-sub">說「round-review」；留哪些結論、下一輪／停止／提交</span><span class="role h">你決定</span></div>
+        <div class="node h"><span class="n-title">每輪審查<span class="stn">第 6 站</span></span><span class="n-sub">說「round-review」；留哪些結論、下一輪／停止／提交</span><span class="role h">閘門②　你決定</span><a class="goto" href="#step-6">看第 6 站 →</a></div>
         <div class="arrow" aria-hidden="true"><svg viewBox="0 0 30 16"><path d="M1 8h24M19 2l7 6-7 6" fill="none" stroke="#1f1a12" stroke-width="2"/></svg></div>
-        <div class="node h"><span class="n-title">③ 交付</span><span class="n-sub">holdout 只評估一次、寫給決策者的報告</span><span class="role h">你執行</span></div>
+        <div class="node h"><span class="n-title">提交交付<span class="stn">第 6 站</span></span><span class="n-sub">holdout 只評估一次、寫給決策者的報告</span><span class="role h">閘門③　你執行</span><a class="goto" href="#step-7">看第 6 站 →</a></div>
       </div>
-      <div class="loopback"><svg viewBox="0 0 44 18" aria-hidden="true"><path d="M42 2v8H4M10 4l-6 6 6 6" fill="none" stroke="#1f1a12" stroke-width="2"/></svg>② 決定「下一輪」時，回到一輪迭代</div>
+      <div class="loopback"><svg viewBox="0 0 44 18" aria-hidden="true"><path d="M42 2v8H4M10 4l-6 6 6 6" fill="none" stroke="#1f1a12" stroke-width="2"/></svg>閘門② 決定「下一輪」時，回到第 2 站</div>
 
       <div class="layer2" id="layer2" hidden>
         <div class="reg-label">第二層　一輪迭代裡面做什麼（點任一步看細節）</div>
+        <p class="note" style="margin:0 0 10px">這是一輪裡實際發生的<strong>先後順序</strong>，每一步標出它屬於操作流程的哪一站。注意第 3 站（防洩漏）：防線在做特徵<strong>之前</strong>就要架好，但在一輪裡是分數變好<strong>之後</strong>才啟動檢查，所以它出現在第 5 步。</p>
         <div class="l2grid" id="l2grid">
           <button type="button" class="node a" data-l2="0"><span class="n-title"><span class="idx">1</span>假設 EDA</span><span class="n-sub">先寫預期，再分組＋分層驗證</span></button>
           <button type="button" class="node h" data-l2="1"><span class="n-title"><span class="idx">2</span>特徵卡</span><span class="n-sub">定義、T0 可得性；你確認</span></button>
@@ -461,11 +545,12 @@ main > [data-hidden]{display:none!important}
           <button type="button" class="node a" data-l2="4"><span class="n-title"><span class="idx">5</span>洩漏稽核</span><span class="n-sub">擾動測試＋validation-agent</span></button>
           <button type="button" class="node a" data-l2="5"><span class="n-title"><span class="idx">6</span>升級進 src/</span><span class="n-sub">純函式＋測試</span></button>
           <button type="button" class="node a" data-l2="6"><span class="n-title"><span class="idx">7</span>錯誤分析</span><span class="n-sub">可約 → 下一輪假設</span></button>
-          <button type="button" class="node h" data-l2="7"><span class="n-title"><span class="idx">8</span>回到 ② 審查</span><span class="n-sub">你決定去留</span></button>
+          <button type="button" class="node h" data-l2="7"><span class="n-title"><span class="idx">8</span>回到閘門② 審查</span><span class="n-sub">你決定去留</span></button>
         </div>
         <div class="l2-detail" id="l2detail" aria-live="polite"><p class="note">選一步，這裡會顯示：做什麼、誰負責、用哪個 skill。</p></div>
       </div>
     </div>
+    <div class="bridge"><p><strong>鳥瞰看完了。</strong>接下來把這張圖展開：從第 0 站開始，每一站寫明你要做什麼、對 AI 說什麼。</p><a class="goto" href="#stage-0">進入操作流程第 0 站 →</a></div>
   </div>
 </section>
 
@@ -474,7 +559,7 @@ main > [data-hidden]{display:none!important}
 <section class="block" id="stages" data-page="stages">
   <div class="wrap">
     <div class="sec-head"><h2>操作流程</h2><span class="aside">拿到一道題目，就從第 0 站走到第 6 站</span></div>
-    <p class="flowcap">整個專案只有<strong>這一條路</strong>。每一站分兩部分：上面是<strong>你要做的事</strong>（含對 AI 說的話），下面是 <strong>AI 怎麼做</strong>的細節，想深入再展開。<span class="role h">紅色菱形</span>是人類閘門：走到這裡，AI 必須停下來等你決定。</p>
+    <p class="flowcap">整個專案只有<strong>這一條路</strong>（總覽的<a href="#pipeline">協作模型</a>是它的鳥瞰圖）。每一站分兩部分：上面是<strong>你要做的事</strong>（含對 AI 說的話），下面是 <strong>AI 怎麼做</strong>的細節，想深入再展開。<span class="role h">紅色菱形</span>是人類閘門：走到這裡，AI 必須停下來等你決定。</p>
     <div class="sflow-scroll">
       <div class="tabs sflow" role="tablist" id="stageTabs" aria-label="操作流程"></div>
       <div class="iterband" aria-hidden="true"><span></span><span></span><b>一輪迭代：第 2–5 站每輪重複</b><span></span></div>
@@ -487,8 +572,32 @@ main > [data-hidden]{display:none!important}
 <!-- ===================== MATRIX ===================== -->
 <section class="block" id="matrix" data-page="matrix">
   <div class="wrap wide">
-    <div class="sec-head"><h2>Skill × Subagent 矩陣</h2><span class="aside">螢幕較窄時，表格可左右捲動</span></div>
+    <div class="sec-head"><h2>誰帶哪些 skill</h2><span class="aside">一張組織圖：人類在頂端拍板，AI 助手分派，四個 subagent 各帶自己的 skill</span></div>
+    <p class="flowcap">點任一個 <span class="cart" style="font-size:13px">skill</span>，下方會顯示它做什麼、什麼時候叫、對 AI 怎麼說。虛線框代表「也會用，但不是主責」。</p>
 
+    <div class="org" id="org">
+      <div class="org-tier t1">
+        <div class="slab human">
+          <div class="slab-k"><span class="role h">人類閘門</span></div>
+          <div class="slab-t">人類　決策者</div>
+          <div class="slab-d">三道閘門只有你能過：<a href="#stage-1">閘門①核准邊界（第 1 站）</a>、<a href="#step-6">閘門②每輪審查（第 6 站）</a>、<a href="#step-7">閘門③提交交付（第 6 站）</a>。</div>
+        </div>
+      </div>
+      <div class="org-gate" id="orgGate"></div>
+      <div class="org-tier t2">
+        <div class="slab ai">
+          <div class="slab-k"><span class="role a">AI 執行</span></div>
+          <div class="slab-t">AI 助手　主對話</div>
+          <div class="slab-d">你直接對話的那一個。讀 AGENTS.md、分派工作給下面四位、彙整回報給你。</div>
+          <div class="slab-skills" id="orgMain"></div>
+        </div>
+      </div>
+      <div class="org-cols" id="orgCols"></div>
+      <div class="org-base" id="orgBase"></div>
+    </div>
+    <div class="org-detail" id="orgDetail" aria-live="polite"><p class="note">選一個 skill，這裡會顯示細節。</p></div>
+
+    <details class="more fulltables"><summary><span class="lbl-open">展開完整總表（表格版）</span><span class="lbl-close">收合總表</span></summary>
     <h3 class="sub">11 個 skill</h3>
     <div class="table-scroll" tabindex="0" aria-label="Skill 總表"><table class="skill-table" id="skillTable">
       <colgroup><col style="width:176px"><col style="width:92px"><col style="width:220px"><col style="width:150px"><col style="width:180px"><col style="width:190px"><col style="width:214px"><col style="width:120px"></colgroup>
@@ -505,6 +614,7 @@ main > [data-hidden]{display:none!important}
       <thead><tr><th>Subagent</th><th>角色</th><th>擅長</th><th>不准做</th><th>回報格式</th><th>典型叫法</th></tr></thead>
       <tbody></tbody>
     </table></div>
+    </details>
   </div>
 </section>
 
@@ -512,7 +622,7 @@ main > [data-hidden]{display:none!important}
 <section class="block" id="folders" data-page="folders">
   <div class="wrap">
     <div class="sec-head"><h2>資料夾：每一個都在回答「這是從哪來的」</h2></div>
-    <p class="prose">由上往下是規則 → 知識 → 程式 → 證據。每個資料夾的 <code>README.md</code> 寫明規則，AI 寫入前會先讀。點資料夾看用途。</p>
+    <p class="prose">由上往下是規則 → 知識 → 程式 → 證據。每個資料夾的 <code>README.md</code> 寫明規則，AI 寫入前會先讀。點資料夾看用途，以及它在<a href="#stages">操作流程</a>的哪一站被用到。</p>
     <div class="folders">
       <ul class="tree" id="tree" aria-label="資料夾樹"></ul>
       <div class="fdetail" id="fdetail" aria-live="polite"></div>
@@ -579,8 +689,11 @@ var L2=[
  {t:"洩漏稽核",who:"a",skill:"leakage-audit",what:["問一句：「預測那一刻，這個值存在嗎？」","擾動測試：竄改 T0 之後才被觀察到的資訊，合法特徵的值必須不變","分數變好後交給唯讀的 validation-agent 試著推翻"],out:"判定：乾淨／洩漏／可疑，附測試輸出"},
  {t:"升級進 src/",who:"a",skill:"promote-to-src",what:["條件（任一）：第二次被用到／影響最終模型／要交付重現","改成純函式、補洩漏擾動測試與值域測試","notebook 改成 import `src/` 的函式"],out:"`src/<pkg>/features/<群組>.py`＋`tests/`"},
  {t:"錯誤分析",who:"a",skill:"error-analysis",what:["依類別、數值區間、時間切片，找最弱的群體","看最嚴重的誤報、漏報各 20 筆","**可約**（缺特徵）→ 下一輪假設；**不可約**（T0 根本不存在）→ 告訴決策者"],out:"1–3 個下一輪假設＋「模型做不到」清單"},
- {t:"回到 ② 審查",who:"h",skill:"round-review",what:["AI 整理摘要、對照停止條件、列 3–5 條沉澱候選、只給一個建議","**你決定**：留哪幾條結論；下一輪、停止，還是提交"],out:"`knowledge/findings.md` 更新；`log.md` 記下決定"}
+ {t:"回到閘門② 審查",who:"h",skill:"round-review",what:["AI 整理摘要、對照停止條件、列 3–5 條沉澱候選、只給一個建議","**你決定**：留哪幾條結論；下一輪、停止，還是提交"],out:"`knowledge/findings.md` 更新；`log.md` 記下決定"}
 ];
+var L2_ST=[2,4,4,5,3,4,5,6];
+var L2_AG=["eda-agent","feature-agent","model-agent","model-agent","validation-agent","feature-agent","model-agent","你＋AI 助手"];
+$$("#l2grid button").forEach(function(b,i){b.querySelector(".n-title").insertAdjacentHTML("beforeend",'<span class="stn">第 '+L2_ST[i]+' 站</span>')});
 var whoTxt={h:'<span class="role h">人類決定</span>',a:'<span class="role a">AI 執行</span>',v:'<span class="role v">判準</span>'};
 var iterBtn=$("#iterBtn"),layer2=$("#layer2");
 iterBtn.addEventListener("click",function(){
@@ -593,7 +706,9 @@ $$("#l2grid button").forEach(function(b){
     $$("#l2grid button").forEach(function(x){x.setAttribute("aria-pressed","false")});
     b.setAttribute("aria-pressed","true");
     var d=L2[+b.getAttribute("data-l2")];
-    $("#l2detail").innerHTML='<h4>'+esc(d.t)+'</h4><p>'+whoTxt[d.who]+'　使用 <span class="cart">'+d.skill+'</span></p>'+ul(d.what)+'<p><strong>產出：</strong>'+md(d.out)+'</p>';
+    var k=+b.getAttribute("data-l2");
+    $("#l2detail").innerHTML='<h4>'+esc(d.t)+'</h4><p>'+whoTxt[d.who]+'　誰來做：<strong>'+L2_AG[k]+'</strong>　使用 <span class="cart">'+d.skill+'</span></p>'+ul(d.what)+'<p><strong>產出：</strong>'+md(d.out)+'</p>'+
+      '<p class="seealso">對應：<a href="#stage-'+L2_ST[k]+'">操作流程第 '+L2_ST[k]+' 站 →</a>　<a href="#matrix" data-open-skill="'+d.skill+'">這個 skill 在組織圖的位置 →</a></p>';
     if(window.innerWidth<900)$("#l2detail").scrollIntoView({block:"nearest",behavior:"smooth"});
   });
 });
@@ -720,10 +835,17 @@ STAGES.unshift({id:"s0",n:0,t:"開工準備",md:"00_overview.md",
 var STEP_AT={0:[0,1],1:[2,3],2:[4],3:[5],4:[],5:[],6:[6,7]};
 STAGES.forEach(function(s){s.steps=(STEP_AT[s.n]||[]).map(function(k){return STEPS.filter(function(x){return x.n===k})[0]})});
 var ITER_NOTE={3:"第 3–5 站是「跑一輪」的內容：你只要對 AI 說上面那段話，AI 會依序做第 3、4、5 站的事。",4:"這一站沒有新的指令要下：它在「跑一輪」裡由 AI 執行。你的工作是看懂下面的細節，並在檢核清單上驗收。",5:"這一站沒有新的指令要下：它在「跑一輪」裡由 AI 執行。你的工作是看懂下面的細節，並在檢核清單上驗收。"};
+var ST_ROLES={0:"你",1:"你＋AI 助手",2:"eda-agent",3:"validation-agent（feature-agent 輔助）",4:"feature-agent",5:"model-agent",6:"你＋AI 助手"};
+var ST_SKILLS={0:[],1:["define-boundaries"],2:["data-card","hypothesis-eda"],3:["leakage-audit"],4:["feature-card","promote-to-src"],5:["experiment-protocol","error-analysis"],6:["round-review","report-writer"]};
+function whoRow(n){
+  var sk=ST_SKILLS[n];
+  return '<div class="who-row"><span class="lbl">誰來做</span>'+ST_ROLES[n]+(sk.length?'<span class="lbl" style="margin-left:10px">用到的 skill</span>'+sk.map(function(x){return '<a class="cart" href="#matrix" data-open-skill="'+x+'">'+x+'</a>'}).join(""):'')+
+    '<a class="goto" style="margin:0 0 0 auto" href="#matrix">看組織圖 →</a></div>';
+}
 function loadChk(k){try{return localStorage.getItem("dsguide:"+k)==="1"}catch(e){return false}}
 function saveChk(k,v){try{localStorage.setItem("dsguide:"+k,v?"1":"0")}catch(e){}}
 $("#stageTabs").innerHTML=STAGES.map(function(s,i){
-  return '<button role="tab" type="button" id="tab-'+s.id+'" aria-controls="stage-'+s.n+'" aria-selected="'+(i===0)+'" tabindex="'+(i===0?0:-1)+'"><span class="t-n">第 '+s.n+' 站'+((s.n===1||s.n===6)?'<span class="gate" title="人類閘門"></span>':'')+'</span>'+esc(s.t)+'</button>';
+  return '<button role="tab" type="button" id="tab-'+s.id+'" aria-controls="stage-'+s.n+'" aria-selected="'+(i===0)+'" tabindex="'+(i===0?0:-1)+'"><span class="t-n">第 '+s.n+' 站'+((s.n===1?'<span class="gate" title="人類閘門①"></span> 閘門①':s.n===6?'<span class="gate" title="人類閘門②③"></span> 閘門②③':''))+'</span>'+esc(s.t)+'</button>';
 }).join("");
 $("#stagePanels").innerHTML=STAGES.map(function(s,i){
   var subs='<div class="sub-steps">'+s.subs.map(function(x,j){
@@ -738,6 +860,7 @@ $("#stagePanels").innerHTML=STAGES.map(function(s,i){
     '<div class="cl-bar"><span class="cl-count" data-stage="'+s.id+'"></span><button type="button" class="btn-plain" data-reset="'+s.id+'">清除勾選</button></div>';
   return '<div class="panel" role="tabpanel" id="stage-'+s.n+'" aria-labelledby="tab-'+s.id+'"'+(i===0?'':' hidden')+'>'+
     '<p class="why">'+md(s.why)+'</p>'+
+    whoRow(s.n)+
     '<h4 class="part">你要做的事</h4>'+
     (s.steps.length?'<div class="steps">'+s.steps.map(stepCard).join("")+'</div>':'')+
     (ITER_NOTE[s.n]?'<p class="note iter-note">'+ITER_NOTE[s.n]+'</p>':'')+
@@ -809,6 +932,39 @@ $("#agentTable tbody").innerHTML=AGENTS.map(function(a){
   return '<tr><td><span class="cart">'+a.n+'</span></td><td>'+esc(a.r)+'</td><td>'+ul(a.good)+'</td><td>'+ul(a.no)+'</td><td>'+esc(a.rep)+'</td><td><span class="say">'+esc(a.say)+'</span></td></tr>';
 }).join("");
 
+/* ===================== ORG CHART ===================== */
+var SK={};SKILLS.forEach(function(x){SK[x.n]=x});
+var SK_ST={};Object.keys(ST_SKILLS).forEach(function(k){ST_SKILLS[k].forEach(function(n){(SK_ST[n]=SK_ST[n]||[]).push(+k)})});
+SK_ST["knowledge-capture"]=[0,1,2,3,4,5,6];SK_ST["leakage-audit"]=[3,4,5];
+var STN={"定邊界":"第 1 站","資料理解":"第 2 站","假設 EDA":"第 2 站","特徵／實驗":"第 3–5 站","特徵":"第 4 站","實驗":"第 5 站","每輪審查":"第 6 站","交付":"第 6 站","全程":"全程"};
+function skBtn(n,alt){var x=SK[n];return '<button type="button" class="sk'+(alt?' alt':'')+'" data-sk="'+n+'" aria-pressed="false">'+n+'<small>'+(STN[x.st]||x.st)+(alt?'・輔助':'')+'</small></button>'}
+var ORG=[
+ {a:"eda-agent",who:"探索分析員",st:"第 2 站",sk:["data-card","hypothesis-eda"],alt:[]},
+ {a:"feature-agent",who:"特徵工程師",st:"第 4 站（第 3 站輔助）",sk:["feature-card","promote-to-src"],alt:["leakage-audit"]},
+ {a:"model-agent",who:"實驗執行者",st:"第 5 站",sk:["experiment-protocol","error-analysis"],alt:[]},
+ {a:"validation-agent",who:"稽核員",st:"第 3 站（每次分數變好）",sk:["leakage-audit"],alt:[],val:true}
+];
+$("#orgGate").innerHTML='<span class="gate-lbl">◆ 人類與 AI 助手一起做</span>'+skBtn("define-boundaries")+skBtn("round-review");
+$("#orgMain").innerHTML=skBtn("report-writer");
+$("#orgCols").innerHTML=ORG.map(function(o){
+  var ag=AGENTS.filter(function(x){return x.n===o.a})[0];
+  return '<div class="pillar'+(o.val?' val':'')+'"><div class="cap"><div class="who">'+o.who+(o.val?'<span class="ro">唯讀</span>':'')+'</div><span class="cart">'+o.a+'</span><div class="ag-line">出場：'+o.st+'</div></div>'+
+    '<div class="shaft">'+o.sk.map(function(n){return skBtn(n)}).join("")+o.alt.map(function(n){return skBtn(n,true)}).join("")+'</div>'+
+    '<div class="rules"><b>擅長</b>：'+esc(ag.good.join("、"))+'<br><span class="no">不准</span>：'+esc(ag.no.join("、"))+'</div></div>';
+}).join("");
+$("#orgBase").innerHTML=skBtn("knowledge-capture")+'<span class="bt">全程地基</span><span class="bd">每個角色每次回報結果，都自動在 knowledge/log.md 追加一段；每輪結束時整理值得留下的結論。</span>';
+document.addEventListener("click",function(e){
+  var b=e.target.closest&&e.target.closest(".sk");if(!b)return;
+  var n=b.getAttribute("data-sk"),x=SK[n];
+  $$(".sk").forEach(function(o){o.setAttribute("aria-pressed",String(o.getAttribute("data-sk")===n))});
+  $("#orgDetail").innerHTML='<h4><span class="cart">'+n+'</span></h4><div class="meta">'+(STN[x.st]||x.st)+'｜搭配：'+esc(x.ag)+'</div>'+
+    '<div class="grid"><div><h5>做什麼</h5>'+ul(x.do)+'</div><div><h5>你要驗收</h5>'+ul(x.check)+'</div>'+
+    '<div><h5>什麼時候叫</h5><p>'+md(x.when)+'</p></div><div><h5>產出</h5><p>'+md(x.out)+'</p></div></div>'+
+    '<h5>對 AI 說</h5>'+promptBlock(x.say)+
+    '<p class="seealso">在流程中：'+(SK_ST[n]||[]).map(function(t){return '<a href="#stage-'+t+'">操作流程第 '+t+' 站 →</a>'}).join("　")+'</p>';
+  if(window.innerWidth<900)$("#orgDetail").scrollIntoView({block:"start"});
+});
+
 /* ===================== FOLDERS ===================== */
 var F={
  "AGENTS.md":{p:"AI 的工作規則，Claude Code 與 Codex 共用",w:"人類",u:"AI 每次開工都先讀",r:["十條鐵律：邊界歸人類、不讀 holdout、不改原始資料、一次只改一項……","CLAUDE.md 只引用它，再補 subagent 與 hook 說明"]},
@@ -848,10 +1004,16 @@ $("#tree").innerHTML=TREE.map(function(t){
   var me='<button type="button" data-f="'+t.k+'">'+esc(t.k)+lockSpan+'</button>';
   return '<li>'+me+(t.kids?'<ul>'+t.kids.map(node).join("")+'</ul>':'')+'</li>';
 }).join("");
+var F_ST={"AGENTS.md":"all","knowledge/":"all","knowledge/brief.md":[1],"knowledge/data.md":[2],"knowledge/log.md":"all","knowledge/findings.md":[6],
+ "data/":[0,2],"data/raw/":[0,2],"data/external/":[2,4],"data/interim/":[2,4],"data/processed/":[4,5],"data/holdout/":[6],
+ "notebooks/":[2,4],"src/":[3,4],"tests/":[3,4],"experiments/":[5,6],"submissions/":[6],"reports/":[6],".claude/":[3],".agents/":[3]};
 function showF(k){
   var d=F[k];if(!d)return;
   $$("#tree button").forEach(function(b){b.setAttribute("aria-current",String(b.getAttribute("data-f")===k))});
-  $("#fdetail").innerHTML='<h4>'+esc(k)+'</h4><p>'+md(d.p)+'</p><dl><dt>誰能寫</dt><dd>'+md(d.w)+'</dd><dt>何時用</dt><dd>'+md(d.u)+'</dd><dt>規則</dt><dd>'+ul(d.r)+'</dd></dl>';
+  var fs=F_ST[k];
+  $("#fdetail").innerHTML='<h4>'+esc(k)+'</h4><p>'+md(d.p)+'</p><dl><dt>誰能寫</dt><dd>'+md(d.w)+'</dd><dt>何時用</dt><dd>'+md(d.u)+'</dd>'+
+    (fs?'<dt>在哪一站</dt><dd>'+(fs==="all"?'全程（每一站都會讀或寫）':fs.map(function(t){return '<a href="#stage-'+t+'">第 '+t+' 站</a>'}).join("、"))+'</dd>':'')+
+    '<dt>規則</dt><dd>'+ul(d.r)+'</dd></dl>';
 }
 $("#tree").addEventListener("click",function(e){var b=e.target.closest("button[data-f]");if(b)showF(b.getAttribute("data-f"))});
 showF("knowledge/");
@@ -913,12 +1075,14 @@ document.addEventListener("click",function(e){
 });
 
 /* ===================== PAGES (hash router) ===================== */
-var PAGES=[["overview","總覽"],["stages","操作流程"],["matrix","Skill 矩陣"],["folders","資料夾"],["glossary","術語"]];
+var PAGES=[["overview","總覽"],["stages","操作流程"],["matrix","組織與 Skill"],["folders","資料夾"],["glossary","術語"]];
 var main=$("main");
 function pageOfEl(el){while(el&&el!==main){if(el.parentElement===main&&el.hasAttribute("data-page"))return el.getAttribute("data-page");el=el.parentElement}return null}
+var PAGE_Q={overview:"鳥瞰：整件事長什麼樣",stages:"逐站：每一步做什麼",matrix:"分工：誰來做、帶哪些 skill",folders:"存放：東西放在哪",glossary:"查詢：名詞的意思"};
 function showPage(pid){
+  $("#pagemap").innerHTML=PAGES.map(function(p,i){return '<a href="#'+p[0]+'"'+(p[0]===pid?' class="on" aria-current="page"':'')+'><b>'+(i+1)+'　'+p[1]+'</b>'+PAGE_Q[p[0]]+'</a>'}).join("");
   $$("main > *").forEach(function(ch){
-    if(ch.id==="pagerWrap")return;
+    if(ch.id==="pagerWrap"||ch.id==="pagemapWrap")return;
     if(ch.classList.contains("frieze")&&!ch.hasAttribute("data-page"))return;
     if(ch.getAttribute("data-page")===pid)ch.removeAttribute("data-hidden");else ch.setAttribute("data-hidden","");
   });
@@ -947,10 +1111,17 @@ function routeTo(h){
     if(h==="layer2"){$("#layer2").removeAttribute("hidden");iterBtn.setAttribute("aria-expanded","true")}
   }
   var isPageTop=PAGES.some(function(p){return p[0]===h})||!el||/^stage-\d$/.test(h);
-  setTimeout(function(){if(isPageTop)window.scrollTo(0,0);else el.scrollIntoView({block:"start"})},0);
+  setTimeout(function(){if(isPageTop)window.scrollTo({top:0,behavior:"instant"});else el.scrollIntoView({block:"start",behavior:"instant"})},0);
 }
 try{window.addEventListener("hashchange",route)}catch(e){}
 route();
+document.addEventListener("click",function(e){
+  var os=e.target.closest&&e.target.closest("[data-open-skill]");
+  if(os){e.preventDefault();routeTo("matrix");setHash("matrix");var btn=$('.sk[data-sk="'+os.getAttribute("data-open-skill")+'"]');
+    if(btn)setTimeout(function(){btn.click();$("#orgDetail").scrollIntoView({block:"start"})},30);return}
+  var of=e.target.closest&&e.target.closest("[data-open-folder]");
+  if(of){e.preventDefault();routeTo("folders");setHash("folders");showF(of.getAttribute("data-open-folder"));return}
+},true);
 document.addEventListener("click",function(e){
   if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey)return;
   var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;
