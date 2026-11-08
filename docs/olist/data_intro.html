@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Olist 資料導覽</title>
+<meta name="description" content="給初學者的 Olist 巴西電商資料導覽：資料內容、九張表、預測任務與最重要的陷阱。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #F4F5F2;
+  --paper-2: #E9EBE6;
+  --ink: #16202D;
+  --ink-2: #4A5465;
+  --known: #2447CF;
+  --known-soft: #DCE3FA;
+  --star: #E0A01A;
+  --low: #C2392C;
+  --low-soft: #F6DEDA;
+  --fog: #8892A2;
+  --line: #CBD0D6;
+  --measure: 44rem;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1.0625rem/1.75 "Noto Sans TC", system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+h1, h2, h3 { font-family: "LXGW WenKai TC", "Noto Sans TC", serif; font-weight: 700; line-height: 1.3; margin: 0; }
+h1 { font-size: clamp(2.1rem, 6vw, 3.4rem); letter-spacing: .01em; }
+h2 { font-size: clamp(1.55rem, 3.6vw, 2rem); margin-bottom: .75rem; }
+h3 { font-size: 1.2rem; }
+p { margin: 0 0 1rem; }
+a { color: var(--known); text-underline-offset: 3px; }
+code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-size: .88em; background: var(--paper-2); padding: .05em .35em; border-radius: 4px; }
+:focus-visible { outline: 3px solid var(--known); outline-offset: 3px; border-radius: 4px; }
+
+.wrap { max-width: 64rem; margin: 0 auto; padding: 0 16px; }
+.wrap > p, .wrap > h2, .dots-figure, .pits, .next { max-width: var(--measure); }
+.task, .cols, .split { max-width: 54rem; }
+.wide { max-width: 64rem; margin: 0 auto; padding: 0 16px; }
+section { padding: 3.5rem 0; border-top: 1px solid var(--line); }
+.lede { font-size: 1.15rem; color: var(--ink-2); max-width: 36rem; }
+.note { font-size: .95rem; color: var(--ink-2); }
+.k { color: var(--known); font-weight: 700; }
+.f { color: var(--fog); font-weight: 700; }
+.r { color: var(--low); font-weight: 700; }
+
+/* ---------- Hero: the order journey with the T0 curtain ---------- */
+.hero { padding: 3.5rem 0 3rem; border-top: 0; }
+.hero h1 { margin: .4rem 0 1rem; }
+.kicker { color: var(--ink-2); font-size: 1rem; margin: 0; }
+.journey { margin-top: 2.5rem; position: relative; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; position: relative; }
+.step { position: relative; padding: 3.1rem .6rem 0 0; }
+.step::before { /* track */
+  content: ""; position: absolute; top: 1.15rem; left: 0; right: 0; height: 3px; background: var(--line);
+}
+.step:first-child::before { left: .9rem; }
+.step:last-child::before { right: auto; width: .9rem; }
+.dot {
+  position: absolute; top: .55rem; left: 0; width: 1.3rem; height: 1.3rem; border-radius: 50%;
+  background: var(--paper); border: 3px solid var(--fog);
+}
+.step-n { font-size: .85rem; color: var(--ink-2); display: block; }
+.step-t { font-weight: 700; display: block; line-height: 1.35; margin: .1rem 0 .25rem; }
+.step-c { font-size: .8rem; color: var(--ink-2); display: block; word-break: break-all; line-height: 1.45; }
+.step.t0 .dot { background: var(--known); border-color: var(--known); box-shadow: 0 0 0 6px var(--known-soft); }
+.step.t0 .step-t { color: var(--known); }
+.step.target .dot { border-color: var(--star); }
+.t0-flag {
+  position: absolute; top: -1.9rem; left: 0; font-size: .85rem; font-weight: 700; color: var(--known); white-space: nowrap;
+}
+
+.curtain {
+  position: absolute; top: -.6rem; bottom: -.8rem; left: calc(100% / 6 - .4rem); right: -.6rem;
+  border-left: 3px solid var(--known);
+  background:
+    repeating-linear-gradient(135deg, rgba(136,146,162,.20) 0 10px, rgba(136,146,162,.07) 10px 20px),
+    rgba(244,245,242,.86);
+  backdrop-filter: blur(3px);
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: 1rem;
+  transition: opacity .45s ease, visibility .45s;
+}
+.curtain p { margin: 0; font-family: "LXGW WenKai TC", serif; font-size: clamp(1.1rem, 2.4vw, 1.45rem); color: var(--ink); max-width: 22rem; }
+.journey.revealed .curtain { opacity: 0; visibility: hidden; }
+.journey.revealed .step:not(.t0) .dot { border-color: var(--low); }
+.journey.revealed .step.target .dot { background: var(--star); border-color: var(--star); }
+
+.peek-row { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; margin-top: 2.2rem; }
+.btn {
+  font: 700 1rem "Noto Sans TC", sans-serif; cursor: pointer;
+  border: 2px solid var(--ink); background: var(--ink); color: var(--paper);
+  padding: .6rem 1.1rem; border-radius: 999px;
+}
+.btn[aria-pressed="true"] { background: var(--paper); color: var(--ink); }
+.peek-msg { margin: 0; color: var(--ink-2); min-height: 1.75em; }
+.journey.revealed + .peek-row .peek-msg { color: var(--low); font-weight: 500; }
+
+/* ---------- Task ---------- */
+.task {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; margin: 1.5rem 0 2rem;
+  border: 2px solid var(--ink); border-radius: 14px; overflow: hidden; background: #fff;
+}
+.task > div { padding: 1.1rem 1.1rem 1.2rem; }
+.task > div + div { border-left: 2px solid var(--ink); }
+.task dt { font-size: .9rem; color: var(--ink-2); margin-bottom: .3rem; }
+.task dd { margin: 0; font-weight: 700; line-height: 1.5; }
+.stars { color: var(--star); letter-spacing: .1em; }
+.stars .off { color: var(--line); }
+
+.dots-figure { display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: center; margin: 1.5rem 0; }
+.dots { display: grid; grid-template-columns: repeat(10, 14px); gap: 5px; }
+.dots span { width: 14px; height: 14px; border-radius: 3px; background: var(--paper-2); border: 1px solid var(--line); }
+.dots span.low { background: var(--low); border-color: var(--low); }
+.trap { border-left: 4px solid var(--star); padding: .2rem 0 .2rem 1rem; margin: 1.5rem 0 0; }
+
+/* ---------- Tables ---------- */
+.schema { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 1.5rem; align-items: start; margin-top: 1.5rem; }
+.schema svg { width: 100%; height: auto; display: block; }
+.node rect { fill: #fff; stroke: var(--ink); stroke-width: 2; rx: 10; transition: fill .2s; }
+.node text { font: 700 15px "Noto Sans TC", sans-serif; fill: var(--ink); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.node .sub { font-weight: 400; font-size: 12px; fill: var(--ink-2); }
+.node { cursor: pointer; }
+.node:hover rect, .node:focus rect { fill: var(--known-soft); }
+.node:focus { outline: none; }
+.node:focus-visible rect { stroke: var(--known); stroke-width: 4; }
+.node.is-on rect { fill: var(--ink); }
+.node.is-on text { fill: var(--paper); }
+.node.is-target rect { stroke: var(--low); stroke-width: 3; }
+.node.is-hub rect { stroke-width: 3.5; }
+.edge { stroke: var(--ink-2); stroke-width: 2; fill: none; }
+.edge.zip { stroke-dasharray: 5 5; stroke: var(--fog); }
+.edge-label { font: 400 11px "Noto Sans TC", sans-serif; fill: var(--ink-2); }
+
+.chips { display: none; flex-wrap: wrap; gap: .5rem; margin: 1rem 0; }
+.chip {
+  font: 500 .95rem "Noto Sans TC", sans-serif; cursor: pointer; border-radius: 999px;
+  border: 2px solid var(--ink); background: #fff; color: var(--ink); padding: .3rem .8rem;
+}
+.chip.is-target { border-color: var(--low); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+
+.card { background: #fff; border: 2px solid var(--ink); border-radius: 14px; padding: 1.2rem 1.25rem; }
+.card h3 { margin-bottom: .1rem; }
+.card .en { font-family: ui-monospace, Consolas, monospace; font-size: .85rem; color: var(--ink-2); margin: 0 0 .9rem; }
+.card dl { margin: 0; display: grid; grid-template-columns: 6.2em 1fr; gap: .45rem .75rem; font-size: .97rem; }
+.card dt { color: var(--ink-2); }
+.card dd { margin: 0; }
+.card .warn { margin: 1rem 0 0; padding-top: .8rem; border-top: 1px dashed var(--line); font-size: .95rem; }
+.card.is-target { border-color: var(--low); }
+
+/* ---------- Columns: usable vs not ---------- */
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 1.5rem; }
+.col { border-radius: 14px; padding: 1.1rem 1.2rem; }
+.col.yes { background: var(--known-soft); }
+.col.no { background: var(--low-soft); }
+.col h3 { margin-bottom: .6rem; }
+.col ul { margin: 0; padding-left: 1.1rem; }
+.col li { margin-bottom: .45rem; }
+.col li code { background: rgba(255,255,255,.7); }
+
+/* ---------- Split strip ---------- */
+.split { margin-top: 1.75rem; }
+.months { display: grid; grid-template-columns: repeat(20, 1fr); gap: 3px; }
+.months span { height: 2.6rem; border-radius: 4px; background: var(--ink); }
+.months span.cv { background: var(--known); }
+.months span.ho { background: repeating-linear-gradient(135deg, var(--low) 0 6px, #d9584c 6px 12px); }
+.month-axis { display: grid; grid-template-columns: 14fr 3fr 3fr; gap: 3px; margin-top: .5rem; font-size: .92rem; }
+.month-axis div { padding-top: .35rem; border-top: 2px solid var(--line); }
+.month-axis b { display: block; }
+.month-axis small { color: var(--ink-2); font-size: .85rem; line-height: 1.45; display: block; }
+
+/* ---------- Pitfalls ---------- */
+.pits { list-style: none; padding: 0; margin: 1.5rem 0 0; }
+.pits li { padding: 1rem 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 9.5rem 1fr; gap: 1rem; }
+.pits li:first-child { border-top: 1px solid var(--line); }
+.pits strong { font-family: "LXGW WenKai TC", serif; font-size: 1.12rem; line-height: 1.45; }
+.pits p { margin: 0; color: var(--ink-2); }
+
+.next { list-style: none; padding: 0; margin: 1.25rem 0 0; }
+.next li { margin-bottom: .6rem; }
+footer { padding: 2.5rem 0 3.5rem; border-top: 1px solid var(--line); font-size: .9rem; color: var(--ink-2); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 760px) {
+  .steps { grid-template-columns: 1fr; }
+  .step { padding: 0 0 1.4rem 2.4rem; }
+  .step::before { top: 0; bottom: 0; left: .55rem; right: auto; width: 3px; height: auto; }
+  .step:first-child::before { left: .55rem; top: .9rem; }
+  .step:last-child::before { width: 3px; bottom: auto; height: .9rem; }
+  .dot { top: .2rem; left: 0; }
+  .t0-flag { position: static; display: inline-block; margin-bottom: .1rem; }
+  .curtain { left: -.4rem; right: -.4rem; top: calc(100% / 6 + .2rem); bottom: -.4rem; border-left: 0; border-top: 3px solid var(--known); }
+  .task { grid-template-columns: 1fr; }
+  .task > div + div { border-left: 0; border-top: 2px solid var(--ink); }
+  .dots-figure { grid-template-columns: 1fr; }
+  .schema { grid-template-columns: 1fr; }
+  .schema svg { display: none; }
+  .chips { display: flex; }
+  .cols { grid-template-columns: 1fr; }
+  .pits li { grid-template-columns: 1fr; gap: .3rem; }
+  .month-axis { grid-template-columns: 1fr; }
+  .month-axis div:nth-child(1) { border-top-color: var(--ink); }
+  .month-axis div:nth-child(2) { border-top-color: var(--known); }
+  .month-axis div:nth-child(3) { border-top-color: var(--low); }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wide">
+    <p class="kicker">Olist 巴西電商資料導覽｜給第一次接觸這份資料的你</p>
+    <h1>下單那一秒，你知道什麼？</h1>
+    <p class="lede">這份資料是約 10 萬筆巴西網購訂單，從顧客下單一路記到他給幾顆星。我們的任務只有一個：<b>在顧客按下「結帳」的那一刻，猜這筆訂單最後會不會拿到差評。</b></p>
+
+    <div class="journey" id="journey">
+      <ol class="steps">
+        <li class="step t0">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="t0-flag">T0：預測時點</span>
+          <span class="step-n">1</span>
+          <span class="step-t">顧客下單</span>
+          <span class="step-c">order_<wbr>purchase_<wbr>timestamp</span>
+        </li>
+        <li class="step">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="step-n">2</span>
+          <span class="step-t">付款核准</span>
+          <span class="step-c">order_<wbr>approved_<wbr>at</span>
+        </li>
+        <li class="step">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="step-n">3</span>
+          <span class="step-t">交給物流</span>
+          <span class="step-c">order_<wbr>delivered_<wbr>carrier_<wbr>date</span>
+        </li>
+        <li class="step">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="step-n">4</span>
+          <span class="step-t">送到顧客手上</span>
+          <span class="step-c">order_<wbr>delivered_<wbr>customer_<wbr>date</span>
+        </li>
+        <li class="step">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="step-n">5</span>
+          <span class="step-t">寄出滿意度問卷</span>
+          <span class="step-c">review_<wbr>creation_<wbr>date</span>
+        </li>
+        <li class="step target">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="step-n">6</span>
+          <span class="step-t">顧客給 1–5 星</span>
+          <span class="step-c">review_<wbr>score（答案在這裡）</span>
+        </li>
+      </ol>
+      <div class="curtain" id="curtain">
+        <p>下單的那一刻，布幕後面這些事都還沒發生。模型只看得到 T0 這一步。</p>
+      </div>
+    </div>
+
+    <div class="peek-row">
+      <button class="btn" id="peek" type="button" aria-pressed="false" aria-controls="journey">偷看未來</button>
+      <p class="peek-msg" id="peek-msg" aria-live="polite">按下去，看看布幕後面藏了什麼。</p>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="task">
+    <div class="wrap">
+      <h2>任務：一句話說完</h2>
+      <p>Olist 幫中小商家把商品上架到巴西各大購物平台，<b>商家自己出貨</b>。顧客收到商品（或過了預計送達日）後會收到問卷，給 1 到 5 顆星。差評會拉低商家和平台的排名，所以客服想在出事之前先打電話關心。</p>
+
+      <dl class="task">
+        <div>
+          <dt>輸入</dt>
+          <dd>一筆剛成立的訂單，以及下單當下已知的資訊</dd>
+        </div>
+        <div>
+          <dt>要猜的答案</dt>
+          <dd>會不會拿到 <span class="stars" aria-label="1 到 2 星">★★<span class="off">★★★</span></span> 1–2 星差評</dd>
+        </div>
+        <div>
+          <dt>拿來做什麼</dt>
+          <dd>客服每天只打得完風險最高的 5%（約 10 筆）</dd>
+        </div>
+      </dl>
+
+      <div class="dots-figure">
+        <div class="dots" id="dots" role="img" aria-label="100 個方格中有 14 個紅色，代表約 14% 的訂單拿到差評"></div>
+        <div>
+          <p><b>每 100 筆有評價的訂單，約 14 筆是差評</b>（14.2%，共 97,917 筆）。</p>
+          <p class="note">差評是少數，這叫「類別不平衡」。它決定了我們要用什麼方式打分數。</p>
+        </div>
+      </div>
+
+      <p class="trap"><b>新手最常踩的陷阱：</b>如果全部猜「不會差評」，準確率（Accuracy）就有 85.8%，聽起來很高，但一筆差評都沒抓到。所以這題改看兩個指標：<b>PR-AUC</b>（模型把差評排到前面的能力），以及 <b>Precision@5%</b>（客服打的那 5% 裡，真的會差評的比例）。</p>
+    </div>
+  </section>
+
+  <section id="tables">
+    <div class="wide">
+      <div style="max-width:var(--measure)">
+        <h2>九張表，怎麼連在一起</h2>
+        <p>資料拆成 9 張 CSV。<b>訂單（orders）在正中間</b>，其他表都圍著它。點任一張表，右邊會告訴你它是什麼、能不能用。</p>
+      </div>
+
+      <div class="schema">
+        <div>
+          <svg viewBox="0 0 820 440" role="group" aria-label="九張表的關係圖">
+            <g aria-hidden="true">
+              <line class="edge" x1="335" y1="60" x2="395" y2="60"/>
+              <line class="edge" x1="545" y1="60" x2="605" y2="60"/>
+              <line class="edge" x1="680" y1="82" x2="680" y2="148"/>
+              <line class="edge" x1="470" y1="82" x2="470" y2="268"/>
+              <line class="edge" x1="335" y1="290" x2="395" y2="290"/>
+              <line class="edge" x1="545" y1="290" x2="605" y2="290"/>
+              <line class="edge" x1="470" y1="312" x2="470" y2="373"/>
+              <path class="edge zip" d="M110 153 L190 82"/>
+              <path class="edge zip" d="M110 197 L190 268"/>
+              <text class="edge-label" x="482" y="180">一單多件</text>
+              <text class="edge-label" x="482" y="348">一單多筆</text>
+              <text class="edge-label" x="96" y="240">郵遞區號</text>
+            </g>
+          </svg>
+          <div class="chips" id="chips" role="group" aria-label="選擇一張表"></div>
+        </div>
+        <article class="card" id="card" aria-live="polite"></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="columns">
+    <div class="wrap">
+      <h2>哪些欄位可以用？</h2>
+      <p>判斷標準只有一個：<b>這個資訊在顧客下單那一刻，被看到了沒有？</b>要問的是「什麼時候被觀察到」，不是「什麼時候發生」。</p>
+      <div class="cols">
+        <div class="col yes">
+          <h3 class="k">下單當下就知道</h3>
+          <ul>
+            <li>下單時間、<b>預計送達日</b>（結帳頁就顯示給顧客）</li>
+            <li>買了什麼：品類、價格、運費、商品照片數、重量尺寸</li>
+            <li>怎麼付錢：付款方式、分幾期</li>
+            <li>誰買、誰賣：顧客與商家所在的州、城市、郵遞區號</li>
+            <li><b>過去</b>的紀錄：這個商家以前的差評率，但只能算下單前已經回覆的評價</li>
+          </ul>
+        </div>
+        <div class="col no">
+          <h3 class="r">下單後才知道（不能用）</h3>
+          <ul>
+            <li>實際出貨日、實際送達日：任何 <code>order_delivered_</code> 開頭的欄位</li>
+            <li>評價的一切：任何 <code>review_</code> 開頭的欄位，包括評論文字</li>
+            <li>訂單狀態 <code>order_status</code>（會一直更新）</li>
+            <li>付款核准時間 <code>order_approved_at</code>（可能晚好幾天，灰色地帶，一律不用）</li>
+            <li>用上面欄位算出來的值，例如「實際晚到幾天」</li>
+          </ul>
+        </div>
+      </div>
+      <p class="note" style="margin-top:1.25rem">「晚到」確實是差評的最大原因，但下單那一刻沒人知道會不會晚到。把它放進模型，分數會暴漲，上線後卻完全沒用。這就叫<b>資料洩漏</b>。</p>
+    </div>
+  </section>
+
+  <section id="split">
+    <div class="wrap">
+      <h2>用過去預測未來：資料怎麼切</h2>
+      <p>上線後模型要預測的是「明天的訂單」，所以驗證也要照時間切：用早期的月份訓練，用後面的月份考試。考題絕對不能混進訓練資料。</p>
+      <div class="split">
+        <div class="months" role="img" aria-label="2017 年 1 月到 2018 年 8 月共 20 個月：前 14 個月訓練，接著 3 個月交叉驗證，最後 3 個月 holdout">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          <span class="cv"></span><span class="cv"></span><span class="cv"></span>
+          <span class="ho"></span><span class="ho"></span><span class="ho"></span>
+        </div>
+        <div class="month-axis">
+          <div><b>訓練 2017-01 到 2018-02</b><small>模型從這裡學</small></div>
+          <div><b class="k">驗證 2018-03 到 05</b><small>3 次月考，每次只用更早的月份訓練</small></div>
+          <div><b class="r">holdout 2018-06 到 08</b><small>期末考，講師保管答案，只考一次</small></div>
+        </div>
+      </div>
+      <p style="margin-top:1.5rem">注意：每個月的差評率差很多。三個驗證月分別是 22.6%、12.9%、11.7%，holdout 期間只有 10.7%。所以比較模型時，要在<b>同一個月份</b>裡比，不能拿不同月份的分數直接相比。</p>
+    </div>
+  </section>
+
+  <section id="pitfalls">
+    <div class="wrap">
+      <h2>動手前先知道的坑</h2>
+      <ul class="pits">
+        <li><strong>一筆訂單會有好幾列</strong><p>一張訂單可以買好幾件商品、分好幾次付款。直接把 order_items 或 order_payments 接上 orders，金額會重複加總、列數會爆炸。要先依 <code>order_id</code> 加總，再接回去。</p></li>
+        <li><strong>同一個人，不同 ID</strong><p><code>customer_id</code> 每筆訂單都換一個。要找「回頭客」，請用 <code>customer_unique_id</code>（96,096 個真正的人）。</p></li>
+        <li><strong>一筆訂單，兩則評價</strong><p>少數訂單有不只一則評價。規則是取最早回覆的那一則當答案。</p></li>
+        <li><strong>欄位名拼錯了</strong><p>商品表原始欄位寫成 <code>product_name_lenght</code>（lenght）。整理後的資料表已改成 length。</p></li>
+        <li><strong>頭尾月份很稀疏</strong><p>2016 年和 2018-09 以後的訂單極少，課程只用 2017-01 到 2018-08。</p></li>
+        <li><strong>算歷史要看回覆時間</strong><p>算「商家過去的差評率」時，只能用顧客<b>已經回覆</b>的評價（<code>review_answer_timestamp</code> 早於下單時間），不能用問卷寄出時間。</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="next">
+    <div class="wrap">
+      <h2>接下來</h2>
+      <p>看完這頁，你已經知道資料長什麼樣、要預測什麼，以及最大的陷阱在哪裡。想看細節，往這裡走：</p>
+      <ul class="next">
+        <li><a href="../../knowledge/data.md">knowledge/data.md</a>：每張表的完整說明、缺失率、串表 SQL</li>
+        <li><a href="../../knowledge/brief.md">knowledge/brief.md</a>：任務定義，以及逐欄位的「能不能用」對照表</li>
+        <li><a href="../../notebooks/M1_problem_framing.ipynb">notebooks/M1_problem_framing.ipynb</a>：第一堂課，親手把資料讀進來</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    資料來源：Kaggle olistbr/brazilian-ecommerce（Olist 公開的真實資料，已匿名化，CC BY-NC-SA 4.0）。頁面數字取自 knowledge/data.md 與 knowledge/brief.md。
+  </div>
+</footer>
+
+<script>
+(() => {
+  // --- T0 curtain ---
+  const journey = document.getElementById("journey");
+  const peek = document.getElementById("peek");
+  const msg = document.getElementById("peek-msg");
+  peek.addEventListener("click", () => {
+    const on = journey.classList.toggle("revealed");
+    peek.setAttribute("aria-pressed", String(on));
+    peek.textContent = on ? "蓋回布幕" : "偷看未來";
+    msg.textContent = on
+      ? "晚到、物流延誤都會導致差評，但這些都發生在下單之後。模型用了它們就是作弊，上線時拿不到。"
+      : "按下去，看看布幕後面藏了什麼。";
+  });
+
+  // --- 100 dots, 14 low reviews ---
+  const dots = document.getElementById("dots");
+  const lowAt = new Set([3, 11, 18, 27, 34, 42, 49, 56, 63, 71, 78, 85, 92, 97]);
+  for (let i = 0; i < 100; i++) {
+    const s = document.createElement("span");
+    if (lowAt.has(i)) s.className = "low";
+    dots.appendChild(s);
+  }
+
+  // --- Tables ---
+  const T = [
+    { id: "orders", zh: "訂單", x: 470, y: 290, hub: true, rows: "99,441", unit: "一筆訂單",
+      key: "order_id", use: "下單時間、預計送達日可用；狀態、核准、出貨、送達時間不能用",
+      warn: "整個資料集的中心。四個 order_delivered_ / approved / status 欄位都發生在下單之後。" },
+    { id: "order_reviews", zh: "評價", x: 680, y: 290, target: true, rows: "99,224", unit: "一則評價",
+      key: "review_id + order_id", use: "全部不能當特徵，這張表是答案的來源",
+      warn: "答案 is_low_review = 第一則評價的星等 ≤ 2。少數訂單有多則評價，取最早回覆的一則。" },
+    { id: "order_items", zh: "訂單商品", x: 470, y: 60, rows: "112,650", unit: "訂單裡的一件商品",
+      key: "order_id + order_item_id", use: "可用：商品、商家、價格、運費、出貨期限",
+      warn: "一單最多 21 件。直接 join 會讓列數變多，要先依 order_id 加總。" },
+    { id: "order_payments", zh: "付款", x: 470, y: 395, rows: "103,886", unit: "一次付款",
+      key: "order_id + payment_sequential", use: "可用：付款方式、分期數、金額",
+      warn: "一單可以混用多種付款方式，要先加總。" },
+    { id: "customers", zh: "顧客", x: 260, y: 290, rows: "99,441", unit: "一個「訂單顧客 ID」",
+      key: "customer_id", use: "可用：州、城市、郵遞區號",
+      warn: "customer_id 每單都不同；真正的人要看 customer_unique_id（96,096 個）。" },
+    { id: "sellers", zh: "商家", x: 260, y: 60, rows: "3,095", unit: "一個商家",
+      key: "seller_id", use: "可用：州、城市、郵遞區號",
+      warn: "經由 order_items 才連得到訂單。商家過去的差評率是最有用的特徵之一，但要算對時間。" },
+    { id: "products", zh: "商品", x: 680, y: 60, rows: "32,951", unit: "一個商品",
+      key: "product_id", use: "可用：品類、名稱與描述長度、照片數、重量尺寸",
+      warn: "約 1.9% 缺品類。欄位名 lenght 是原始資料拼錯。" },
+    { id: "category_translation", zh: "品類翻譯", x: 680, y: 170, rows: "71", unit: "一個品類的葡英對照",
+      key: "product_category_name", use: "可用（靜態對照表）",
+      warn: "品類名稱原本是葡萄牙文，用它換成英文。" },
+    { id: "geolocation", zh: "地理座標", x: 85, y: 175, rows: "1,000,163", unit: "一個郵遞區號前綴的一個座標",
+      key: "沒有主鍵", use: "可用（靜態）",
+      warn: "一個前綴有很多列（共 19,015 個前綴），要先取平均再 join，否則列數爆炸。" }
+  ];
+
+  const svg = document.querySelector(".schema svg");
+  const chips = document.getElementById("chips");
+  const card = document.getElementById("card");
+  const NS = "http://www.w3.org/2000/svg";
+  const nodes = {}, chipEls = {};
+
+  const render = (t) => {
+    card.className = "card" + (t.target ? " is-target" : "");
+    card.innerHTML =
+      `<h3>${t.zh}</h3><p class="en">${t.id}</p>` +
+      `<dl><dt>一列代表</dt><dd>${t.unit}</dd>` +
+      `<dt>列數</dt><dd>${t.rows}</dd>` +
+      `<dt>主鍵</dt><dd>${t.key}</dd>` +
+      `<dt>能不能用</dt><dd>${t.use}</dd></dl>` +
+      `<p class="warn">${t.warn}</p>`;
+  };
+
+  const select = (id) => {
+    T.forEach((t) => {
+      const on = t.id === id;
+      nodes[t.id].classList.toggle("is-on", on);
+      nodes[t.id].setAttribute("aria-pressed", String(on));
+      chipEls[t.id].setAttribute("aria-pressed", String(on));
+      if (on) render(t);
+    });
+  };
+
+  T.forEach((t) => {
+    const g = document.createElementNS(NS, "g");
+    g.setAttribute("class", "node" + (t.target ? " is-target" : "") + (t.hub ? " is-hub" : ""));
+    g.setAttribute("tabindex", "0");
+    g.setAttribute("role", "button");
+    g.setAttribute("aria-label", `${t.zh}（${t.id}）`);
+    const r = document.createElementNS(NS, "rect");
+    r.setAttribute("x", t.x - 75); r.setAttribute("y", t.y - 22);
+    r.setAttribute("width", 150); r.setAttribute("height", 44);
+    const tx = document.createElementNS(NS, "text");
+    tx.setAttribute("x", t.x); tx.setAttribute("y", t.y - 6); tx.textContent = t.zh;
+    const sub = document.createElementNS(NS, "text");
+    sub.setAttribute("class", "sub"); sub.setAttribute("x", t.x); sub.setAttribute("y", t.y + 11);
+    sub.textContent = t.rows + " 列";
+    g.append(r, tx, sub);
+    g.addEventListener("click", () => select(t.id));
+    g.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(t.id); }
+    });
+    svg.appendChild(g);
+    nodes[t.id] = g;
+
+    const c = document.createElement("button");
+    c.type = "button";
+    c.className = "chip" + (t.target ? " is-target" : "");
+    c.textContent = t.zh;
+    c.addEventListener("click", () => select(t.id));
+    chips.appendChild(c);
+    chipEls[t.id] = c;
+  });
+
+  select("orders");
+})();
+</script>
+</body>
+</html>

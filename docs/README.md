@@ -48,6 +48,7 @@ flowchart LR
 | [`olist/instructor_guide.md`](olist/instructor_guide.md) | 講師手冊 |
 | [`olist/labs/`](olist/labs/) | 4 份 Lab |
 | [`olist/playbook.md`](olist/playbook.md) | 從這個專案沉澱出的跨專案方法 |
+| [`olist/data_intro.html`](olist/data_intro.html) | 給初學者的資料導覽頁：資料內容、九張表、任務目標（用瀏覽器打開） |
 | [`olist/folder_structure.md`](olist/folder_structure.md) | 模板資料夾 → Olist 實際內容對照 |
 
 範例成果報告在 `reports/report.md`（M5 解答，課前不要發給學員）。

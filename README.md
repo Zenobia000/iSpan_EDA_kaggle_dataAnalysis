@@ -21,25 +21,88 @@ git diff --stat main..course/olist   # 只會看到「長出來的內容」
 
 ## 快速開始
 
+第一次接觸這份資料，先用瀏覽器打開 [`docs/olist/data_intro.html`](docs/olist/data_intro.html)，5 分鐘看懂資料內容與任務目標。
+
+### 0. 事前準備
+
+| 需要 | 檢查指令 | 沒有的話 |
+|---|---|---|
+| Python 3.10 以上 | `python3 --version` | 到 python.org 安裝，或用 pyenv |
+| uv（套件管理） | `uv --version` | `curl -LsSf https://astral.sh/uv/install.sh \| sh`（Windows 見 uv 官方文件） |
+| git | `git --version` | 到 git-scm.com 安裝 |
+| Kaggle 帳號 | — | 到 kaggle.com 免費註冊 |
+
+### 1. 取得程式碼
+
 ```bash
-# 1. 安裝（需要 Python 3.10+ 與 uv）
-uv sync
-source .venv/bin/activate   # hooks 與 pre-commit 用 python3 執行測試，需要這個環境
-
-# 2. 下載資料（需要 ~/.kaggle/kaggle.json：Kaggle → Settings → API → Create New Token）
-python scripts/download_data.py
-
-# 3. 確認環境
-pytest
-
-# 4.（選用）安裝 pre-commit 防線
-pre-commit install
-
-# 5. 開始上課
-jupyter lab notebooks/M1_problem_framing.ipynb
+git clone https://github.com/Zenobia000/iSpan_EDA_kaggle_dataAnalysis.git
+cd iSpan_EDA_kaggle_dataAnalysis
+git switch course/olist        # Olist 課程在這個分支；main 是空模板
 ```
 
-接著在 repo 根目錄（同一個已啟用環境的終端機）開啟 `claude` 或 `codex`，AI 會自動讀到 `AGENTS.md`。
+### 2. 安裝套件
+
+```bash
+uv sync                        # 依 uv.lock 建立 .venv 並安裝所有套件
+source .venv/bin/activate      # Windows：.venv\Scripts\activate
+```
+
+之後的指令都在**已啟用環境**的終端機執行。Claude Code 的 hook 與 pre-commit 會用這個環境的 `python3` 跑測試，沒啟用就會失敗。
+
+### 3. 設定 Kaggle API 金鑰
+
+1. 登入 Kaggle → 右上角頭像 → **Settings** → **API** → **Create New Token**，瀏覽器會下載 `kaggle.json`
+2. 把它放到固定位置：
+
+```bash
+mkdir -p ~/.kaggle
+mv ~/Downloads/kaggle.json ~/.kaggle/
+chmod 600 ~/.kaggle/kaggle.json   # 只有自己能讀，否則 kaggle 會警告
+```
+
+Windows 放在 `C:\Users\<你的帳號>\.kaggle\kaggle.json`。這個檔案是你的密碼，**不要提交到 git、不要傳給別人**。
+
+### 4. 下載資料
+
+```bash
+python scripts/download_data.py
+```
+
+腳本會從 Kaggle 下載 [olistbr/brazilian-ecommerce](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)，解壓到 `data/raw/`，並檢查 9 個 CSV 是否齊全。已經下載過會直接跳過。成功時印出 `[ok] 已下載到 .../data/raw`。
+
+| 錯誤訊息 | 原因與處理 |
+|---|---|
+| `Kaggle 認證失敗` | `~/.kaggle/kaggle.json` 不存在或路徑錯，回到步驟 3 |
+| `請先 uv sync 安裝 kaggle 套件` | 沒啟用環境或沒跑 `uv sync`，回到步驟 2 |
+| `下載後仍缺：[...]` | 下載中斷，刪掉 `data/raw/` 裡的檔案重跑 |
+
+**沒辦法用 API 時（例如公司網路擋住）**：到上面的 Kaggle 頁面按 **Download** 取得 zip，把裡面 9 個 CSV 解壓到 `data/raw/`，再跑一次腳本確認齊全。
+
+`data/raw/` 是唯讀的原始資料：不要修改、不要提交（`.gitignore` 已排除）。
+
+### 5. 確認環境
+
+```bash
+pytest                         # 全部通過才繼續；測試用合成資料，不需要下載也能跑
+pre-commit install             # 選用：commit 時自動跑洩漏測試
+```
+
+### 6. 講師：切出 holdout（學員跳過）
+
+```bash
+python scripts/make_holdout.py   # 產生 data/holdout/labels.csv（2018-06～08 的答案）
+```
+
+這份答案只有講師能看。Claude Code 的 hook 會擋 AI 讀取 `data/holdout/`，請不要把它發給學員。
+
+### 7. 開始上課
+
+```bash
+jupyter lab notebooks/M1_problem_framing.ipynb   # 第一堂課
+claude                                            # 或 codex；在 repo 根目錄、同一個已啟用環境的終端機開啟
+```
+
+AI 會自動讀到 `AGENTS.md` 的規範，以及 `knowledge/brief.md`（任務定義，已核准）。第一句可以對它說：「用 data-card 帶我看一遍資料」。
 
 ## 課程地圖
 
